@@ -13,6 +13,9 @@
 		D941856E2A5251E9001CAEC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */; };
 		D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */; };
 		D941857A2A527B59001CAEC1 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185792A527B59001CAEC1 /* TestView.swift */; };
+		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
+		D9E0AA672A561F2D00841B0F /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9E0AA662A561F2D00841B0F /* OpenAISwift */; };
+		D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +26,8 @@
 		D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D94185722A5251E9001CAEC1 /* Storyteller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storyteller.xcdatamodel; sourceTree = "<group>"; };
 		D94185792A527B59001CAEC1 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
+		D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveInformation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9E0AA672A561F2D00841B0F /* OpenAISwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,7 +61,7 @@
 		D94185652A5251E8001CAEC1 /* Storyteller */ = {
 			isa = PBXGroup;
 			children = (
-				D941857D2A527C7C001CAEC1 /* Components */,
+				D941857D2A527C7C001CAEC1 /* Models */,
 				D941857C2A527C6F001CAEC1 /* Utilities */,
 				D941857B2A527C59001CAEC1 /* Views */,
 				D94185662A5251E8001CAEC1 /* StorytellerApp.swift */,
@@ -86,15 +92,17 @@
 		D941857C2A527C6F001CAEC1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */,
+				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		D941857D2A527C7C001CAEC1 /* Components */ = {
+		D941857D2A527C7C001CAEC1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Components;
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +121,9 @@
 			dependencies = (
 			);
 			name = Storyteller;
+			packageProductDependencies = (
+				D9E0AA662A561F2D00841B0F /* OpenAISwift */,
+			);
 			productName = Storyteller;
 			productReference = D94185632A5251E8001CAEC1 /* Storyteller.app */;
 			productType = "com.apple.product-type.application";
@@ -141,6 +152,9 @@
 				Base,
 			);
 			mainGroup = D941855A2A5251E8001CAEC1;
+			packageReferences = (
+				D9E0AA652A561F2D00841B0F /* XCRemoteSwiftPackageReference "OpenAISwift" */,
+			);
 			productRefGroup = D94185642A5251E8001CAEC1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -167,10 +181,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */,
 				D941857A2A527B59001CAEC1 /* TestView.swift in Sources */,
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
 				D94185692A5251E8001CAEC1 /* ContentView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
+				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,8 +315,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Storyteller/Preview Content\"";
+				DEVELOPMENT_TEAM = 8M3UMY95RV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Audio is recorded to transcribe the meeting. Audio recordings are discarded after transcription.\"";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"You can view a text transcription of your meeting in the app\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,8 +346,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Storyteller/Preview Content\"";
+				DEVELOPMENT_TEAM = 8M3UMY95RV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Audio is recorded to transcribe the meeting. Audio recordings are discarded after transcription.\"";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"You can view a text transcription of your meeting in the app\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -369,6 +391,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D9E0AA652A561F2D00841B0F /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamrushy/OpenAISwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D9E0AA662A561F2D00841B0F /* OpenAISwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9E0AA652A561F2D00841B0F /* XCRemoteSwiftPackageReference "OpenAISwift" */;
+			productName = OpenAISwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */ = {
