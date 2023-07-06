@@ -8,28 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185662A5251E8001CAEC1 /* StorytellerApp.swift */; };
-		D94185692A5251E8001CAEC1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185682A5251E8001CAEC1 /* ContentView.swift */; };
 		D941856B2A5251E9001CAEC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856A2A5251E9001CAEC1 /* Assets.xcassets */; };
 		D941856E2A5251E9001CAEC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */; };
 		D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */; };
 		D941857A2A527B59001CAEC1 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185792A527B59001CAEC1 /* TestView.swift */; };
+		D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF12A575413008FAEA7 /* ContentView.swift */; };
+		D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */; };
 		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
 		D9E0AA672A561F2D00841B0F /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9E0AA662A561F2D00841B0F /* OpenAISwift */; };
 		D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */; };
 		D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA6A2A56283D00841B0F /* APICaller.swift */; };
+		D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA702A56569D00841B0F /* HomeView.swift */; };
+		D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA722A5658D300841B0F /* LoginView.swift */; };
+		D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA742A56694D00841B0F /* PositioningHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D94185632A5251E8001CAEC1 /* Storyteller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storyteller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94185662A5251E8001CAEC1 /* StorytellerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorytellerApp.swift; sourceTree = "<group>"; };
-		D94185682A5251E8001CAEC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D941856A2A5251E9001CAEC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D94185722A5251E9001CAEC1 /* Storyteller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storyteller.xcdatamodel; sourceTree = "<group>"; };
 		D94185792A527B59001CAEC1 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		D9C09BF12A575413008FAEA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveInformation.swift; sourceTree = "<group>"; };
 		D9E0AA6A2A56283D00841B0F /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		D9E0AA702A56569D00841B0F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D9E0AA722A5658D300841B0F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		D9E0AA742A56694D00841B0F /* PositioningHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositioningHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +75,6 @@
 				D941857C2A527C6F001CAEC1 /* Utilities */,
 				D941857B2A527C59001CAEC1 /* Views */,
 				D94185662A5251E8001CAEC1 /* StorytellerApp.swift */,
-				D94185682A5251E8001CAEC1 /* ContentView.swift */,
 				D94185792A527B59001CAEC1 /* TestView.swift */,
 				D9E0AA6A2A56283D00841B0F /* APICaller.swift */,
 				D941856A2A5251E9001CAEC1 /* Assets.xcassets */,
@@ -88,6 +95,8 @@
 		D941857B2A527C59001CAEC1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D9E0AA6F2A56567E00841B0F /* App Views */,
+				D9E0AA6E2A56565C00841B0F /* Auth Views */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -97,6 +106,7 @@
 			children = (
 				D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */,
 				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
+				D9E0AA742A56694D00841B0F /* PositioningHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -106,6 +116,24 @@
 			children = (
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D9E0AA6E2A56565C00841B0F /* Auth Views */ = {
+			isa = PBXGroup;
+			children = (
+				D9E0AA702A56569D00841B0F /* HomeView.swift */,
+				D9E0AA722A5658D300841B0F /* LoginView.swift */,
+				D9C09BF12A575413008FAEA7 /* ContentView.swift */,
+				D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */,
+			);
+			path = "Auth Views";
+			sourceTree = "<group>";
+		};
+		D9E0AA6F2A56567E00841B0F /* App Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "App Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,8 +216,12 @@
 				D941857A2A527B59001CAEC1 /* TestView.swift in Sources */,
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
 				D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */,
-				D94185692A5251E8001CAEC1 /* ContentView.swift in Sources */,
+				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
+				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
+				D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */,
+				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
+				D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */,
 				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +361,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -360,6 +393,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
