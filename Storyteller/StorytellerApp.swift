@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct StorytellerApp: App {
     
     init() {
+        
+        // Firebase set up
+        FirebaseApp.configure()
+        
+        // Get API Key to OpenAI
         APICaller.shared.setup()
     }
     

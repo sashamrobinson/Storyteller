@@ -36,13 +36,12 @@ struct LoginView: View {
                 .offset(x: 0, y: 30)
             }
             
-            Spacer()
-            
             Group {
                 Text("Email or username")
                     .foregroundColor(Color("#8A8A8A"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 20)
+                    .padding(.top, 80)
+                    .padding(.horizontal)
                 
                 TextField( text: $emailOrUsername) {
                     Text("Email or username")
@@ -52,11 +51,13 @@ struct LoginView: View {
                 .padding()
                 .background(Color("#8A8A8A"))
                 .cornerRadius(5)
+                .padding(.horizontal)
                 
                 Text("Password")
                     .foregroundColor(Color("#8A8A8A"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top)
+                    .padding(.horizontal)
                 
                 SecureField(text: $password) {
                     Text("Password")
@@ -65,15 +66,18 @@ struct LoginView: View {
                 .padding()
                 .background(Color("#8A8A8A"))
                 .cornerRadius(5)
+                .padding(.horizontal)
                 
-                HStack {
+                //MARK: -- Get remember me working (or just remove it)
+                HStack() {
                     Toggle("", isOn: $rememberMe)
+                        
                     Text("Remember me?")
                         .foregroundColor(Color("#8A8A8A"))
-                    Spacer()
                 }
                 
             }
+            
             
             Spacer()
             Spacer()
