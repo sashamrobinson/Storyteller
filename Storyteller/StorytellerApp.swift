@@ -9,7 +9,10 @@ import SwiftUI
 
 @main
 struct StorytellerApp: App {
-
+    
+    init() {
+        APICaller.shared.setup()
+    }
     var body: some Scene {
         WindowGroup {
             TestView()

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OpenAISwift
 import AVFoundation
 
 struct TestView: View {
@@ -14,14 +15,16 @@ struct TestView: View {
     @StateObject var speechRecognizer = SpeechRecognizer()
     @State var transcript : String = ""
     @State private var isRecording = false
+    @State private var input = ""
     
     // Text to speech
-    @State private var name : String = ""
+    @State private var name: String = ""
     
     let synthesizer = AVSpeechSynthesizer()
     
     var body: some View {
         VStack {
+            
             Button("Start transcribing text") {
                 startConversation()
             }
@@ -55,10 +58,37 @@ struct TestView: View {
         // Stop transcribing and stop recording
         speechRecognizer.stopTranscribing()
         transcript = speechRecognizer.transcript
-        print("This is working")
-        print(transcript)
         isRecording = false
+        sendToOpenAI(input: transcript)
     }
+    
+    private func sendToOpenAI(input: String) {
+        if !input.isEmpty {
+            APICaller.shared.getResponse(input: input) { result in
+                switch result {
+                case .success(let output):
+                    
+                    do {
+                        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.duckOthers, .allowBluetooth])
+                        try AVAudioSession.sharedInstance().setActive(true)
+                    }
+                    catch {
+                        
+                    }
+                    let utterance = AVSpeechUtterance(string: output)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-AU")
+                    utterance.rate = 0.5
+                    utterance.volume = 1
+                    
+                    synthesizer.speak(utterance)
+                case .failure:
+                    print("Failed")
+                }
+            }
+        }
+    }
+    
+    
 }
 
 

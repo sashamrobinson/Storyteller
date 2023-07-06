@@ -16,6 +16,7 @@
 		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
 		D9E0AA672A561F2D00841B0F /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9E0AA662A561F2D00841B0F /* OpenAISwift */; };
 		D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */; };
+		D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA6A2A56283D00841B0F /* APICaller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D94185792A527B59001CAEC1 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveInformation.swift; sourceTree = "<group>"; };
+		D9E0AA6A2A56283D00841B0F /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				D94185662A5251E8001CAEC1 /* StorytellerApp.swift */,
 				D94185682A5251E8001CAEC1 /* ContentView.swift */,
 				D94185792A527B59001CAEC1 /* TestView.swift */,
+				D9E0AA6A2A56283D00841B0F /* APICaller.swift */,
 				D941856A2A5251E9001CAEC1 /* Assets.xcassets */,
 				D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */,
 				D941856C2A5251E9001CAEC1 /* Preview Content */,
@@ -184,6 +187,7 @@
 				D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */,
 				D941857A2A527B59001CAEC1 /* TestView.swift in Sources */,
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
+				D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */,
 				D94185692A5251E8001CAEC1 /* ContentView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
 				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
