@@ -94,7 +94,7 @@ struct LoginView: View {
             Button("Login") {
                 errorMessage = ""
                 if email.count > 0 && password.count > 0 {
-                    login(email: email, password: password) { error in
+                    FirebaseHelper.login(email: email, password: password) { error in
                         
                         // Error occured logging in user
                         if error != nil {
@@ -120,7 +120,6 @@ struct LoginView: View {
             .background(.black)
             .cornerRadius(12.5)
             .padding()
-            
             .navigationDestination(isPresented: $loginUser) {
                 StoryView().navigationBarBackButtonHidden(true)
             }

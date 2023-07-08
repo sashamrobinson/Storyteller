@@ -19,6 +19,9 @@
 		D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */; };
 		D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */; };
 		D94564BA2A58FF9E006C83E2 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B92A58FF9E006C83E2 /* StoryView.swift */; };
+		D94564BE2A5A1209006C83E2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564BD2A5A1209006C83E2 /* User.swift */; };
+		D94564C02A5A13AE006C83E2 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564BF2A5A13AE006C83E2 /* Story.swift */; };
+		D94564C22A5A1410006C83E2 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564C12A5A1410006C83E2 /* Message.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -49,6 +52,9 @@
 		D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFilteringHelper.swift; sourceTree = "<group>"; };
 		D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfanityFilter.swift; sourceTree = "<group>"; };
 		D94564B92A58FF9E006C83E2 /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
+		D94564BD2A5A1209006C83E2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D94564BF2A5A13AE006C83E2 /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		D94564C12A5A1410006C83E2 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -142,12 +148,31 @@
 		D941857D2A527C7C001CAEC1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D94564BC2A5A1119006C83E2 /* View Models */,
+				D94564BB2A5A10B9006C83E2 /* Data Models */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D94564BB2A5A10B9006C83E2 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				D94564BD2A5A1209006C83E2 /* User.swift */,
+				D94564BF2A5A13AE006C83E2 /* Story.swift */,
+				D94564C12A5A1410006C83E2 /* Message.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		D94564BC2A5A1119006C83E2 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
 				D94564AD2A579B2C006C83E2 /* FirstLastNameView.swift */,
 				D94564AF2A579D44006C83E2 /* EmailPasswordView.swift */,
 				D94564B12A57A504006C83E2 /* BirthDateGenderView.swift */,
 				D94564B32A57D96E006C83E2 /* UsernameView.swift */,
 			);
-			path = Models;
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		D9E0AA6E2A56565C00841B0F /* Auth Views */ = {
@@ -258,13 +283,16 @@
 				D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */,
 				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
+				D94564BE2A5A1209006C83E2 /* User.swift in Sources */,
 				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
 				D94564BA2A58FF9E006C83E2 /* StoryView.swift in Sources */,
 				D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */,
 				D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */,
+				D94564C02A5A13AE006C83E2 /* Story.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
 				D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */,
+				D94564C22A5A1410006C83E2 /* Message.swift in Sources */,
 				D94564AE2A579B2C006C83E2 /* FirstLastNameView.swift in Sources */,
 				D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */,
 				D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */,

@@ -11,6 +11,7 @@ struct SignUpView: View {
     
     @State private var authViewToShowIndex = 1
     @State private var errorMessage = ""
+    @State private var loginUser = false
     
     // User information
     @State private var firstName: String = ""
@@ -133,12 +134,23 @@ struct SignUpView: View {
                         // Package date
                         let birthDate = "\(month)-\(day)-\(year)"
                         
+                        // Package user
+                        let user = User(firstName: firstName,
+                                        lastName: lastName,
+                                        email: email,
+                                        birthDate: birthDate,
+                                        gender: gender,
+                                        username: username,
+                                        stories: [])
+                        
                         // Create auth object in Auth
-                        createUserInAuth(email: email, password: password)
+                        FirebaseHelper.createUserInAuth(email: email, password: password)
                         
                         // Create user object in Firebase
+                        FirebaseHelper.createUserInDatabase(user: user)
                         
                         // TODO: - Transition to next page
+                        loginUser = true
                     }
                 }
                 .padding()
@@ -148,6 +160,9 @@ struct SignUpView: View {
                 .background(.black)
                 .cornerRadius(12.5)
                 .padding()
+                .navigationDestination(isPresented: $loginUser) {
+                    StoryView().navigationBarBackButtonHidden(true)
+                }
             }
             
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
