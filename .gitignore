@@ -13,6 +13,9 @@ xcuserdata/
 /Storyteller/Utilities/SensitiveInformation.swift
 /Storyteller/GoogleService-Info.plist
 
+# Inappropriate Information
+/Storyteller/Utilities/ProfanityFilter.swift
+
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout

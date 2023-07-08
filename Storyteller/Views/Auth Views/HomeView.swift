@@ -29,8 +29,8 @@ struct HomeView: View {
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
                 Text("Login")
                 .padding()
-                .frame(width: UIScreen.screenWidth / 1.5)
-                .font(.system(size: 35, weight: .regular))
+                .frame(width: UIScreen.screenWidth / 1.75)
+                .font(.system(size: 25, weight: .regular))
                 .foregroundColor(.white)
                 .background(.black)
                 .cornerRadius(12.5)
@@ -40,8 +40,8 @@ struct HomeView: View {
             NavigationLink(destination: SignUpView().navigationBarBackButtonHidden(true)) {
                 Text("Sign Up")
                 .padding()
-                .frame(width: UIScreen.screenWidth / 1.5)
-                .font(.system(size: 35, weight: .regular))
+                .frame(width: UIScreen.screenWidth / 1.75)
+                .font(.system(size: 25, weight: .regular))
                 .foregroundColor(.white)
                 .background(.black)
                 .cornerRadius(12.5)

@@ -12,12 +12,17 @@
 		D941856E2A5251E9001CAEC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */; };
 		D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */; };
 		D941857A2A527B59001CAEC1 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185792A527B59001CAEC1 /* TestView.swift */; };
-		D96BB4902A5770CE00765EF5 /* SignUpView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB48F2A5770CE00765EF5 /* SignUpView2.swift */; };
-		D96BB4922A57712D00765EF5 /* NextButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB4912A57712D00765EF5 /* NextButtonModel.swift */; };
+		D94564AE2A579B2C006C83E2 /* FirstLastNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564AD2A579B2C006C83E2 /* FirstLastNameView.swift */; };
+		D94564B02A579D44006C83E2 /* EmailPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564AF2A579D44006C83E2 /* EmailPasswordView.swift */; };
+		D94564B22A57A504006C83E2 /* BirthDateGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B12A57A504006C83E2 /* BirthDateGenderView.swift */; };
+		D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B32A57D96E006C83E2 /* UsernameView.swift */; };
+		D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */; };
+		D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
 		D96BB49B2A5782B600765EF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */; };
+		D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */; };
 		D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF12A575413008FAEA7 /* ContentView.swift */; };
 		D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */; };
 		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
@@ -36,9 +41,14 @@
 		D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D94185722A5251E9001CAEC1 /* Storyteller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storyteller.xcdatamodel; sourceTree = "<group>"; };
 		D94185792A527B59001CAEC1 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
-		D96BB48F2A5770CE00765EF5 /* SignUpView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView2.swift; sourceTree = "<group>"; };
-		D96BB4912A57712D00765EF5 /* NextButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButtonModel.swift; sourceTree = "<group>"; };
+		D94564AD2A579B2C006C83E2 /* FirstLastNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLastNameView.swift; sourceTree = "<group>"; };
+		D94564AF2A579D44006C83E2 /* EmailPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailPasswordView.swift; sourceTree = "<group>"; };
+		D94564B12A57A504006C83E2 /* BirthDateGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDateGenderView.swift; sourceTree = "<group>"; };
+		D94564B32A57D96E006C83E2 /* UsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameView.swift; sourceTree = "<group>"; };
+		D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFilteringHelper.swift; sourceTree = "<group>"; };
+		D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfanityFilter.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
@@ -120,6 +130,9 @@
 				D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */,
 				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
 				D9E0AA742A56694D00841B0F /* PositioningHelper.swift */,
+				D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */,
+				D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */,
+				D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -127,7 +140,10 @@
 		D941857D2A527C7C001CAEC1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB4912A57712D00765EF5 /* NextButtonModel.swift */,
+				D94564AD2A579B2C006C83E2 /* FirstLastNameView.swift */,
+				D94564AF2A579D44006C83E2 /* EmailPasswordView.swift */,
+				D94564B12A57A504006C83E2 /* BirthDateGenderView.swift */,
+				D94564B32A57D96E006C83E2 /* UsernameView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -139,7 +155,6 @@
 				D9E0AA722A5658D300841B0F /* LoginView.swift */,
 				D9C09BF12A575413008FAEA7 /* ContentView.swift */,
 				D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */,
-				D96BB48F2A5770CE00765EF5 /* SignUpView2.swift */,
 			);
 			path = "Auth Views";
 			sourceTree = "<group>";
@@ -232,19 +247,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94564B02A579D44006C83E2 /* EmailPasswordView.swift in Sources */,
 				D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */,
 				D941857A2A527B59001CAEC1 /* TestView.swift in Sources */,
+				D94564B22A57A504006C83E2 /* BirthDateGenderView.swift in Sources */,
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
 				D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */,
 				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
+				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
-				D96BB4922A57712D00765EF5 /* NextButtonModel.swift in Sources */,
+				D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */,
 				D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
+				D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */,
+				D94564AE2A579B2C006C83E2 /* FirstLastNameView.swift in Sources */,
 				D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */,
+				D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */,
 				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
-				D96BB4902A5770CE00765EF5 /* SignUpView2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,8 +401,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -413,8 +433,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

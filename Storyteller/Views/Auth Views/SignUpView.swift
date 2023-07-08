@@ -9,10 +9,21 @@ import SwiftUI
 
 struct SignUpView: View {
     
-    @State private var test = false
+    @State private var authViewToShowIndex = 1
+    @State private var error = ""
+    @State private var error2 = ""
+    
+    // User information
     @State private var firstName: String = ""
     @State private var lastName: String = ""
-    @State private var testNumber = 5
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var month: String = ""
+    @State private var day: String = ""
+    @State private var year: String = ""
+    @State private var gender: String = ""
+    @State private var username: String = ""
+    
     
     var body: some View {
         
@@ -38,43 +49,88 @@ struct SignUpView: View {
                 .offset(x: 0, y: 30)
             }
             
-            Group {
-                Text("What's your name?")
-                    .foregroundColor(Color("#8A8A8A"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 80)
-                    .padding(.horizontal)
+            
+            // Depending on the current increment, display a different field for users to fill out information
+            // Not using switch case to avoid View handling error
+            if authViewToShowIndex == 1 {
+                FirstLastNameView(firstName: $firstName, lastName: $lastName)
+            }
+            else if authViewToShowIndex == 2 {
+                EmailPasswordView(email: $email, password: $password)
+            }
+            else if authViewToShowIndex == 3 {
+                BirthDateGenderView(month: $month, day: $day, year: $year, gender: $gender)
+            }
+            else if authViewToShowIndex == 4 {
+                UsernameView(username: $username)
+            }
+            else {
+                UsernameView(username: $username)
+            }
+            
+            Text(error)
+                .foregroundColor(.red)
+            Text(error2)
+                .foregroundColor(.red)
+            
+            Spacer()
+            
+            // Display next button or sign up button
+            // TODO: - Refractor code, not very pretty
+            if authViewToShowIndex < 4 {
+                Button("Next") {
+                    error = ""
+                    error2 = ""
+                    if authViewToShowIndex == 2 {
+                        error = filterEmail(email: email)
+                        // TODO: - Add regex checker for password
+                    }
+                    
+                    else if authViewToShowIndex == 3 {
+                        // TODO: - Add age / date verifier
+                    }
+                    
+                    else if authViewToShowIndex == 4 {
+                        error = filterUsername(username: username)
+                    }
+                    
+                    if error.count == 0 {
+                        withAnimation {
+                            authViewToShowIndex += 1
+                        }
+                    }
+                }
+                .padding()
+                .frame(width: UIScreen.screenWidth / 3)
+                .font(.system(size: 20, weight: .regular))
+                .foregroundColor(.white)
+                .background(.black)
+                .cornerRadius(12.5)
+                .padding()
                 
-                TextField( text: $firstName) {
-                    Text("First Name")
-                        .foregroundColor(.white.opacity(0.5))
+                Spacer()
+                Spacer()
+            }
+            
+            else {
+                Button("Sign Up") {
+                    
+                    // Verify information (send to utility for each variable)
+                    
+                    // if, Create auth object
+                    // Create user object in FirebaseHelper
+                    
                     
                 }
                 .padding()
-                .background(Color("#8A8A8A"))
-                .cornerRadius(5)
-                .padding(.horizontal)
-                .padding(.bottom, 5)
-                
-                TextField( text: $lastName) {
-                    Text("Last Name")
-                        .foregroundColor(.white.opacity(0.5))
-                    
-                }
+                .frame(width: UIScreen.screenWidth / 1.5)
+                .font(.system(size: 35, weight: .regular))
+                .foregroundColor(.white)
+                .background(.black)
+                .cornerRadius(12.5)
                 .padding()
-                .background(Color("#8A8A8A"))
-                .cornerRadius(5)
-                .padding(.horizontal)
-                
             }
             
-            Spacer()
-            NavigationLink(destination: SignUpView2().navigationBarBackButtonHidden(true)) {
-                NextButtonModel(test: $testNumber)
-            }
-            
-            Spacer()
-            Spacer()
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
                 Text("Already have an account? Log in")
                     .foregroundColor(Color("#8A8A8A"))
