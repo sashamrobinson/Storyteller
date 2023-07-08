@@ -24,6 +24,10 @@ func filterEmail(email: String) -> String {
     return "Invalid email"
 }
 
-func filterUsername(username: String) -> String {
-    
+extension String {
+    func containsWhitespaceAndNewlines() -> Bool {
+        return rangeOfCharacter(from: .whitespacesAndNewlines) != nil
+    }
 }
+
+

@@ -10,8 +10,7 @@ import SwiftUI
 struct SignUpView: View {
     
     @State private var authViewToShowIndex = 1
-    @State private var error = ""
-    @State private var error2 = ""
+    @State private var errorMessage = ""
     
     // User information
     @State private var firstName: String = ""
@@ -68,33 +67,36 @@ struct SignUpView: View {
                 UsernameView(username: $username)
             }
             
-            Text(error)
-                .foregroundColor(.red)
-            Text(error2)
+            Text(errorMessage)
                 .foregroundColor(.red)
             
             Spacer()
             
-            // Display next button or sign up button
-            // TODO: - Refractor code, not very pretty
+            // Display next button or sign up button and process logic for verifying text fields are correct
             if authViewToShowIndex < 4 {
                 Button("Next") {
-                    error = ""
-                    error2 = ""
-                    if authViewToShowIndex == 2 {
-                        error = filterEmail(email: email)
-                        // TODO: - Add regex checker for password
+                    errorMessage = ""
+                    if authViewToShowIndex == 1 {
+                        if (firstName.count <= 0 || lastName.count <= 0) {
+                            errorMessage = "Invalid name"
+                        }
+                    }
+                    
+                    else if authViewToShowIndex == 2 {
+                        errorMessage = filterEmail(email: email)
+                        if (password.count <= 0) {
+                            errorMessage = "Invalid password"
+                        }
+                        
                     }
                     
                     else if authViewToShowIndex == 3 {
-                        // TODO: - Add age / date verifier
+                        if (month.count <= 0 || day.count <= 0 || year.count <= 0 || gender.count <= 0 || day.contains(".") || year.contains(".")) {
+                            errorMessage = "Invalid date of birth or gender"
+                        }
                     }
                     
-                    else if authViewToShowIndex == 4 {
-                        error = filterUsername(username: username)
-                    }
-                    
-                    if error.count == 0 {
+                    if errorMessage.count == 0 {
                         withAnimation {
                             authViewToShowIndex += 1
                         }
@@ -115,12 +117,29 @@ struct SignUpView: View {
             else {
                 Button("Sign Up") {
                     
-                    // Verify information (send to utility for each variable)
+                    errorMessage = ""
+                    if (username.profanityFilter() || username.containsWhitespaceAndNewlines()) {
+                        errorMessage = "Invalid username"
+                    }
                     
-                    // if, Create auth object
-                    // Create user object in FirebaseHelper
-                    
-                    
+                    // No errors
+                    if errorMessage.count == 0 {
+                        
+                        // Make sure there is valid data for every field
+                        if firstName.count > 0 && lastName.count > 0 && password.count > 0 && email.count > 0 && month.count > 0 && day.count > 0 && year.count > 0 && username.count > 0 {
+                            
+                        }
+                        
+                        // Package date
+                        let birthDate = "\(month)-\(day)-\(year)"
+                        
+                        // Create auth object in Auth
+                        createUserInAuth(email: email, password: password)
+                        
+                        // Create user object in Firebase
+                        
+                        // TODO: - Transition to next page
+                    }
                 }
                 .padding()
                 .frame(width: UIScreen.screenWidth / 1.5)

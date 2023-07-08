@@ -30,6 +30,8 @@ struct EmailPasswordView: View {
             .cornerRadius(5)
             .padding(.horizontal)
             .padding(.bottom, 5)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
             
             Text("What's your password")
                 .foregroundColor(Color("#8A8A8A"))
@@ -45,6 +47,8 @@ struct EmailPasswordView: View {
             .background(Color("#8A8A8A"))
             .cornerRadius(5)
             .padding(.horizontal)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
             
         }
         .transition(.slide)

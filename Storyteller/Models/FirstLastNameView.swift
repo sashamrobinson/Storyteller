@@ -24,11 +24,13 @@ struct FirstLastNameView: View {
                     .foregroundColor(.white.opacity(0.5))
                 
             }
+            
             .padding()
             .background(Color("#8A8A8A"))
             .cornerRadius(5)
             .padding(.horizontal)
             .padding(.bottom, 5)
+            .autocorrectionDisabled(true)
             
             TextField(text: $lastName) {
                 Text("Last Name")
@@ -39,6 +41,7 @@ struct FirstLastNameView: View {
             .background(Color("#8A8A8A"))
             .cornerRadius(5)
             .padding(.horizontal)
+            .autocorrectionDisabled(true)
             
         }
         .transition(.slide)

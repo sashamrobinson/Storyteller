@@ -20,11 +20,9 @@ func createUserInAuth(email: String, password: String) {
 }
 
 // Method for logging in a user to the Auth database
-func login(email: String, password: String) {
+func login(email: String, password: String, completion: @escaping (Error?) -> Void) {
     Auth.auth().signIn(withEmail: email, password: password) { result, error in
-        if error != nil {
-            print(error!.localizedDescription)
-        }
+        completion(error)
     }
 }
 

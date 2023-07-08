@@ -30,6 +30,8 @@ struct UsernameView: View {
             .cornerRadius(5)
             .padding(.horizontal)
             .padding(.bottom, 5)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
         }
     }
 }

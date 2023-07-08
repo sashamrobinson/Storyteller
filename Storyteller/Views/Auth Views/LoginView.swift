@@ -9,9 +9,12 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State private var emailOrUsername: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
     @State private var rememberMe: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var loginUser: Bool = false
+    @State var selection: Int? = nil
     
     var body: some View {
         VStack(spacing: 10) {
@@ -37,14 +40,14 @@ struct LoginView: View {
             }
             
             Group {
-                Text("Email or username")
+                Text("Email")
                     .foregroundColor(Color("#8A8A8A"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 80)
                     .padding(.horizontal)
                 
-                TextField( text: $emailOrUsername) {
-                    Text("Email or username")
+                TextField( text: $email) {
+                    Text("Email")
                         .foregroundColor(.white.opacity(0.5))
                     
                 }
@@ -52,6 +55,8 @@ struct LoginView: View {
                 .background(Color("#8A8A8A"))
                 .cornerRadius(5)
                 .padding(.horizontal)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
                 
                 Text("Password")
                     .foregroundColor(Color("#8A8A8A"))
@@ -67,6 +72,8 @@ struct LoginView: View {
                 .background(Color("#8A8A8A"))
                 .cornerRadius(5)
                 .padding(.horizontal)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
                 
                 //MARK: -- Get remember me working (or just remove it)
                 HStack() {
@@ -78,12 +85,33 @@ struct LoginView: View {
                 
             }
             
+            Text(errorMessage)
+                .foregroundColor(.red)
             
             Spacer()
             Spacer()
             
             Button("Login") {
-                print("Login")
+                errorMessage = ""
+                if email.count > 0 && password.count > 0 {
+                    login(email: email, password: password) { error in
+                        
+                        // Error occured logging in user
+                        if error != nil {
+                            errorMessage = "Incorrect information"
+                        }
+                        
+                        // No error, continue
+                        else {
+                            
+                            // TODO: - Save user information to core data
+                            
+                            // Move to StoryView
+                            loginUser = true
+                            
+                        }
+                    }
+                }
             }
             .padding()
             .frame(width: UIScreen.screenWidth / 1.5)
@@ -93,13 +121,15 @@ struct LoginView: View {
             .cornerRadius(12.5)
             .padding()
             
+            .navigationDestination(isPresented: $loginUser) {
+                StoryView().navigationBarBackButtonHidden(true)
+            }
+            
             
             NavigationLink(destination: SignUpView().navigationBarBackButtonHidden(true)) {
                 Text("Don't have an account? Sign up")
                     .foregroundColor(Color("#8A8A8A"))
             }
-            
-            
         }
         .padding()
         
