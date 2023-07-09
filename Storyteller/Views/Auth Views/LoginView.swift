@@ -14,19 +14,23 @@ struct LoginView: View {
     @State private var rememberMe: Bool = false
     @State private var errorMessage: String = ""
     @State private var loginUser: Bool = false
-    @State var selection: Int? = nil
+    
+    @State private var isMoonVisible = false
     
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
-                HStack {
-                    Spacer()
-                    Image("Storyteller Background Icon")
-                        .frame(width: 116, height: 116)
-                        .opacity(0.3)
+                if isMoonVisible {
+                    HStack {
+                        Spacer()
+                        Image("Storyteller Background Icon")
+                            .frame(width: 116, height: 116)
+                            .opacity(0.3)
+                    }
+                    .edgesIgnoringSafeArea(.all)
+                    .ignoresSafeArea(.all)
+                    .transition(.move(edge: .trailing))
                 }
-                .edgesIgnoringSafeArea(.all)
-                .ignoresSafeArea(.all)
                 
                 VStack {
                     Text("Storyteller")
@@ -37,6 +41,11 @@ struct LoginView: View {
                         .foregroundColor(Color("#3A3A3A"))
                 }
                 .offset(x: 0, y: 30)
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.5)) {
+                    isMoonVisible = true
+                }
             }
             
             Group {

@@ -13,6 +13,10 @@ struct SignUpView: View {
     @State private var errorMessage = ""
     @State private var loginUser = false
     
+    // Animation
+    @State private var isMoonVisible = false
+    @State private var fadeOut = false
+    
     // User information
     @State private var firstName: String = ""
     @State private var lastName: String = ""
@@ -24,20 +28,22 @@ struct SignUpView: View {
     @State private var gender: String = ""
     @State private var username: String = ""
     
-    
     var body: some View {
         
         VStack(spacing: 10) {
             ZStack {
-                HStack {
-                    Spacer()
-                    Image("Storyteller Background Icon")
-                        .frame(width: 116, height: 116)
-                        .opacity(0.3)
+                if isMoonVisible {
+                    HStack {
+                        Spacer()
+                        Image("Storyteller Background Icon")
+                            .frame(width: 116, height: 116)
+                            .opacity(0.3)
+                    }
+                    .edgesIgnoringSafeArea(.all)
+                    .ignoresSafeArea(.all)
+                    .transition(.move(edge: .trailing))
                 }
-                .edgesIgnoringSafeArea(.all)
-                .ignoresSafeArea(.all)
-                
+
                 VStack {
                     Text("Storyteller")
                         .font(.system(size: 60, weight: .semibold))
@@ -47,6 +53,11 @@ struct SignUpView: View {
                         .foregroundColor(Color("#3A3A3A"))
                 }
                 .offset(x: 0, y: 30)
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.5)) {
+                    isMoonVisible = true
+                }
             }
             
             
@@ -131,26 +142,34 @@ struct SignUpView: View {
                             
                         }
                         
-                        // Package date
-                        let birthDate = "\(month)-\(day)-\(year)"
+                        // Beginning of signing user up and moving them
+                        withAnimation(.easeInOut(duration: 2.0)) {
+                            fadeOut = true
+                        }
                         
-                        // Package user
-                        let user = User(firstName: firstName,
-                                        lastName: lastName,
-                                        email: email,
-                                        birthDate: birthDate,
-                                        gender: gender,
-                                        username: username,
-                                        stories: [])
-                        
-                        // Create auth object in Auth
-                        FirebaseHelper.createUserInAuth(email: email, password: password)
-                        
-                        // Create user object in Firebase
-                        FirebaseHelper.createUserInDatabase(user: user)
-                        
-                        // TODO: - Transition to next page
-                        loginUser = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            // Package date
+                            let birthDate = "\(month)-\(day)-\(year)"
+                            
+                            // Package user
+                            let user = User(firstName: firstName,
+                                            lastName: lastName,
+                                            email: email,
+                                            birthDate: birthDate,
+                                            gender: gender,
+                                            username: username,
+                                            stories: [])
+                            
+                            // Create auth object in Auth
+//                            FirebaseHelper.createUserInAuth(email: email, password: password)
+//
+//                            // Create user object in Firebase
+//                            FirebaseHelper.createUserInDatabase(user: user)
+                            
+                            // TODO: - Transition to next page
+                            UINavigationBar.setAnimationsEnabled(false)
+                            loginUser = true
+                        }
                     }
                 }
                 .padding()
@@ -165,12 +184,12 @@ struct SignUpView: View {
                 }
             }
             
-            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                Text("Already have an account? Log in")
+            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {                Text("Already have an account? Log in")
                     .foregroundColor(Color("#8A8A8A"))
             }
         }
         .padding()
+        .opacity(fadeOut ? 0.0 : 1.0)
     }
 }
 

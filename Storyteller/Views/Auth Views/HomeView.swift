@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @State private var isMoonVisible = false
+    @State private var offsetY: CGFloat = -400
+    
     var body: some View {
         VStack {
             Image("Storyteller Background Icon Big", bundle: .main)
                 .edgesIgnoringSafeArea(.all)
                 .frame(width: 70, height: 70)
-                .offset(x: 0, y: -125)
+                .offset(x: 0, y: offsetY)
+                .transition(.move(edge: .top))
             
             Spacer()
             
@@ -49,7 +54,13 @@ struct HomeView: View {
                 
             }
         }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 2.5)) {
+                offsetY = -130
+            }
+        }
     }
+    
 }
 
 struct HomeView_Previews: PreviewProvider {
