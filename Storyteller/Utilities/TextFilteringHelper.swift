@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 func filterEmail(email: String) -> String {
     let regex = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
@@ -29,5 +30,13 @@ extension String {
         return rangeOfCharacter(from: .whitespacesAndNewlines) != nil
     }
 }
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 

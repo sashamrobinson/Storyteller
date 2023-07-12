@@ -41,3 +41,4 @@ struct UsernameView_Previews: PreviewProvider {
         UsernameView(username: .constant("Username"))
     }
 }
+

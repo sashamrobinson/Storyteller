@@ -142,6 +142,9 @@ struct SignUpView: View {
                             
                         }
                         
+                        // Take away keyboad
+                        hideKeyboard()
+                        
                         // Beginning of signing user up and moving them
                         withAnimation(.easeInOut(duration: 2.0)) {
                             fadeOut = true

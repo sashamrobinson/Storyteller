@@ -9,53 +9,80 @@ import SwiftUI
 
 struct StoryView: View {
     
-    @State private var loginUser = false
-    @State private var fadeIn = false
-    @State private var offsetMoonY: CGFloat = -300
-    @State private var offsetTextY: CGFloat = 300
+    @State private var showIntro = true
+    @State private var offsetMoonY: CGFloat = -400
+    @State private var offsetTextY: CGFloat = 400
     
     var body: some View {
-        VStack {
-            Image("Storyteller Background Icon Big", bundle: .main)
-                .edgesIgnoringSafeArea(.all)
-                .frame(width: 70, height: 70)
-                .offset(x: 0, y: offsetMoonY)
-                .transition(.move(edge: .top))
-            
-            Spacer()
-            Spacer()
-            Spacer()
-            
-            Text("Begin")
+        
+        // Display begin information to user
+        if showIntro {
+            VStack {
+                Image("Storyteller Background Icon Big", bundle: .main)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: 70, height: 70)
+                    .offset(x: 0, y: offsetMoonY)
+                    .transition(.move(edge: .top))
+                
+                Spacer()
+                Spacer()
+                Spacer()
+                
+                Button("Begin") {
+                    showIntro = false
+                }
                 .font(.system(size: 60, weight: .semibold))
+                .foregroundColor(.black)
                 .padding()
                 .offset(x: 0, y: offsetTextY)
                 .transition(.move(edge: .bottom))
-            
-            Text("You will be prompted to grant access to your microphone and answer several short verbal questions")
-                .foregroundColor(Color("#8A8A8A"))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 50)
-                .transition(.move(edge: .bottom))
-                .offset(x: 0, y: offsetTextY)
+                
+                Text("You will be prompted to grant access to your microphone and answer several short verbal questions")
+                    .foregroundColor(Color("#8A8A8A"))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 50)
+                    .transition(.move(edge: .bottom))
+                    .offset(x: 0, y: offsetTextY)
 
-            Spacer()
+                Spacer()
 
-        }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 2.0)) {
-                fadeIn = true
             }
-            
-            withAnimation(.easeInOut(duration: 1.5)) {
-                offsetMoonY = -130
-            }
-            
-            withAnimation(.easeInOut(duration: 1.5)) {
-                offsetTextY = 0
+            .onAppear {
+                withAnimation(.easeInOut(duration: 3.0)) {
+                    offsetMoonY = -130
+                }
+                
+                withAnimation(.easeInOut(duration: 2.5)) {
+                    offsetTextY = 0
+                }
             }
         }
-        .opacity(fadeIn ? 1.0 : 0.0)
+        
+        // Display interactive moon part to user
+        else if !showIntro {
+            ZStack {
+                GeometryReader { geometry in
+                    Image("Storyteller Stars Background", bundle: .main)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                }
+                .edgesIgnoringSafeArea(.all)
+                
+                Button(action: {
+                    print("Button working")
+                }) {
+                    Image("Storyteller Background Icon Big", bundle: .main)
+                        .edgesIgnoringSafeArea(.all)
+                        .frame(width: 70, height: 70)
+                        .offset(x: 0, y: -300)
+                }
+                
+                Spacer()
+
+            }
+        }
+            
     }
 }
 
