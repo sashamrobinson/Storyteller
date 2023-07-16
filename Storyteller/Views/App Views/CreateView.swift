@@ -11,7 +11,7 @@ struct CreateView: View {
     
     // Animation
     @State private var talkingCurrently = false
-    @State private var animationOpacity: CGFloat = 0
+    @State private var animationVisible = false
     @State private var offsetMoonY: CGFloat = -UIScreen.screenHeight
     @State private var bgOpacity: CGFloat = 0
     
@@ -50,18 +50,15 @@ struct CreateView: View {
                 ZStack {
                     if speechUtterance.isSpeaking {
                         SpeakingPulseAnimation()
-                            .opacity(self.animationOpacity)
-                            .onAppear {
-                                withAnimation(.easeInOut(duration: 3.0)) {
-                                    self.animationOpacity = 1.0
+                            .opacity(animationVisible ? 1 : 0)
+                            .onAppear() {
+                                withAnimation(.easeInOut(duration: 1.0)) {
+                                    animationVisible.toggle()
                                 }
                             }
-                            .onDisappear() {
-                                withAnimation(.easeInOut(duration: 3.0)) {
-                                    self.animationOpacity = 0
-                                }
-                            }
+                        
                     }
+                    
                     Image("Storyteller Background Icon Big", bundle: .main)
                         .resizable()
                         .scaledToFit()
@@ -73,7 +70,7 @@ struct CreateView: View {
                         .onTapGesture {
                             
                             print("Tap")
-                            speechUtterance.speak(text: "Hi, I'm Storyteller. I'd love to hear what you have to say. Hold down on me to begin speaking with me.")
+                            speechUtterance.speak(text: "Hi, I'm Storyteller. I'd love to hear what you have to say. Hold down on me to begin speaking.")
 
                             
                         }
@@ -82,6 +79,7 @@ struct CreateView: View {
                         .onLongPressGesture(minimumDuration: 0.1) {
                             
                             print("Hold")
+                            speechUtterance.speak(text: "Hi, ")
                         }
                 }
             }

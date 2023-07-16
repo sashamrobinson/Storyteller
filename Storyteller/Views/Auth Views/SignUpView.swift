@@ -129,6 +129,9 @@ struct SignUpView: View {
             else {
                 Button("Sign Up") {
                     
+                    // Take away keyboad
+                    hideKeyboard()
+                    
                     errorMessage = ""
                     if (username.profanityFilter() || username.containsWhitespaceAndNewlines()) {
                         errorMessage = "Invalid username"
@@ -141,9 +144,6 @@ struct SignUpView: View {
                         if firstName.count > 0 && lastName.count > 0 && password.count > 0 && email.count > 0 && month.count > 0 && day.count > 0 && year.count > 0 && username.count > 0 {
                             
                         }
-                        
-                        // Take away keyboad
-                        hideKeyboard()
                         
                         // Beginning of signing user up and moving them
                         withAnimation(.easeInOut(duration: 2.0)) {
@@ -163,12 +163,9 @@ struct SignUpView: View {
                                             username: username,
                                             stories: [])
                             
-                            // Create auth object in Auth
-//                            FirebaseHelper.createUserInAuth(email: email, password: password)
-//
-//                            // Create user object in Firebase
-//                            FirebaseHelper.createUserInDatabase(user: user)
-                            
+                            // Create auth object and firebase object
+                            FirebaseHelper.createUserInAuth(email: email, password: password, user: user)
+
                             // TODO: - Transition to next page
                             UINavigationBar.setAnimationsEnabled(false)
                             loginUser = true

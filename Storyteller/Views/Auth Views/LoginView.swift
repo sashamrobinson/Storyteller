@@ -101,6 +101,10 @@ struct LoginView: View {
             Spacer()
             
             Button("Login") {
+                
+                // Take away keyboad
+                hideKeyboard()
+                
                 errorMessage = ""
                 if email.count > 0 && password.count > 0 {
                     FirebaseHelper.login(email: email, password: password) { error in
@@ -112,9 +116,7 @@ struct LoginView: View {
                         
                         // No error, continue
                         else {
-                            
-                            // TODO: - Save user information to core data
-                            
+                                                        
                             // Move to StoryView
                             loginUser = true
                             

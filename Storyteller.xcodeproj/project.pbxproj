@@ -30,6 +30,8 @@
 		D94564CE2A62606E006C83E2 /* SpeakingPulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564CD2A62606E006C83E2 /* SpeakingPulseAnimation.swift */; };
 		D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */; };
 		D94564D22A634F24006C83E2 /* SpeechUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D12A634F24006C83E2 /* SpeechUtterance.swift */; };
+		D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */; };
+		D94564D62A638FFF006C83E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D52A638FFF006C83E2 /* Constants.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -71,6 +73,8 @@
 		D94564CD2A62606E006C83E2 /* SpeakingPulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingPulseAnimation.swift; sourceTree = "<group>"; };
 		D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingInfoView.swift; sourceTree = "<group>"; };
 		D94564D12A634F24006C83E2 /* SpeechUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechUtterance.swift; sourceTree = "<group>"; };
+		D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageHelper.swift; sourceTree = "<group>"; };
+		D94564D52A638FFF006C83E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -158,6 +162,8 @@
 				D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */,
 				D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */,
 				D94564D12A634F24006C83E2 /* SpeechUtterance.swift */,
+				D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */,
+				D94564D52A638FFF006C83E2 /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -306,9 +312,11 @@
 				D94564B22A57A504006C83E2 /* BirthDateGenderView.swift in Sources */,
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
 				D9E0AA6B2A56283D00841B0F /* APICaller.swift in Sources */,
+				D94564D62A638FFF006C83E2 /* Constants.swift in Sources */,
 				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
 				D94564BE2A5A1209006C83E2 /* User.swift in Sources */,
+				D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */,
 				D94564C62A6214B5006C83E2 /* CreateView.swift in Sources */,
 				D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */,
 				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,

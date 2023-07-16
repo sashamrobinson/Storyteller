@@ -32,6 +32,7 @@ struct UsernameView: View {
             .padding(.bottom, 5)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
+            
         }
     }
 }

@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         NavigationStack {
-            HomeView()
+            if LocalStorageHelper.retrieveUser() != nil {
+                TabBarControllerView()
+            }
+            
+            else {
+                HomeView()
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
