@@ -9,8 +9,9 @@ import SwiftUI
 
 struct StoryView: View {
     
-    @State private var showIntro = true
-    @State private var offsetMoonY: CGFloat = -400
+    @State private var showIntro = false
+    @State private var offsetMoonY: CGFloat = -UIScreen.screenHeight
+    @State private var offsetMoonY2: CGFloat = -130
     @State private var offsetTextY: CGFloat = 400
     
     var body: some View {
@@ -29,7 +30,16 @@ struct StoryView: View {
                 Spacer()
                 
                 Button("Begin") {
-                    showIntro = false
+                    
+                    withAnimation(.easeInOut(duration: 1)) {
+                        offsetTextY = 400
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        
+                        // Transition screens
+                        showIntro.toggle()
+                    }
                 }
                 .font(.system(size: 60, weight: .semibold))
                 .foregroundColor(.black)
@@ -69,17 +79,31 @@ struct StoryView: View {
                 }
                 .edgesIgnoringSafeArea(.all)
                 
-                Button(action: {
-                    print("Button working")
-                }) {
-                    Image("Storyteller Background Icon Big", bundle: .main)
-                        .edgesIgnoringSafeArea(.all)
-                        .frame(width: 70, height: 70)
-                        .offset(x: 0, y: -300)
-                }
-                
-                Spacer()
+                VStack {
+                    Button(action: {
+                        print("Button working")
+                    }) {
+                        Image("Storyteller Background Icon Big", bundle: .main)
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: 70, height: 70)
+                            .offset(x: 0, y: offsetMoonY)
+                    }
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    
+                    Button {
+                        print("Test")
+                    } label: {
+                        Text("Test")
+                    }
+                    
+                    Text("Test2")
+                    
+                    Spacer()
 
+                }
             }
         }
             

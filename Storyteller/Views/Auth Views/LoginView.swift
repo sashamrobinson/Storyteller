@@ -130,7 +130,7 @@ struct LoginView: View {
             .cornerRadius(12.5)
             .padding()
             .navigationDestination(isPresented: $loginUser) {
-                StoryView().navigationBarBackButtonHidden(true)
+                TabBarControllerView().navigationBarBackButtonHidden(true)
             }
             
             
