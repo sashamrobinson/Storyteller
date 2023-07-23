@@ -32,12 +32,13 @@
 		D94564D22A634F24006C83E2 /* SpeechUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D12A634F24006C83E2 /* SpeechUtterance.swift */; };
 		D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */; };
 		D94564D62A638FFF006C83E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D52A638FFF006C83E2 /* Constants.swift */; };
+		D94564D82A6A1EB3006C83E2 /* OpenAIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
 		D96BB49B2A5782B600765EF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */; };
 		D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */; };
-		D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF12A575413008FAEA7 /* ContentView.swift */; };
+		D9C09BF22A575413008FAEA7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF12A575413008FAEA7 /* RootView.swift */; };
 		D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */; };
 		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
 		D9E0AA672A561F2D00841B0F /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9E0AA662A561F2D00841B0F /* OpenAISwift */; };
@@ -75,9 +76,10 @@
 		D94564D12A634F24006C83E2 /* SpeechUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechUtterance.swift; sourceTree = "<group>"; };
 		D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageHelper.swift; sourceTree = "<group>"; };
 		D94564D52A638FFF006C83E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIHelper.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
-		D9C09BF12A575413008FAEA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D9C09BF12A575413008FAEA7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveInformation.swift; sourceTree = "<group>"; };
@@ -156,14 +158,15 @@
 			isa = PBXGroup;
 			children = (
 				D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */,
-				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
-				D9E0AA742A56694D00841B0F /* PositioningHelper.swift */,
-				D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */,
-				D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */,
-				D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */,
 				D94564D12A634F24006C83E2 /* SpeechUtterance.swift */,
+				D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */,
+				D9E0AA742A56694D00841B0F /* PositioningHelper.swift */,
+				D94564B52A58E193006C83E2 /* TextFilteringHelper.swift */,
 				D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */,
+				D94564B72A58E9A0006C83E2 /* ProfanityFilter.swift */,
 				D94564D52A638FFF006C83E2 /* Constants.swift */,
+				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
+				D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -205,7 +208,7 @@
 			children = (
 				D9E0AA702A56569D00841B0F /* HomeView.swift */,
 				D9E0AA722A5658D300841B0F /* LoginView.swift */,
-				D9C09BF12A575413008FAEA7 /* ContentView.swift */,
+				D9C09BF12A575413008FAEA7 /* RootView.swift */,
 				D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */,
 				D94564C32A5FA23D006C83E2 /* BeginView.swift */,
 			);
@@ -320,11 +323,12 @@
 				D94564C62A6214B5006C83E2 /* CreateView.swift in Sources */,
 				D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */,
 				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,
+				D94564D82A6A1EB3006C83E2 /* OpenAIHelper.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
 				D94564BA2A58FF9E006C83E2 /* StoryView.swift in Sources */,
 				D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */,
 				D94564C82A6224E1006C83E2 /* SettingsView.swift in Sources */,
-				D9C09BF22A575413008FAEA7 /* ContentView.swift in Sources */,
+				D9C09BF22A575413008FAEA7 /* RootView.swift in Sources */,
 				D94564C02A5A13AE006C83E2 /* Story.swift in Sources */,
 				D94564CA2A622C25006C83E2 /* TabBarControllerView.swift in Sources */,
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,

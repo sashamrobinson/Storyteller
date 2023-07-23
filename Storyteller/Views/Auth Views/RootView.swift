@@ -7,11 +7,17 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct RootView: View {
+    
+    // Optional User object for accessing current user properties throughout the entire app
     
     var body: some View {
         NavigationStack {
-            if LocalStorageHelper.retrieveUser() != nil {
+            if let userId = LocalStorageHelper.retrieveUser() {
+                
+                // Populate currentUser
+                
+                // Move to main app
                 TabBarControllerView()
             }
             
@@ -25,6 +31,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        RootView()
     }
 }

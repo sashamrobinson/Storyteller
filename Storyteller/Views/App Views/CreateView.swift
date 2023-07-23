@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct CreateView: View {
     
@@ -17,7 +18,11 @@ struct CreateView: View {
     
     @State private var isInfoViewVisible = false
     
+    // TTS / STT
     @ObservedObject var speechUtterance = SpeechUtterance()
+    @StateObject var speechRecognizer = SpeechRecognizer()
+    @State var transcript : String = ""
+    @State private var isRecording = false
     
     var body: some View {
         ZStack {
@@ -66,7 +71,7 @@ struct CreateView: View {
                         .transition(.move(edge: .top))
                         .frame(width: 300, height: 300)
                     
-                        // When the user taps the moon (intro dialogue)
+                        // When the user taps the moon
                         .onTapGesture {
                             
                             print("Tap")
@@ -75,11 +80,16 @@ struct CreateView: View {
                             
                         }
                     
-                        // When the user holds the moon (begin speaking)
+                        // When the user holds the moon
                         .onLongPressGesture(minimumDuration: 0.1) {
                             
                             print("Hold")
-                            speechUtterance.speak(text: "Hi, ")
+                            
+                            // Begin recording what user says
+                            startConversation()
+                            
+                            
+                            
                         }
                 }
             }
@@ -98,6 +108,49 @@ struct CreateView: View {
         
         .sheet(isPresented: $isInfoViewVisible) {
             SpeakingInfoView()
+        }
+    }
+    
+    // Method for beginning to take in user voice input
+    private func startConversation() {
+            
+            // Reset speech recognizer, begin transcribing and begin recording
+            speechRecognizer.resetTranscript()
+            speechRecognizer.startTranscribing()
+            isRecording = true
+    }
+    
+    // Method for ending user voice input and calling to OpenAI
+    private func endConversation() {
+        
+        // Stop transcribing and stop recording
+        speechRecognizer.stopTranscribing()
+        transcript = speechRecognizer.transcript
+        isRecording = false
+        sendToOpenAI(input: transcript)
+    }
+    
+    // Method for sending user voice input to OpenAI
+    private func sendToOpenAI(input: String) {
+        if !input.isEmpty {
+            APICaller.shared.getResponse(input: input) { result in
+                switch result {
+                case .success(let output):
+                    
+                    do {
+                        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.duckOthers, .allowBluetooth])
+                        try AVAudioSession.sharedInstance().setActive(true)
+                    }
+                    catch {
+                        
+                    }
+                    
+                    speechUtterance.speak(text: output)
+                    
+                case .failure:
+                    print("Failed")
+                }
+            }
         }
     }
 

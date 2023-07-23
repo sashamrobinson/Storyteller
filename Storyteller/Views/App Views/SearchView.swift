@@ -9,7 +9,16 @@ import SwiftUI
 
 struct SearchView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("Search")
+                .font(.system(size: 60, weight: .semibold))
+            
+            Text("Find other people")
+                .font(.system(size: 30, weight: .light))
+                .foregroundColor(Color("#3A3A3A"))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding()
     }
 }
 

@@ -12,13 +12,14 @@ import AVFoundation
 class SpeechUtterance: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
     
     let speaker = AVSpeechSynthesizer()
+    let voice = AVSpeechSynthesisVoice.speechVoices().first { $0.identifier == "com.apple.voice.compact.en-US.Samantha"}
     @Published var isSpeaking = false
         
     // Method for uttering speech
     func speak(text: String) {
         
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.voice = voice
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate
         utterance.volume = 1
         

@@ -26,12 +26,15 @@ actor SpeechRecognizer: ObservableObject {
     }
     
     @MainActor var transcript: String = ""
-    
+
     private var audioEngine: AVAudioEngine?
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var task: SFSpeechRecognitionTask?
     private let recognizer: SFSpeechRecognizer?
     
+    private var silenceTimer: Timer?
+
+
     /**
      Initializes a new speech recognizer. If this is the first time you've used the class, it
      requests access to the speech recognizer and the microphone.
@@ -94,6 +97,7 @@ actor SpeechRecognizer: ObservableObject {
             self.task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
                 self?.recognitionHandler(audioEngine: audioEngine, result: result, error: error)
             })
+            
         } catch {
             self.reset()
             self.transcribe(error)
@@ -140,6 +144,7 @@ actor SpeechRecognizer: ObservableObject {
         }
         
         if let result {
+            print("Working!!")
             transcribe(result.bestTranscription.formattedString)
         }
     }
@@ -147,6 +152,8 @@ actor SpeechRecognizer: ObservableObject {
     
     nonisolated private func transcribe(_ message: String) {
         Task { @MainActor in
+            
+            // Detect user updating string
             transcript = message
         }
     }

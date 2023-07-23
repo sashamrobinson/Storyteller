@@ -155,13 +155,14 @@ struct SignUpView: View {
                             let birthDate = "\(month)-\(day)-\(year)"
                             
                             // Package user
-                            let user = User(firstName: firstName,
+                            let user = User(id: "NULL", firstName: firstName,
                                             lastName: lastName,
                                             email: email,
                                             birthDate: birthDate,
                                             gender: gender,
                                             username: username,
-                                            stories: [])
+                                            stories: []
+                                            )
                             
                             // Create auth object and firebase object
                             FirebaseHelper.createUserInAuth(email: email, password: password, user: user)
@@ -180,7 +181,7 @@ struct SignUpView: View {
                 .cornerRadius(12.5)
                 .padding()
                 .navigationDestination(isPresented: $loginUser) {
-                    StoryView().navigationBarBackButtonHidden(true)
+                    BeginView().navigationBarBackButtonHidden(true)
                 }
             }
             

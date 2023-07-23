@@ -22,7 +22,7 @@ struct SpeakingPulseAnimation: View {
                 .foregroundColor(.black)
                 .scaleEffect(wave ? 2 : 1)
                 .opacity(wave ? 0 : 1)
-                .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: false).speed(0.5))
+                .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true).speed(0.5))
                 .onAppear() {
                     self.wave.toggle()
                 }
@@ -33,7 +33,7 @@ struct SpeakingPulseAnimation: View {
                 .foregroundColor(.black)
                 .scaleEffect(wave2 ? 2 : 1)
                 .opacity(wave ? 0 : 1)
-                .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: false).speed(0.7))
+                .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true).speed(0.7))
                 .onAppear {
                     self.wave2.toggle()
                 }

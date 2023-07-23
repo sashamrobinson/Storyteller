@@ -5,10 +5,14 @@
 //  Created by Sasha Robinson on 2023-07-06.
 //
 
+import SwiftUI
 import Firebase
 import Foundation
 
 class FirebaseHelper: ObservableObject {
+    
+    // Database reference
+    static let db = Firestore.firestore()
     
     // TODO: - Change print error statements to Alerts
     // Method for logging in a user to the Auth database
@@ -47,7 +51,6 @@ class FirebaseHelper: ObservableObject {
             return
         }
         
-        let db = Firestore.firestore()
         let ref = db.collection("Users").document(authUser.uid)
         
         ref.setData([
@@ -86,6 +89,51 @@ class FirebaseHelper: ObservableObject {
         catch {
             // TODO: - Error alert
             print("Error signing out")
+        }
+    }
+    
+    // Method for fetching user object information by id
+    static func fetchUserById(id: String, completion: @escaping (User?) -> Void) {
+        
+        let userRef = db.collection("users").document(id)
+        
+        userRef.getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            
+        // All data is valid
+        guard let document = document,
+        document.exists,
+        let data = document.data(),
+        let id = data["id"] as? String,
+        let firstName = data["firstName"] as? String,
+        let lastName = data["lastName"] as? String,
+        let email = data["email"] as? String,
+        let birthDate = data["birthDate"] as? String,
+        let gender = data["gender"] as? String,
+        let username = data["username"] as? String,
+        let stories = data["stories"] as? [Story] else {
+            print("Invalid user document data")
+            completion(nil)
+            return
+        }
+
+        // Create User object
+        let user = User(
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            birthDate: birthDate,
+            gender: gender,
+            username: username,
+            stories: stories
+        )
+        
+        completion(user)
         }
     }
 }
