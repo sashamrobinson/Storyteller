@@ -41,5 +41,6 @@ final class OpenAIHelper {
                 completion(.failure(error))
             }
         })
+
     }
 }
