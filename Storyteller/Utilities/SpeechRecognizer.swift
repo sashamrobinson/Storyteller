@@ -32,8 +32,10 @@ actor SpeechRecognizer: ObservableObject {
     private var task: SFSpeechRecognitionTask?
     private let recognizer: SFSpeechRecognizer?
     
-    private var silenceTimer: Timer?
-
+    @State private var lastInputTime: Date = Date()
+    @State private var userHasFinishedSpeaking: Bool = false
+    private var speechTimer: Timer?
+    
 
     /**
      Initializes a new speech recognizer. If this is the first time you've used the class, it
@@ -60,9 +62,11 @@ actor SpeechRecognizer: ObservableObject {
         }
     }
     
-    @MainActor func startTranscribing() {
+    @MainActor func startTranscribing(completion: @escaping () -> Void) {
         Task {
-            await transcribe()
+            await transcribe(completion: {
+                completion()
+            })
         }
     }
     
@@ -84,7 +88,7 @@ actor SpeechRecognizer: ObservableObject {
      Creates a `SFSpeechRecognitionTask` that transcribes speech to text until you call `stopTranscribing()`.
      The resulting transcription is continuously written to the published `transcript` property.
      */
-    private func transcribe() {
+    private func transcribe(completion: @escaping () -> Void) {
         guard let recognizer, recognizer.isAvailable else {
             self.transcribe(RecognizerError.recognizerIsUnavailable)
             return
@@ -95,7 +99,9 @@ actor SpeechRecognizer: ObservableObject {
             self.audioEngine = audioEngine
             self.request = request
             self.task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
-                self?.recognitionHandler(audioEngine: audioEngine, result: result, error: error)
+                self?.recognitionHandler(audioEngine: audioEngine, result: result, error: error, completion: {
+                    completion()
+                })
             })
             
         } catch {
@@ -134,17 +140,39 @@ actor SpeechRecognizer: ObservableObject {
         return (audioEngine, request)
     }
     
-    nonisolated private func recognitionHandler(audioEngine: AVAudioEngine, result: SFSpeechRecognitionResult?, error: Error?) {
+    private func recognitionHandler(audioEngine: AVAudioEngine, result: SFSpeechRecognitionResult?, error: Error?, completion: @escaping () -> Void) {
         let receivedFinalResult = result?.isFinal ?? false
         let receivedError = error != nil
         
         if receivedFinalResult || receivedError {
             audioEngine.stop()
             audioEngine.inputNode.removeTap(onBus: 0)
+            
+            // End timer if final result
+            speechTimer?.invalidate()
+            speechTimer = nil
         }
         
         if let result {
-            print("Working!!")
+            // Begin timer to handle if user
+            self.speechTimer?.invalidate()
+            self.speechTimer = nil
+            
+            lastInputTime = Date()
+            speechTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { [self] _ in
+                
+                if Date().timeIntervalSince(lastInputTime) >= 2.5 {
+                    print("User is no longer talking")
+                    
+                    // Call completion for other interface to handle
+                    completion()
+                }
+                
+                self.speechTimer?.invalidate()
+                self.speechTimer = nil
+            }
+            
+            print("Person speaking")
             transcribe(result.bestTranscription.formattedString)
         }
     }

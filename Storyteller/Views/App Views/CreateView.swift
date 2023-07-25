@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import OpenAISwift
 
 struct CreateView: View {
     
@@ -23,6 +24,8 @@ struct CreateView: View {
     @StateObject var speechRecognizer = SpeechRecognizer()
     @State var transcript : String = ""
     @State private var isRecording = false
+    
+    @State private var currentChatMessages: [ChatMessage] = []
     
     var body: some View {
         ZStack {
@@ -75,20 +78,7 @@ struct CreateView: View {
                         .onTapGesture {
                             
                             print("Tap")
-                            speechUtterance.speak(text: "Hi, I'm Storyteller. I'd love to hear what you have to say. Hold down on me to begin speaking.")
-
-                            
-                        }
-                    
-                        // When the user holds the moon
-                        .onLongPressGesture(minimumDuration: 0.1) {
-                            
-                            print("Hold")
-                            
-                            // Begin recording what user says
                             startConversation()
-                            
-                            
                             
                         }
                 }
@@ -96,6 +86,11 @@ struct CreateView: View {
         }
         .background(Color("#171614"))
         .onAppear {
+            
+            // Begin speaking
+            speechUtterance.speak(text: Constants.INTRODUCTION_STRING)
+            
+            // Animations
             withAnimation(.easeInOut(duration: 2.0)) {
                 offsetMoonY = 0
             }
@@ -114,10 +109,13 @@ struct CreateView: View {
     // Method for beginning to take in user voice input
     private func startConversation() {
             
-            // Reset speech recognizer, begin transcribing and begin recording
-            speechRecognizer.resetTranscript()
-            speechRecognizer.startTranscribing()
-            isRecording = true
+        // Reset speech recognizer, begin transcribing and begin recording
+        speechRecognizer.resetTranscript()
+        speechRecognizer.startTranscribing(completion: {
+            endConversation()
+        })
+        
+        isRecording = true
     }
     
     // Method for ending user voice input and calling to OpenAI
@@ -126,30 +124,35 @@ struct CreateView: View {
         // Stop transcribing and stop recording
         speechRecognizer.stopTranscribing()
         transcript = speechRecognizer.transcript
-        isRecording = false
-        sendToOpenAI(input: transcript)
+        
+        if !transcript.isEmpty {
+            currentChatMessages.append(ChatMessage(role: .user, content: transcript))
+            
+            isRecording = false
+            sendToOpenAI(chat: currentChatMessages)
+        }
     }
     
     // Method for sending user voice input to OpenAI
-    private func sendToOpenAI(input: String) {
-        if !input.isEmpty {
-            APICaller.shared.getResponse(input: input) { result in
-                switch result {
-                case .success(let output):
-                    
-                    do {
-                        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.duckOthers, .allowBluetooth])
-                        try AVAudioSession.sharedInstance().setActive(true)
-                    }
-                    catch {
-                        
-                    }
-                    
-                    speechUtterance.speak(text: output)
-                    
-                case .failure:
-                    print("Failed")
+    private func sendToOpenAI(chat: [ChatMessage]) {
+        OpenAIHelper.shared.getResponse(chat: chat) { result in
+            switch result {
+            case .success(let output):
+                
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.duckOthers, .allowBluetooth])
+                    try AVAudioSession.sharedInstance().setActive(true)
                 }
+                catch {
+                    
+                }
+                
+                // Add message to ChatMessage array
+                currentChatMessages.append(ChatMessage(role: .assistant, content: output))
+                speechUtterance.speak(text: output)
+                
+            case .failure:
+                print("Failed")
             }
         }
     }

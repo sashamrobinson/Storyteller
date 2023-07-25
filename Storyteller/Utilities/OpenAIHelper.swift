@@ -11,21 +11,32 @@ import OpenAISwift
 final class OpenAIHelper {
     
     static let shared = OpenAIHelper()
+    private var client: OpenAISwift?
     
     private init() {}
     
-    private var client: OpenAISwift?
-    
     public func setup() {
-        self.client = OpenAISwift(authToken: SensitiveInformation.apiKEY)
+        self.client = OpenAISwift(authToken: SensitiveInformation.API_KEY)
     }
     
-    public func getResponse(input: String, completion: @escaping (Result<String, Error>) -> Void) {
-        client?.sendCompletion(with: input, maxTokens: 50, completionHandler: { result in
+    public func getResponse(chat: [ChatMessage], completion: @escaping (Result<String, Error>) -> Void) {
+        
+        var chatCopy = chat
+        
+        if chatCopy.count > Constants.MAX_CHAT_MESSAGES {
+            print("Chat too long")
+            chatCopy.removeFirst(chatCopy.count - Constants.MAX_CHAT_MESSAGES)
+        }
+        
+        // Add system context before sending chat
+        chatCopy.insert(ChatMessage(role: .system, content: Constants.INTRODUCTION_PROMPT), at: 0)
+        
+        client?.sendChat(with: chatCopy, model: .chat(.chatgpt), maxTokens: Constants.MAX_TOKENS, completionHandler: { result in
             switch result {
             case .success(let model):
-                let output = model.choices?.first?.text ?? ""
+                let output = model.choices?.first?.message.content ?? ""
                 completion(.success(output))
+                
             case .failure(let error):
                 completion(.failure(error))
             }

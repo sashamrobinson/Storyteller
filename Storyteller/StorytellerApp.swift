@@ -17,7 +17,7 @@ struct StorytellerApp: App {
         FirebaseApp.configure()
         
         // Get API Key to OpenAI
-        APICaller.shared.setup()
+        OpenAIHelper.shared.setup()
     }
     
     var body: some Scene {
