@@ -32,6 +32,8 @@
 		D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */; };
 		D94564D62A638FFF006C83E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D52A638FFF006C83E2 /* Constants.swift */; };
 		D94564D82A6A1EB3006C83E2 /* OpenAIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */; };
+		D94564DE2A70762E006C83E2 /* PopUpMoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564DD2A70762E006C83E2 /* PopUpMoonView.swift */; };
+		D94564E22A75D46D006C83E2 /* StorytellerListenerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564E12A75D46D006C83E2 /* StorytellerListenerHelper.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -74,6 +76,8 @@
 		D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageHelper.swift; sourceTree = "<group>"; };
 		D94564D52A638FFF006C83E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIHelper.swift; sourceTree = "<group>"; };
+		D94564DD2A70762E006C83E2 /* PopUpMoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpMoonView.swift; sourceTree = "<group>"; };
+		D94564E12A75D46D006C83E2 /* StorytellerListenerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorytellerListenerHelper.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				D94564D52A638FFF006C83E2 /* Constants.swift */,
 				D9E0AA682A561F9400841B0F /* SensitiveInformation.swift */,
 				D94564D72A6A1EB3006C83E2 /* OpenAIHelper.swift */,
+				D94564E12A75D46D006C83E2 /* StorytellerListenerHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 				D94564B32A57D96E006C83E2 /* UsernameView.swift */,
 				D94564CD2A62606E006C83E2 /* SpeakingPulseAnimation.swift */,
 				D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */,
+				D94564DD2A70762E006C83E2 /* PopUpMoonView.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -324,6 +330,7 @@
 				D94564C02A5A13AE006C83E2 /* Story.swift in Sources */,
 				D94564CA2A622C25006C83E2 /* TabBarControllerView.swift in Sources */,
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,
+				D94564DE2A70762E006C83E2 /* PopUpMoonView.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
 				D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */,
 				D94564CE2A62606E006C83E2 /* SpeakingPulseAnimation.swift in Sources */,
@@ -331,6 +338,7 @@
 				D94564AE2A579B2C006C83E2 /* FirstLastNameView.swift in Sources */,
 				D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */,
 				D94564D22A634F24006C83E2 /* SpeechUtterance.swift in Sources */,
+				D94564E22A75D46D006C83E2 /* StorytellerListenerHelper.swift in Sources */,
 				D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */,
 				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
 			);

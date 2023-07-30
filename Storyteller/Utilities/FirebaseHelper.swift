@@ -95,7 +95,7 @@ class FirebaseHelper: ObservableObject {
     // Method for fetching user object information by id
     static func fetchUserById(id: String, completion: @escaping (User?) -> Void) {
         
-        let userRef = db.collection("users").document(id)
+        let userRef = db.collection("Users").document(id)
         
         userRef.getDocument { document, error in
             if let error = error {

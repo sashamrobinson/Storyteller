@@ -6,26 +6,37 @@
 //
 
 import SwiftUI
+import AVFoundation
+import OpenAISwift
 
 struct StoryView: View {
+    
+    // Animations
+    @State private var displayCreateView = false
+    
+    @Binding var tabViewIsVisible: Bool
+        
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Stories")
-                .font(.system(size: 60, weight: .semibold))
-            
-            Text("Hear about others stories")
-                .font(.system(size: 30, weight: .light))
-                .foregroundColor(Color("#3A3A3A"))
+        ZStack {
+            VStack(alignment: .leading) {
+                Text("Stories")
+                    .font(.system(size: 60, weight: .semibold))
+                
+                Text("Hear about others stories")
+                    .font(.system(size: 30, weight: .light))
+                    .foregroundColor(Color("#3A3A3A"))
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding()
+            .navigationDestination(isPresented: $displayCreateView) {
+                CreateView().navigationBarBackButtonHidden(true)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding()
-
-
     }
 }
 
 struct StoryView_Provider: PreviewProvider {
     static var previews: some View {
-        StoryView()
+        StoryView(tabViewIsVisible: .constant(true))
     }
 }

@@ -8,36 +8,37 @@
 import SwiftUI
 
 struct TabBarControllerView: View {
+        
+    @ObservedObject var speechRecognizer = SpeechRecognizer()
+    @State var tabViewIsVisible = true
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black
     }
     
     var body: some View {
-        // TODO: - Change to custom TabView
-        TabView {
-            StoryView()
-                .tabItem {
-                    Image(systemName: "house")
-                }
+        ZStack {
+            // TODO: - Change to custom TabView
+            TabView {
+                StoryView(tabViewIsVisible: $tabViewIsVisible)
+                    .tabItem {
+                        Image(systemName: "house")
+                    }
+                
+                SearchView()
+                    .tabItem {
+                        Image(systemName: "magnifyingglass")
+                    }
+                
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "person")
+                    }
+            }
+            .tint(Color.white)
             
-            SearchView()
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                }
-            
-            CreateView()
-                .tabItem {
-                    Image(systemName: "pencil")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "person")
-                }
+            StorytellerListenerHelper(speechRecognizer: speechRecognizer)
         }
-        .tint(Color.white)
-        
     }
 }
 

@@ -33,7 +33,6 @@ actor SpeechRecognizer: ObservableObject {
     private let recognizer: SFSpeechRecognizer?
     
     @State private var lastInputTime: Date = Date()
-    @State private var userHasFinishedSpeaking: Bool = false
     private var speechTimer: Timer?
     
 
@@ -64,6 +63,7 @@ actor SpeechRecognizer: ObservableObject {
     
     @MainActor func startTranscribing(completion: @escaping () -> Void) {
         Task {
+            
             await transcribe(completion: {
                 completion()
             })

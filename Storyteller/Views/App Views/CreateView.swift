@@ -27,6 +27,9 @@ struct CreateView: View {
     
     @State private var currentChatMessages: [ChatMessage] = []
     
+    @State private var uid: String?
+    @State private var user: User?
+        
     var body: some View {
         ZStack {
             GeometryReader { geometry in
@@ -87,8 +90,26 @@ struct CreateView: View {
         .background(Color("#171614"))
         .onAppear {
             
-            // Begin speaking
-            speechUtterance.speak(text: Constants.INTRODUCTION_STRING)
+            // Fetch user data
+            uid = LocalStorageHelper.retrieveUser()
+            guard uid != nil else {
+                // TODO: -- Add reauth
+                print("User not logged in. Please reauthenticate.")
+                return
+            }
+            
+            FirebaseHelper.fetchUserById(id: uid!) { user in
+                guard user != nil else {
+                    // TODO: -- Add reauth
+                    print("User not logged in. Please reauthenticate.")
+                    return
+                }
+                
+                self.user = user!
+                
+                // Begin speaking
+                speechUtterance.speak(text: "Hi, \(user!.firstName), " + Constants.INTRODUCTION_STRING)
+            }
             
             // Animations
             withAnimation(.easeInOut(duration: 2.0)) {
@@ -123,9 +144,18 @@ struct CreateView: View {
         
         // Stop transcribing and stop recording
         speechRecognizer.stopTranscribing()
-        transcript = speechRecognizer.transcript
+        transcript = speechRecognizer.transcript.lowercased()
         
         if !transcript.isEmpty {
+            
+            // Check all predetermined commands
+            if Constants.BEGIN_SPEAKING_STORYTELLER.contains(transcript) {
+                print("Storyteller activated")
+                return
+            }
+            
+            
+            
             currentChatMessages.append(ChatMessage(role: .user, content: transcript))
             
             isRecording = false
