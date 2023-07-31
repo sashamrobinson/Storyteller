@@ -181,7 +181,6 @@ actor SpeechRecognizer: ObservableObject {
     nonisolated private func transcribe(_ message: String) {
         Task { @MainActor in
             
-            // Detect user updating string
             transcript = message
         }
     }

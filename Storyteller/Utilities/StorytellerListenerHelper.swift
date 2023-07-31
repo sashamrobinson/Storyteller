@@ -9,39 +9,52 @@ import SwiftUI
 
 struct StorytellerListenerHelper: View {
     
+    // Speech Logic Variables
     @ObservedObject var speechUtterance = SpeechUtterance()
     @ObservedObject var speechRecognizer: SpeechRecognizer
-    @State var transcript : String = ""
     @State private var isListening = false
     @State private var listeningForCall = true
     @State private var listeningForStory = false
+    @Binding var listenerOpacity: Double
     
-    @State private var popUpViewAppear = false
+    // Animations Variables
+    @State private var popUpOpacity = 0.0
+    @State private var scale = 0.2
     @State private var displayCreateView = false
-
-    init(speechRecognizer: SpeechRecognizer) {
+    
+    init(speechRecognizer: SpeechRecognizer, listenerOpacity: Binding<Double>) {
         self.speechRecognizer = speechRecognizer
+        self._listenerOpacity = listenerOpacity
         startListening()
     }
     
     var body: some View {
-        
-        if popUpViewAppear {
-            PopUpMoonView(popUpViewAppear: $popUpViewAppear)
-                .onAppear() {
-                    listeningForCall = false
-                    listeningForStory = true
-                    startListening()
-                }
+        ZStack(alignment: .bottom) {
+            Color.black.opacity(0.5)
+                .ignoresSafeArea()
+            
+            Image("Storyteller Background Icon Big", bundle: .main)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+                .scaleEffect(scale)
+                .animation(.easeInOut(duration: 0.25), value: scale)
         }
-        else if !popUpViewAppear {
-            Text("Fake Text")
-                .opacity(0)
-                .onAppear() {
-                    listeningForCall = true
-                    listeningForStory = false
-                }
+        .onAppear() {
+            scale = 1
+            listeningForCall = true
+            listeningForStory = false
+            startListening()
         }
+        .onTapGesture {
+            popUpOpacity = 0.0
+        }
+        .opacity(popUpOpacity)
+        .animation(.easeInOut(duration: 0.25))
+        .navigationDestination(isPresented: $displayCreateView) {
+            CreateView().navigationBarBackButtonHidden(true)
+        }
+
     }
     
     // Method for beginning to take in user voice input
@@ -53,6 +66,7 @@ struct StorytellerListenerHelper: View {
             endListening()
         })
         
+        
         isListening = true
     }
     
@@ -61,9 +75,9 @@ struct StorytellerListenerHelper: View {
         
         // Stop transcribing and stop recording
         speechRecognizer.stopTranscribing()
-        transcript = speechRecognizer.transcript.lowercased()
+        let transcript = speechRecognizer.transcript.lowercased()
         isListening = false
-        
+        print(transcript)
         if !transcript.isEmpty {
             
             // Check all predetermined commands
@@ -71,14 +85,17 @@ struct StorytellerListenerHelper: View {
                 for command in Constants.BEGIN_SPEAKING_STORYTELLER {
                     if transcript.contains(command) {
                         
-                        // Make icon appear
-                        popUpViewAppear = true
-                        return
+                        listeningForCall = false
+                        listeningForStory = true
+                        listenerOpacity = 1.0
+
+                        popUpOpacity = 1.0
+                        
+                        print("detected")
                     
                     }
                 }
                 
-                // No call detected
                 startListening()
             }
             
@@ -86,8 +103,11 @@ struct StorytellerListenerHelper: View {
                 for command in Constants.BEGIN_STORY_STRINGS {
                     if transcript.contains(command) {
                         
-                        listeningForCall = true
+                        listeningForCall = false
                         listeningForStory = false
+                        listenerOpacity = 1.0
+
+                        print("detected story")
                         
                         // Transition to create view
                         displayCreateView = true
@@ -104,10 +124,15 @@ struct StorytellerListenerHelper: View {
             startListening()
         }
     }
+    
+    // Method for resetting the listener variables
+    private func resetView() {
+        
+    }
 }
 
 struct StorytellerListenerHelper_Previews: PreviewProvider {
     static var previews: some View {
-        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer())
+        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer(), listenerOpacity: .constant(0.0))
     }
 }

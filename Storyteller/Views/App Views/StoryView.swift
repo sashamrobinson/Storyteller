@@ -10,14 +10,15 @@ import AVFoundation
 import OpenAISwift
 
 struct StoryView: View {
-    
-    // Animations
-    @State private var displayCreateView = false
-    
-    @Binding var tabViewIsVisible: Bool
+        
+    @ObservedObject var speechRecognizer: SpeechRecognizer
+    @State var listenerOpacity: Double = 0.0
         
     var body: some View {
         ZStack {
+            StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
+                .opacity(listenerOpacity)
+
             VStack(alignment: .leading) {
                 Text("Stories")
                     .font(.system(size: 60, weight: .semibold))
@@ -28,15 +29,15 @@ struct StoryView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
-            .navigationDestination(isPresented: $displayCreateView) {
-                CreateView().navigationBarBackButtonHidden(true)
-            }
+        }
+        .onDisappear() {
+            listenerOpacity = 0.0
         }
     }
 }
 
 struct StoryView_Provider: PreviewProvider {
     static var previews: some View {
-        StoryView(tabViewIsVisible: .constant(true))
+        StoryView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 1.0)
     }
 }

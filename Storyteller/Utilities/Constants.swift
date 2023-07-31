@@ -13,8 +13,8 @@ class Constants {
     static let userKey = "storedUserObject"
     
     // Specific query commands
-    static let BEGIN_SPEAKING_STORYTELLER = ["hey storyteller", "hi storyteller", "hello storyteller", "storyteller"]
-    static let BEGIN_STORY_STRINGS = ["can i tell you a story", "let me tell you a story", "tell you a story", ]
+    static let BEGIN_SPEAKING_STORYTELLER = ["hey storyteller", "hi storyteller", "hello storyteller", "storyteller", "story teller", "story tell her"]
+    static let BEGIN_STORY_STRINGS = ["can i tell you a story", "let me tell you a story", "tell you a story", "can i tell you the story"]
     
     // OpenAI
     static let MAX_TOKENS = 60

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SearchView: View {
+    
+    @ObservedObject var speechRecognizer: SpeechRecognizer
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Search")
@@ -24,6 +27,6 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchView(speechRecognizer: SpeechRecognizer())
     }
 }
