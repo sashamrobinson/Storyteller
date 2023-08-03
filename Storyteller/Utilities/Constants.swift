@@ -30,6 +30,7 @@ class Constants {
     static let END_STORY_CONFIRMATION = "Are you sure you're finished telling your story?"
     static let APOLOGIZE_CONTINUE_STORY = "Oh, I'm sorry. Please continue your story."
     static let PUBLICIZE_CONFIRMATION = "Great. Would you also like to publicize your story so others can see it? You can always change this later on."
+    static let FINISHED_STORY = "Thanks for telling me your story. Whenever you want to talk again I'm always here. Bye"
     
     // Speech
     // TODO: Different timing for conversation delay and calling AI

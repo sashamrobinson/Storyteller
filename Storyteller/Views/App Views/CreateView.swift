@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
-import AVFoundation
 import OpenAISwift
 
 struct CreateView: View {
     
+    // Dismiss variable for closing sheet
+    @Environment(\.dismiss) var dismiss
+
     // Animation
     @State private var talkingCurrently = false
     @State private var animationVisible = false
@@ -114,6 +116,10 @@ struct CreateView: View {
             }
             
         }
+        .onDisappear() {
+            speechRecognizer.resetTranscript()
+            speechRecognizer.stopTranscribing()
+        }
         .sheet(isPresented: $isInfoViewVisible) {
             SpeakingInfoView()
         }
@@ -176,12 +182,23 @@ struct CreateView: View {
                                     if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
                                         
                                         // Finished telling story, publicize
+                                        speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
+                                            
+                                            // Add conversation to database
+                                            
+                                            dismiss()
+                                        }
                                     }
                                     
                                     else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
                                         
                                         // Finished telling story, do not publicize
-                                        
+                                        speechUtterance.speak(text: Constants.FINISHED_STORY + ", \(user!.firstName).") {
+                                            
+                                            // Add conversation to database
+                                            
+                                            dismiss()
+                                        }
                                     }
                                 }
                             }
@@ -205,14 +222,6 @@ struct CreateView: View {
         OpenAIHelper.shared.getResponse(chat: chat) { result in
             switch result {
             case .success(let output):
-                
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.duckOthers, .allowBluetooth])
-                    try AVAudioSession.sharedInstance().setActive(true)
-                }
-                catch {
-                    
-                }
                 
                 // Add message to ChatMessage array
                 currentChatMessages.append(ChatMessage(role: .assistant, content: output))

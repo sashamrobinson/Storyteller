@@ -13,14 +13,16 @@ class SpeechUtterance: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
     
     let speaker = AVSpeechSynthesizer()
     let voice = AVSpeechSynthesisVoice.speechVoices().first { $0.identifier == "com.apple.voice.compact.en-US.Samantha"}
-    @Published var isSpeaking = false
+    @Published var isSpeaking: Bool = false
+    
+    init(isSpeaking: Bool = false) {
+        self.isSpeaking = isSpeaking
+    }
     
     var storedCompletions: [AVSpeechUtterance: () -> Void] = [:]
-
         
     // Method for uttering speech
     func speak(text: String, completion: @escaping () -> Void) {
-        
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = voice
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate
