@@ -30,9 +30,6 @@ struct StoryView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
         }
-        .onDisappear() {
-            listenerOpacity = 0.0
-        }
     }
 }
 

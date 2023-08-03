@@ -159,9 +159,9 @@ actor SpeechRecognizer: ObservableObject {
             self.speechTimer = nil
             
             lastInputTime = Date()
-            speechTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { [self] _ in
+            speechTimer = Timer.scheduledTimer(withTimeInterval: Constants.SPEECH_DELAY_TIME_IN_SECONDS, repeats: false) { [self] _ in
                 
-                if Date().timeIntervalSince(lastInputTime) >= 2.5 {
+                if Date().timeIntervalSince(lastInputTime) >= Constants.SPEECH_DELAY_TIME_IN_SECONDS {
                     print("User is no longer talking")
                     
                     // Call completion for other interface to handle

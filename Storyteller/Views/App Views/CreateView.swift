@@ -22,11 +22,9 @@ struct CreateView: View {
     // TTS / STT
     @ObservedObject var speechUtterance = SpeechUtterance()
     @StateObject var speechRecognizer = SpeechRecognizer()
-    @State var transcript : String = ""
-    @State private var isRecording = false
+    @State var transcript: String = ""
     
     @State private var currentChatMessages: [ChatMessage] = []
-    
     @State private var uid: String?
     @State private var user: User?
         
@@ -67,7 +65,6 @@ struct CreateView: View {
                                     animationVisible.toggle()
                                 }
                             }
-                        
                     }
                     
                     Image("Storyteller Background Icon Big", bundle: .main)
@@ -76,19 +73,15 @@ struct CreateView: View {
                         .offset(x: 0, y: offsetMoonY)
                         .transition(.move(edge: .top))
                         .frame(width: 300, height: 300)
-                    
-                        // When the user taps the moon
-                        .onTapGesture {
-                            
-                            print("Tap")
-                            startConversation()
-                            
-                        }
                 }
             }
         }
         .background(Color("#171614"))
         .onAppear {
+            
+            // Reset data
+            currentChatMessages = []
+            transcript = ""
             
             // Fetch user data
             uid = LocalStorageHelper.retrieveUser()
@@ -97,18 +90,18 @@ struct CreateView: View {
                 print("User not logged in. Please reauthenticate.")
                 return
             }
-            
             FirebaseHelper.fetchUserById(id: uid!) { user in
                 guard user != nil else {
                     // TODO: -- Add reauth
                     print("User not logged in. Please reauthenticate.")
                     return
                 }
-                
                 self.user = user!
                 
                 // Begin speaking
-                speechUtterance.speak(text: "Hi, \(user!.firstName), " + Constants.INTRODUCTION_STRING)
+                speechUtterance.speak(text: "Hi \(user!.firstName), " + Constants.INTRODUCTION_STRING, completion: {
+                    startConversation()
+                })
             }
             
             // Animations
@@ -121,7 +114,6 @@ struct CreateView: View {
             }
             
         }
-        
         .sheet(isPresented: $isInfoViewVisible) {
             SpeakingInfoView()
         }
@@ -135,8 +127,6 @@ struct CreateView: View {
         speechRecognizer.startTranscribing(completion: {
             endConversation()
         })
-        
-        isRecording = true
     }
     
     // Method for ending user voice input and calling to OpenAI
@@ -145,21 +135,68 @@ struct CreateView: View {
         // Stop transcribing and stop recording
         speechRecognizer.stopTranscribing()
         transcript = speechRecognizer.transcript.lowercased()
-        
+        print(transcript)
         if !transcript.isEmpty {
             
-            // Check all predetermined commands
-            if Constants.BEGIN_SPEAKING_STORYTELLER.contains(transcript) {
-                print("Storyteller activated")
+            // End story command
+            if parseTextForCommand(transcript, Constants.END_STORY_STRINGS) {
+                endStory()
                 return
             }
-            
-            
-            
             currentChatMessages.append(ChatMessage(role: .user, content: transcript))
-            
-            isRecording = false
             sendToOpenAI(chat: currentChatMessages)
+        }
+        else {
+            startConversation()
+        }
+    }
+    
+    // Method for parsing when the user would like to end a story
+    // TODO: Potentially rework some logic so its a bit cleaner and rework containing common words like 'yes' / 'no'
+    private func endStory() {
+        speechUtterance.speak(text: Constants.END_STORY_CONFIRMATION) {
+            
+            // Custom startConversation for handling end of story
+            speechRecognizer.resetTranscript()
+            speechRecognizer.startTranscribing {
+                speechRecognizer.stopTranscribing()
+                transcript = speechRecognizer.transcript.lowercased()
+                if !transcript.isEmpty {
+                    
+                    // YES / NO
+                    if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
+                        speechUtterance.speak(text: Constants.PUBLICIZE_CONFIRMATION) {
+                            speechRecognizer.resetTranscript()
+                            speechRecognizer.startTranscribing {
+                                speechRecognizer.stopTranscribing()
+                                transcript = speechRecognizer.transcript.lowercased()
+                                if !transcript.isEmpty {
+                                    
+                                    // YES / NO
+                                    if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
+                                        
+                                        // Finished telling story, publicize
+                                    }
+                                    
+                                    else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
+                                        
+                                        // Finished telling story, do not publicize
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
+                        
+                        // User is not finished telling story, loop back
+                        speechUtterance.speak(text: Constants.APOLOGIZE_CONTINUE_STORY) {
+                            startConversation()
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -179,14 +216,15 @@ struct CreateView: View {
                 
                 // Add message to ChatMessage array
                 currentChatMessages.append(ChatMessage(role: .assistant, content: output))
-                speechUtterance.speak(text: output)
+                speechUtterance.speak(text: output, completion: {
+                    startConversation()
+                })
                 
             case .failure:
                 print("Failed")
             }
         }
     }
-
 }
 
 struct CreateView_Previews: PreviewProvider {

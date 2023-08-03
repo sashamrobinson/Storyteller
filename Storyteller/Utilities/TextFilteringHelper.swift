@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Function for filtering a users email to fit a specific regex
 func filterEmail(email: String) -> String {
     let regex = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
         "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
@@ -23,6 +24,17 @@ func filterEmail(email: String) -> String {
     }
     
     return "Invalid email"
+}
+
+// Function for parsing text to see if it fits into a variety of strings
+func parseTextForCommand(_ transcript: String, _ commands: [String]) -> Bool {
+    for command in commands {
+        if transcript.contains(command) {
+            return true
+        }
+    }
+    
+    return false
 }
 
 extension String {
