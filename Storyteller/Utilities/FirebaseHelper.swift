@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import Foundation
+import OpenAISwift
 
 class FirebaseHelper: ObservableObject {
     
@@ -134,6 +135,51 @@ class FirebaseHelper: ObservableObject {
         )
         
         completion(user)
+        }
+    }
+    
+    // Method for storing a story in database
+    static func saveStoryToDocumentAndUser(chatMessages: [ChatMessage]) {
+        let id = LocalStorageHelper.retrieveUser()
+        guard id != nil else {
+            print("An error occured, cannot retrieve current local storage id.")
+            return
+        }
+        
+        fetchUserById(id: id!) { user in
+            guard id != nil else {
+                print("An error occured, cannot retrieve Firebase user.")
+                return
+            }
+            
+            let storyRef = db.collection("Stories").document()
+            let date = Date()
+            let data: [String: Any] = [
+                "author": user!.firstName,
+                "dateCreated": formatDate(date),
+                "conversation": chatMessages,
+            ]
+            
+            // Saving story to story document
+            storyRef.setData(data) { error in
+                if error != nil {
+                    print("Error updating document")
+                } else {
+                    print("Document successfully updated")
+                }
+            }
+            
+            // Saving story to users story ids
+            let userRef = db.collection("Users").document(id!)
+            userRef.updateData([
+                "stories": FieldValue.arrayUnion([id!])
+            ]) { error in
+                if error != nil {
+                    print("Error updating document")
+                } else {
+                    print("Document successfully updated")
+                }
+            }
         }
     }
 }

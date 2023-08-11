@@ -20,6 +20,7 @@ struct CreateView: View {
     @State private var bgOpacity: CGFloat = 0
     
     @State private var isInfoViewVisible = false
+    @State private var errorType: ErrorHelper.AppErrorType?
     
     // TTS / STT
     @ObservedObject var speechUtterance = SpeechUtterance()
@@ -92,10 +93,10 @@ struct CreateView: View {
                 print("User not logged in. Please reauthenticate.")
                 return
             }
+            errorType = .reauth
             FirebaseHelper.fetchUserById(id: uid!) { user in
                 guard user != nil else {
-                    // TODO: -- Add reauth
-                    print("User not logged in. Please reauthenticate.")
+                    errorType = .reauth
                     return
                 }
                 self.user = user!
@@ -122,6 +123,9 @@ struct CreateView: View {
         }
         .sheet(isPresented: $isInfoViewVisible) {
             SpeakingInfoView()
+        }
+        .alert(item: $errorType) { errorType in
+            ErrorHelper.alert(for: errorType)
         }
     }
     
@@ -158,7 +162,7 @@ struct CreateView: View {
     }
     
     // Method for parsing when the user would like to end a story
-    // TODO: Potentially rework some logic so its a bit cleaner and rework containing common words like 'yes' / 'no'
+    // TODO: Potentially rework some logic so its a bit cleaner
     private func endStory() {
         speechUtterance.speak(text: Constants.END_STORY_CONFIRMATION) {
             
@@ -171,42 +175,17 @@ struct CreateView: View {
                     
                     // YES / NO
                     if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
-                        speechUtterance.speak(text: Constants.PUBLICIZE_CONFIRMATION) {
-                            speechRecognizer.resetTranscript()
-                            speechRecognizer.startTranscribing {
-                                speechRecognizer.stopTranscribing()
-                                transcript = speechRecognizer.transcript.lowercased()
-                                if !transcript.isEmpty {
-                                    
-                                    // YES / NO
-                                    if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
-                                        
-                                        // Finished telling story, publicize
-                                        speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
-                                            
-                                            // Add conversation to database
-                                            
-                                            dismiss()
-                                        }
-                                    }
-                                    
-                                    else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
-                                        
-                                        // Finished telling story, do not publicize
-                                        speechUtterance.speak(text: Constants.FINISHED_STORY + ", \(user!.firstName).") {
-                                            
-                                            // Add conversation to database
-                                            
-                                            dismiss()
-                                        }
-                                    }
-                                }
-                            }
+                        // Finished telling story
+                        speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
+                            
+                            // Add conversation to database
+                            FirebaseHelper.saveStoryToDocumentAndUser(chatMessages: currentChatMessages)
+                            
+                            dismiss()
                         }
                     }
                     
                     else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
-                        
                         // User is not finished telling story, loop back
                         speechUtterance.speak(text: Constants.APOLOGIZE_CONTINUE_STORY) {
                             startConversation()

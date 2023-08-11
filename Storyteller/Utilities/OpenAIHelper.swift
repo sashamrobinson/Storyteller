@@ -20,9 +20,7 @@ final class OpenAIHelper {
     }
     
     public func getResponse(chat: [ChatMessage], completion: @escaping (Result<String, Error>) -> Void) {
-        
         var chatCopy = chat
-        
         if chatCopy.count > Constants.MAX_CHAT_MESSAGES {
             print("Chat too long")
             chatCopy.removeFirst(chatCopy.count - Constants.MAX_CHAT_MESSAGES)

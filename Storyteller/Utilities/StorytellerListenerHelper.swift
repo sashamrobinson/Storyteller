@@ -118,7 +118,6 @@ struct StorytellerListenerHelper: View {
         
         // If we need to take in another input from the user, recursively start listening
         if shouldListenForCommands {
-            print("shouldListenForCommands: " + String(shouldListenForCommands))
             startListening()
         }
         isProcessingAudio = false

@@ -22,7 +22,7 @@ struct TabBarControllerView: View {
             TabView(selection: $selectedTab) {
                 StoryView(speechRecognizer: speechRecognizer)
                     .tabItem {
-                        Image(systemName: "house")
+                        Image(systemName: "house.fill")
                     }
                     .tag(1)
                 
@@ -32,11 +32,17 @@ struct TabBarControllerView: View {
                     }
                     .tag(2)
                 
-                SettingsView()
+                BiographyView(speechRecognizer: speechRecognizer)
                     .tabItem {
-                        Image(systemName: "person")
+                        Image(systemName: "books.vertical.fill")
                     }
                     .tag(3)
+                
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                    }
+                    .tag(4)
             }
             .tint(Color.white)
             .onChange(of: selectedTab) { newValue in

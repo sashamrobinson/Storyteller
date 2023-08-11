@@ -9,6 +9,9 @@ import Foundation
 
 class Constants {
     
+    // Design
+    static let HEADER_FONT_SIZE = 30.0
+    
     // User Key
     static let userKey = "storedUserObject"
     

@@ -1,31 +1,28 @@
 //
-//  StoryView.swift
+//  BiographyView.swift
 //  Storyteller
 //
-//  Created by Sasha Robinson on 2023-07-07.
+//  Created by Sasha Robinson on 2023-08-10.
 //
 
 import SwiftUI
-import AVFoundation
-import OpenAISwift
 
-struct StoryView: View {
-        
+struct BiographyView: View {
+    
     @ObservedObject var speechRecognizer: SpeechRecognizer
     @State var listenerOpacity: Double = 0.0
-        
+
     var body: some View {
         ZStack {
             StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
                 .opacity(listenerOpacity)
+            
+            Color("#171717").ignoresSafeArea()
 
             VStack(alignment: .leading) {
-                Text("Stories")
-                    .font(.system(size: 40, weight: .semibold))
-                
-                Text("Hear about others stories")
-                    .font(.system(size: 20, weight: .light))
-                    .foregroundColor(Color("#3A3A3A"))
+                Text("My Stories")
+                    .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
+                    .foregroundColor(.white)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
@@ -33,8 +30,8 @@ struct StoryView: View {
     }
 }
 
-struct StoryView_Provider: PreviewProvider {
+struct BiographyView_Previews: PreviewProvider {
     static var previews: some View {
-        StoryView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 0.0)
+        BiographyView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 0.0)
     }
 }

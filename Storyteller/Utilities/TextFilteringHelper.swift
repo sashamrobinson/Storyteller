@@ -37,6 +37,13 @@ func parseTextForCommand(_ transcript: String, _ commands: [String]) -> Bool {
     return false
 }
 
+// Function for formatting date to MMM d, yyyy
+func formatDate(_ date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM d, yyyy"
+    return dateFormatter.string(from: date)
+}
+
 extension String {
     func containsWhitespaceAndNewlines() -> Bool {
         return rangeOfCharacter(from: .whitespacesAndNewlines) != nil

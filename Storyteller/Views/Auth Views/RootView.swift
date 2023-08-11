@@ -14,7 +14,7 @@ struct RootView: View {
     
     var body: some View {
         NavigationStack {
-            if let userId = LocalStorageHelper.retrieveUser() {
+            if LocalStorageHelper.retrieveUser() != nil {
                 
                 // Populate currentUser
                 
