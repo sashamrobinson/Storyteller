@@ -36,6 +36,7 @@ final class OpenAIHelper {
                 completion(.success(output))
                 
             case .failure(let error):
+                print("OpenAI Failure Case")
                 completion(.failure(error))
             }
         })

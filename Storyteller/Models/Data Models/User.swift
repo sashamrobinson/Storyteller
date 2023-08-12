@@ -16,9 +16,9 @@ class User: Identifiable, ObservableObject {
     var birthDate: String = ""
     var gender: String = ""
     var username: String = ""
-    var stories: [Story] = []
+    var stories: [String] = []
     
-    init(id: String, firstName: String, lastName: String, email: String, birthDate: String, gender: String, username: String, stories: [Story]) {
+    init(id: String, firstName: String, lastName: String, email: String, birthDate: String, gender: String, username: String, stories: [String]) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName

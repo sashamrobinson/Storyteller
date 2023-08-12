@@ -93,7 +93,6 @@ struct CreateView: View {
                 print("User not logged in. Please reauthenticate.")
                 return
             }
-            errorType = .reauth
             FirebaseHelper.fetchUserById(id: uid!) { user in
                 guard user != nil else {
                     errorType = .reauth

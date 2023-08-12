@@ -11,6 +11,8 @@ class Constants {
     
     // Design
     static let HEADER_FONT_SIZE = 30.0
+    static let REGULAR_FONT_SIZE = 20.0
+    static let SUBTEXT_FONT_SIZE = 15.0
     
     // User Key
     static let userKey = "storedUserObject"

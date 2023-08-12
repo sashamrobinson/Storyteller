@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import OpenAISwift
 
 struct Story: Identifiable {
-    
     let id = UUID()
-    let createdBy: String
+    let author: String
+    let authorUid: String
     let dateCreated: String
-    let publicized: Bool
-    let story: [Message]
-    
+    let title: String
+    let published: Bool
+    let conversation: [ChatMessage]
 }
