@@ -12,11 +12,11 @@ struct StorytellerListenerHelper: View {
     // Speech Logic Variables
     @ObservedObject var speechUtterance = SpeechUtterance()
     @ObservedObject var speechRecognizer: SpeechRecognizer
-    @State private var isListening = false
-    @State private var listeningForCall = true
     @Binding var listenerOpacity: Double
+    @State private var listeningForCall = true
     @State private var isProcessingAudio = false
     @State private var shouldListenForCommands = true
+    @State var canListen: Bool = true
     
     // Animations Variables
     @State private var scale = 0.2
@@ -31,7 +31,7 @@ struct StorytellerListenerHelper: View {
         ZStack(alignment: .bottom) {
             Color.black.opacity(0.7)
                 .ignoresSafeArea()
-            
+             
             Image("Storyteller Background Icon Big", bundle: .main)
                 .resizable()
                 .scaledToFit()
@@ -56,7 +56,6 @@ struct StorytellerListenerHelper: View {
             listeningForCall = true
             isProcessingAudio = false
             shouldListenForCommands = true
-            
         }
         .opacity(listenerOpacity)
         .animation(.easeInOut(duration: 0.25))
@@ -67,28 +66,28 @@ struct StorytellerListenerHelper: View {
     
     // Method for beginning to take in user voice input
     private func startListening() {
-        
         // Reset speech recognizer, begin transcribing and begin recording
         speechRecognizer.resetTranscript()
         speechRecognizer.startTranscribing(completion: {
             endListening()
         })
-        isListening = true
     }
     
     // Method for ending user voice input and calling to OpenAI
     private func endListening() {
-        
         // Check for overlapping recursion
         if isProcessingAudio {
             return
         }
-        isProcessingAudio = true
         
-        // Stop transcribing and stop recording
+        if !canListen {
+            startListening()
+            return
+        }
+        
+        isProcessingAudio = true
         speechRecognizer.stopTranscribing()
         let transcript = speechRecognizer.transcript.lowercased()
-        isListening = false
         
         print(transcript)
         

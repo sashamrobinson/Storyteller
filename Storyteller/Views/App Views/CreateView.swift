@@ -10,7 +10,7 @@ import OpenAISwift
 
 struct CreateView: View {
     
-    // Dismiss variable for closing sheet
+    /// Dismiss variable for closing sheet
     @Environment(\.dismiss) var dismiss
 
     // Animation

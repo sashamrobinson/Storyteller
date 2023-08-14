@@ -14,18 +14,19 @@ struct StoryTableViewCell: View {
 //            Image("Storyteller Background Icon Big", bundle: .main)
 //                .resizable()
 //                .frame(width: 80, height: 80)
-            Color.blue.frame(width: 80, height: 80)
+            Color.blue.frame(width: 60, height: 60)
             VStack(alignment: .leading) {
                 Text(story.dateCreated)
-//                    .foregroundColor(Color.white.opacity(0.5))
+                    .foregroundColor(Color.white.opacity(0.5))
                     .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
                 Text(story.title)
-//                    .foregroundColor(Color.white)
+                    .foregroundColor(Color.white)
                     .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
             }
             Spacer()
         }
-        .padding(.leading, 15)
+        .background(Color.clear)
+        .padding(.bottom, 15)
     }
 }
 

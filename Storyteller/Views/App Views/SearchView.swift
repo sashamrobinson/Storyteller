@@ -12,16 +12,18 @@ struct SearchView: View {
     @ObservedObject var speechRecognizer: SpeechRecognizer
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Search")
-                .font(.system(size: 60, weight: .semibold))
-            
-            Text("Find other people")
-                .font(.system(size: 30, weight: .light))
-                .foregroundColor(Color("#3A3A3A"))
+        ZStack {
+            Color("#171717").ignoresSafeArea()
+            VStack(alignment: .leading) {
+                Text("Search")
+                    .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
+                    .foregroundColor(.white)
+                
+                
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding()
     }
 }
 

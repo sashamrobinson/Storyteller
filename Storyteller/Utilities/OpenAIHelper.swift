@@ -19,6 +19,18 @@ final class OpenAIHelper {
         self.client = OpenAISwift(authToken: SensitiveInformation.API_KEY)
     }
     
+    /// Method for generating a summarization of a conversation provided as an array of ChatMessage objects.
+    /// - Parameters:
+    ///   - chat: array of ChatMessage objects representing the conversation
+    ///   - completion: completion handler for external use of GPT Model response
+    public func generateSummarization(chat: [ChatMessage], completion: @escaping (Result<String, Error>) -> Void) {
+        
+    }
+    
+    /// Method for getting a response from GPT Model to continue conversation when provided an array of ChatMessage objects representing a conversation between the user and Storyteller
+    /// - Parameters:
+    ///   - chat: array of ChatMessage objects representing the conversation
+    ///   - completion: completion handler for external use of GPT Model response
     public func getResponse(chat: [ChatMessage], completion: @escaping (Result<String, Error>) -> Void) {
         var chatCopy = chat
         if chatCopy.count > Constants.MAX_CHAT_MESSAGES {

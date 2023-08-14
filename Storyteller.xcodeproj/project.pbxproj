@@ -36,6 +36,7 @@
 		D94564E62A802380006C83E2 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564E52A802380006C83E2 /* ErrorViewModel.swift */; };
 		D94564E82A85A881006C83E2 /* BiographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564E72A85A881006C83E2 /* BiographyView.swift */; };
 		D94564ED2A86E1E3006C83E2 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */; };
+		D94564EF2A871E58006C83E2 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564EE2A871E58006C83E2 /* StoryDetailView.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -82,6 +83,7 @@
 		D94564E52A802380006C83E2 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		D94564E72A85A881006C83E2 /* BiographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiographyView.swift; sourceTree = "<group>"; };
 		D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
+		D94564EE2A871E58006C83E2 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				D94564C92A622C25006C83E2 /* TabBarControllerView.swift */,
 				D94564CB2A622D10006C83E2 /* SearchView.swift */,
 				D94564E72A85A881006C83E2 /* BiographyView.swift */,
+				D94564EE2A871E58006C83E2 /* StoryDetailView.swift */,
 			);
 			path = "App Views";
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
 				D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */,
+				D94564EF2A871E58006C83E2 /* StoryDetailView.swift in Sources */,
 				D94564CE2A62606E006C83E2 /* SpeakingPulseAnimation.swift in Sources */,
 				D94564AE2A579B2C006C83E2 /* FirstLastNameView.swift in Sources */,
 				D9E0AA732A5658D300841B0F /* LoginView.swift in Sources */,

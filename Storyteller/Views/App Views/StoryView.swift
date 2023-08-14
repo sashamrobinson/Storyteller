@@ -13,9 +13,10 @@ struct StoryView: View {
         
     @ObservedObject var speechRecognizer: SpeechRecognizer
     @State var listenerOpacity: Double = 0.0
-        
+
     var body: some View {
         ZStack {
+            let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
             StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
                 .opacity(listenerOpacity)
 
@@ -29,6 +30,10 @@ struct StoryView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
+            
+            listener
+                .opacity(listenerOpacity)
+
         }
     }
 }

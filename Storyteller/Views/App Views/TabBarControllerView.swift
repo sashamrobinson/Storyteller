@@ -10,7 +10,12 @@ import SwiftUI
 struct TabBarControllerView: View {
         
     @ObservedObject var speechRecognizer = SpeechRecognizer()
+    
+    
+    /// Holds Story objects to populate BiographyView, sourced from fetch request
+    @State var myStories: [Story] = []
     @State var selectedTab = 1
+    
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black
@@ -32,7 +37,7 @@ struct TabBarControllerView: View {
                     }
                     .tag(2)
                 
-                BiographyView(speechRecognizer: speechRecognizer)
+                BiographyView(speechRecognizer: speechRecognizer, stories: myStories)
                     .tabItem {
                         Image(systemName: "books.vertical.fill")
                     }
@@ -49,6 +54,16 @@ struct TabBarControllerView: View {
                 
             }
             
+        }
+        .onAppear() {
+            // Fetch table data to populate views
+            if let id = LocalStorageHelper.retrieveUser() {
+                FirebaseHelper.fetchStoriesFromUserDocument(id: id) { fetchedStories in
+                    if let fetchedStories = fetchedStories {
+                        self.myStories = fetchedStories
+                    }
+                }
+            }
         }
     }
 }

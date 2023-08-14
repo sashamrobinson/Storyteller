@@ -26,7 +26,7 @@ actor SpeechRecognizer: ObservableObject {
     }
     
     @MainActor var transcript: String = ""
-
+    
     private var audioEngine: AVAudioEngine?
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var task: SFSpeechRecognitionTask?
@@ -156,7 +156,7 @@ actor SpeechRecognizer: ObservableObject {
         }
         
         if let result {
-            // Begin timer to handle if user
+            // Begin timer to track if user stops speaking
             self.speechTimer?.invalidate()
             self.speechTimer = nil
             
