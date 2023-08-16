@@ -233,7 +233,7 @@ class FirebaseHelper: ObservableObject {
                     "content": chatMessage.content
                 ]
             }
-            
+                        
             // Generate summarization
             OpenAIHelper.shared.generateSummarization(chat: chatMessages, name: user!.firstName, completion: { result in
                 switch result {
@@ -247,6 +247,10 @@ class FirebaseHelper: ObservableObject {
                                 switch result {
                                 case .success(let output):
                                     let genres = output
+                                    
+                                    // Convert genres to data Firebase can handle
+                                    let genreData = genres.map { $0.rawValue }
+                                    
                                     let data: [String: Any] = [
                                         "author": user!.firstName,
                                         "authorUid": user!.id,
@@ -255,7 +259,7 @@ class FirebaseHelper: ObservableObject {
                                         "published": false,
                                         "conversation": conversationData,
                                         "summary": summary,
-                                        "genres": genres
+                                        "genres": genreData
                                     ]
                                     print(data)
                                     
@@ -280,15 +284,15 @@ class FirebaseHelper: ObservableObject {
                                         }
                                     }
                                 case .failure:
-                                    print("Failed")
+                                    print("Failed generating genres")
                                 }
                             }
                         case .failure:
-                            print("Failed")
+                            print("Failed generating title")
                         }
                     })
                 case .failure:
-                    print("Failed")
+                    print("Failed generating summary")
                 }
             })
         }

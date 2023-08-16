@@ -40,6 +40,15 @@ struct StoryDetailView: View {
                             Text("By " + story.author)
                                 .foregroundColor(Color.gray)
                                 .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                            
+                            if !story.genres.isEmpty {
+                                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 30), count: 2), alignment: .leading) {
+                                    ForEach(story.genres) { genre in
+                                        StoryGenreViewCell(genre: genre)
+
+                                    }
+                                }
+                            }
                         }
                         .padding()
                         Spacer()
@@ -131,6 +140,6 @@ struct StoryDetailView: View {
 
 struct StoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StoryDetailView(story: Story(author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: []))
+        StoryDetailView(story: Story(author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: [.adventure, .funny, .love]))
     }
 }

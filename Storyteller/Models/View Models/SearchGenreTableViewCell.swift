@@ -14,7 +14,7 @@ struct SearchGenreTableViewCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(genre.rawValue.prefix(1).capitalized + genre.rawValue.dropFirst())
-                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
+                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .medium))
                 .foregroundColor(.white)
                 .padding()
         }

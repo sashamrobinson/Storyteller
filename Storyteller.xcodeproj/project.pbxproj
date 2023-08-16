@@ -37,6 +37,8 @@
 		D94564E82A85A881006C83E2 /* BiographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564E72A85A881006C83E2 /* BiographyView.swift */; };
 		D94564ED2A86E1E3006C83E2 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */; };
 		D94564EF2A871E58006C83E2 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564EE2A871E58006C83E2 /* StoryDetailView.swift */; };
+		D95EE6912A8D6226009A1CEB /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95EE6902A8D6226009A1CEB /* SplashScreenView.swift */; };
+		D95EE6932A8D69C7009A1CEB /* StoryGenreViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -87,6 +89,8 @@
 		D94564E72A85A881006C83E2 /* BiographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiographyView.swift; sourceTree = "<group>"; };
 		D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
 		D94564EE2A871E58006C83E2 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
+		D95EE6902A8D6226009A1CEB /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryGenreViewCell.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGenreTableViewCell.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				D941857C2A527C6F001CAEC1 /* Utilities */,
 				D941857B2A527C59001CAEC1 /* Views */,
 				D94185662A5251E8001CAEC1 /* StorytellerApp.swift */,
+				D95EE6902A8D6226009A1CEB /* SplashScreenView.swift */,
 				D941856A2A5251E9001CAEC1 /* Assets.xcassets */,
 				D94185712A5251E9001CAEC1 /* Storyteller.xcdatamodeld */,
 				D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */,
@@ -214,6 +219,7 @@
 				D94564E52A802380006C83E2 /* ErrorViewModel.swift */,
 				D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */,
 				D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */,
+				D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -333,6 +339,7 @@
 				D94185732A5251E9001CAEC1 /* Storyteller.xcdatamodeld in Sources */,
 				D94564D62A638FFF006C83E2 /* Constants.swift in Sources */,
 				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
+				D95EE6912A8D6226009A1CEB /* SplashScreenView.swift in Sources */,
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
 				D94564BE2A5A1209006C83E2 /* User.swift in Sources */,
 				D99893612A8C094F00042C22 /* Genre.swift in Sources */,
@@ -363,6 +370,7 @@
 				D94564E82A85A881006C83E2 /* BiographyView.swift in Sources */,
 				D94564D22A634F24006C83E2 /* SpeechUtterance.swift in Sources */,
 				D94564E22A75D46D006C83E2 /* StorytellerListenerHelper.swift in Sources */,
+				D95EE6932A8D69C7009A1CEB /* StoryGenreViewCell.swift in Sources */,
 				D94564B82A58E9A0006C83E2 /* ProfanityFilter.swift in Sources */,
 				D9E0AA692A561F9400841B0F /* SensitiveInformation.swift in Sources */,
 			);

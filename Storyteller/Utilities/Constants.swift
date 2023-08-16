@@ -13,6 +13,7 @@ class Constants {
     static let HEADER_FONT_SIZE = 30.0
     static let REGULAR_FONT_SIZE = 20.0
     static let SUBTEXT_FONT_SIZE = 15.0
+    static let DETAIL_FONT_SIZE = 12.0
     
     // User Key
     static let userKey = "storedUserObject"
@@ -20,13 +21,13 @@ class Constants {
     // Specific Queries
     static let BEGIN_SPEAKING_STORYTELLER = ["hey storyteller", "hi storyteller", "hello storyteller", "storyteller", "story teller", "story tell her"]
     static let BEGIN_STORY_STRINGS = ["can i tell you a story", "let me tell you a story", "tell you a story", "can i tell you the story", "can you tell your story", "test"]
-    static let END_STORY_STRINGS = ["end story", "end of story", "the end", "that is the end", "that's the end", "that is the end of my story"]
+    static let END_STORY_STRINGS = ["end story", "end of story", "the end", "that is the end", "that's the end", "that is the end of my story", "and of story", "and story"]
     static let AFFIRMATIVE_STRINGS = ["yes", "yeah", "sure", "absolutely", "definitely", "certainly", "indeed", "OK", "okay", "right", "of course", "affirmative", "positive", "agreed", "true", "correct", "affirm", "confirm", "confirmative", "yep", "yup", "aye", "exactly", "totally", "affirmation"]
     static let NEGATING_STRINGS = ["no", "nope", "not really", "never", "negative", "denied", "reject", "refuse", "decline", "disagree", "false", "incorrect", "untrue", "unconfirmed", "unverified", "nay", "nah"]
     
     // OpenAI
     static let MAX_TOKENS_FOR_CHAT = 60
-    static let MAX_TOKENS_FOR_SUMMARY = 800 // TODO: - Very this depending on length of conversation
+    static let MAX_TOKENS_FOR_SUMMARY = 600 // TODO: - Very this depending on length of conversation
     static let MAX_TOKENS_FOR_TITLE = 20
     static let MAX_TOKENS_FOR_GENRES = 100
     static let MAX_CHAT_MESSAGES = 8
@@ -39,7 +40,7 @@ class Constants {
     static let INTRODUCTION_STRING = "Whenever you're ready, I'd love to hear your story."
     static let END_STORY_CONFIRMATION = "Are you sure you're finished?"
     static let APOLOGIZE_CONTINUE_STORY = "Oh, I'm sorry. Please continue your story."
-    static let PUBLICIZE_CONFIRMATION = "Great. Would you also like to publicize your story so others can see it? You can always change this later on."
+    static let PUBLICIZE_CONFIRMATION = "Great. Would you also like to publicize your story so others can see it?"
     static let FINISHED_STORY = "Thanks for telling me your story. Whenever you want to talk again I'm always here. Bye"
     
     // Speech

@@ -40,7 +40,7 @@ final class OpenAIHelper {
                 completion(.success(output))
                 
             case .failure(let error):
-                print("OpenAI Failure Case")
+                print("OpenAI Failure Case: Response")
                 completion(.failure(error))
             }
         })
@@ -57,7 +57,7 @@ final class OpenAIHelper {
         // Add system context before sending chat
         chatCopy.insert(ChatMessage(role: .system, content: Constants.SUMMARIZATION_PROMPT + " You were speaking with " + name), at: 0)
         
-        client?.sendChat(with: chatCopy, model: .chat(.chatgpt), maxTokens: Constants.MAX_TOKENS_FOR_CHAT, completionHandler: { result in
+        client?.sendChat(with: chatCopy, model: .chat(.chatgpt), maxTokens: Constants.MAX_TOKENS_FOR_SUMMARY, completionHandler: { result in
             switch result {
             case .success(let model):
                 let output = model.choices?.first?.message.content ?? ""
@@ -65,7 +65,7 @@ final class OpenAIHelper {
                 completion(.success(output))
                 
             case .failure(let error):
-                print("OpenAI Failure Case")
+                print("OpenAI Failure Case: Summary")
                 completion(.failure(error))
             }
         })
@@ -88,7 +88,7 @@ final class OpenAIHelper {
                 completion(.success(output))
                 
             case .failure(let error):
-                print("OpenAI Failure Case")
+                print("OpenAI Failure Case: Title")
                 completion(.failure(error))
             }
         })
@@ -115,7 +115,7 @@ final class OpenAIHelper {
                 completion(.success(genres))
                 
             case .failure(let error):
-                print("OpenAI Failure Case")
+                print("OpenAI Failure Case: Genres")
                 completion(.failure(error))
             }
         })
