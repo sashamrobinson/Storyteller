@@ -16,4 +16,6 @@ struct Story: Identifiable {
     let title: String
     let published: Bool
     let conversation: [ChatMessage]
+    let summary: String
+    let genres: [Genre]
 }

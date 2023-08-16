@@ -42,6 +42,9 @@
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
 		D96BB49B2A5782B600765EF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */; };
 		D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */; };
+		D998935D2A8BF40E00042C22 /* SearchGenreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */; };
+		D998935F2A8C092400042C22 /* GenreStoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D998935E2A8C092400042C22 /* GenreStoriesView.swift */; };
+		D99893612A8C094F00042C22 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99893602A8C094F00042C22 /* Genre.swift */; };
 		D9C09BF22A575413008FAEA7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF12A575413008FAEA7 /* RootView.swift */; };
 		D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */; };
 		D9E0AA642A52901E00841B0F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */; };
@@ -86,6 +89,9 @@
 		D94564EE2A871E58006C83E2 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGenreTableViewCell.swift; sourceTree = "<group>"; };
+		D998935E2A8C092400042C22 /* GenreStoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreStoriesView.swift; sourceTree = "<group>"; };
+		D99893602A8C094F00042C22 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D9C09BF12A575413008FAEA7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		D9C09BF32A5756B1008FAEA7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D9E0AA632A52901E00841B0F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
@@ -191,6 +197,7 @@
 			children = (
 				D94564BD2A5A1209006C83E2 /* User.swift */,
 				D94564BF2A5A13AE006C83E2 /* Story.swift */,
+				D99893602A8C094F00042C22 /* Genre.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -206,6 +213,7 @@
 				D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */,
 				D94564E52A802380006C83E2 /* ErrorViewModel.swift */,
 				D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */,
+				D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -232,6 +240,7 @@
 				D94564CB2A622D10006C83E2 /* SearchView.swift */,
 				D94564E72A85A881006C83E2 /* BiographyView.swift */,
 				D94564EE2A871E58006C83E2 /* StoryDetailView.swift */,
+				D998935E2A8C092400042C22 /* GenreStoriesView.swift */,
 			);
 			path = "App Views";
 			sourceTree = "<group>";
@@ -326,6 +335,7 @@
 				D9E0AA712A56569D00841B0F /* HomeView.swift in Sources */,
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
 				D94564BE2A5A1209006C83E2 /* User.swift in Sources */,
+				D99893612A8C094F00042C22 /* Genre.swift in Sources */,
 				D94564E62A802380006C83E2 /* ErrorViewModel.swift in Sources */,
 				D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */,
 				D94564ED2A86E1E3006C83E2 /* StoryTableViewCell.swift in Sources */,
@@ -341,7 +351,9 @@
 				D94564E42A7F4E1A006C83E2 /* ErrorHelper.swift in Sources */,
 				D94564C02A5A13AE006C83E2 /* Story.swift in Sources */,
 				D94564CA2A622C25006C83E2 /* TabBarControllerView.swift in Sources */,
+				D998935D2A8BF40E00042C22 /* SearchGenreTableViewCell.swift in Sources */,
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,
+				D998935F2A8C092400042C22 /* GenreStoriesView.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
 				D94564B62A58E193006C83E2 /* TextFilteringHelper.swift in Sources */,
 				D94564EF2A871E58006C83E2 /* StoryDetailView.swift in Sources */,

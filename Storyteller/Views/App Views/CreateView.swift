@@ -101,7 +101,10 @@ struct CreateView: View {
                 self.user = user!
                 
                 // Begin speaking
+                print(speechUtterance.isSpeaking)
+                speechUtterance.toggleSpeaking()
                 speechUtterance.speak(text: "Hi \(user!.firstName), " + Constants.INTRODUCTION_STRING, completion: {
+                    print(speechUtterance.isSpeaking)
                     startConversation()
                 })
             }
@@ -163,8 +166,9 @@ struct CreateView: View {
     // Method for parsing when the user would like to end a story
     // TODO: Potentially rework some logic so its a bit cleaner
     private func endStory() {
+        speechUtterance.toggleSpeaking()
         speechUtterance.speak(text: Constants.END_STORY_CONFIRMATION) {
-            
+
             // Custom startConversation for handling end of story
             speechRecognizer.resetTranscript()
             speechRecognizer.startTranscribing {
@@ -175,6 +179,7 @@ struct CreateView: View {
                     // YES / NO
                     if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
                         // Finished telling story
+                        speechUtterance.toggleSpeaking()
                         speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
                             
                             // Add conversation to database
@@ -185,6 +190,7 @@ struct CreateView: View {
                     }
                     
                     else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
+                        speechUtterance.toggleSpeaking()
                         // User is not finished telling story, loop back
                         speechUtterance.speak(text: Constants.APOLOGIZE_CONTINUE_STORY) {
                             startConversation()
@@ -195,18 +201,21 @@ struct CreateView: View {
         }
     }
     
-    // Method for sending user voice input to OpenAI
+    
+    /// Method for sending a series of ChatMessage objects containing a conversation the user had to a GPT model for performing a generative response based on the prior conversation
+    /// - Parameter chat: an array of ChatMessage objects representing a conversation
     private func sendToOpenAI(chat: [ChatMessage]) {
         OpenAIHelper.shared.getResponse(chat: chat) { result in
             switch result {
             case .success(let output):
-                
-                // Add message to ChatMessage array
-                currentChatMessages.append(ChatMessage(role: .assistant, content: output))
-                speechUtterance.speak(text: output, completion: {
-                    startConversation()
-                })
-                
+                DispatchQueue.main.async {
+                    // Add message to ChatMessage array
+                    currentChatMessages.append(ChatMessage(role: .assistant, content: output))
+                    speechUtterance.toggleSpeaking()
+                    speechUtterance.speak(text: output, completion: {
+                        startConversation()
+                    })
+                }
             case .failure:
                 print("Failed")
             }

@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 
-// Function for filtering a users email to fit a specific regex
+/// Function for filtering out emails that do not fit a specific regex
+/// - Parameter email: a String representing the users email
+/// - Returns: a String that essentially represents if the given email satisfies the regex
 func filterEmail(email: String) -> String {
     let regex = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
         "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
@@ -26,7 +28,11 @@ func filterEmail(email: String) -> String {
     return "Invalid email"
 }
 
-// Function for parsing text to see if it fits into a variety of strings
+/// Function for parsing text to see if a certain command is in it
+/// - Parameters:
+///   - transcript: a String of information containing what the user said
+///   - commands: an array of String commands to check for in the transcript
+/// - Returns: a Boolean representing if a specific command was found
 func parseTextForCommand(_ transcript: String, _ commands: [String]) -> Bool {
     for command in commands {
         if transcript.contains(command) {
@@ -37,11 +43,34 @@ func parseTextForCommand(_ transcript: String, _ commands: [String]) -> Bool {
     return false
 }
 
-// Function for formatting date to MMM d, yyyy
+/// Function for formatting date to MMM d, yyyy
+/// - Parameter date: a Date object containing a specific time (usually the current)
+/// - Returns: a String of the format MMM d, yyyy that represents the inputted date
 func formatDate(_ date: Date) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "MMM d, yyyy"
     return dateFormatter.string(from: date)
+}
+
+/// Function for generating an array of genres given an input String of comma-seperated genre titles from OpenAI
+/// - Parameter input: a comma-seperated, GPT generated String that says which genres it believes a story to be in
+/// - Returns: an array of Genre enums that were found within the input
+func extractGenres(_ input: String) -> [Genre] {
+    let allGenres = Genre.allCases
+    let inputGenres = input.lowercased().replacingOccurrences(of: " ", with: "").split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+    
+    var selectedGenres: [Genre] = []
+    
+    for inputGenre in inputGenres {
+        if let matchedGenre = allGenres.first(where: {
+            $0.rawValue.lowercased() == inputGenre || inputGenre.contains($0.rawValue.lowercased())
+        }) {
+            selectedGenres.append(matchedGenre)
+        }
+    }
+    
+    return selectedGenres
+
 }
 
 extension String {
@@ -57,5 +86,3 @@ extension View {
     }
 }
 #endif
-
-

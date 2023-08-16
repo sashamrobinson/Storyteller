@@ -17,16 +17,16 @@ struct StoryView: View {
     var body: some View {
         ZStack {
             let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
-            StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
-                .opacity(listenerOpacity)
-
+            Color("#171717").ignoresSafeArea()
             VStack(alignment: .leading) {
                 Text("Stories")
-                    .font(.system(size: 40, weight: .semibold))
+                    .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
+                    .foregroundColor(.white)
                 
-                Text("Hear about others stories")
-                    .font(.system(size: 20, weight: .light))
-                    .foregroundColor(Color("#3A3A3A"))
+                Button("Test") {
+                    let inputString = "Sad, Funny, Slice of Life, dkamwkdma, kamdkamd, Exciting"
+                    print(extractGenres(inputString))
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()

@@ -168,6 +168,8 @@ class FirebaseHelper: ObservableObject {
             let title = data["title"] as? String,
             let authorUid = data["authorUid"] as? String,
             let published = data["published"] as? Bool,
+            let summary = data["summary"] as? String,
+            let genresData = data["genres"] as? [String],
             let conversationData = data["conversation"] as? [[String: Any]] else {
                 print("Invalid user document data")
                 completion(nil)
@@ -183,6 +185,14 @@ class FirebaseHelper: ObservableObject {
                         chatMessages.append(chatMessage)
                 }
             }
+            
+            // Populate genres objects
+            var genres: [Genre] = []
+            for genreString in genresData {
+                if let genreEnum = Genre(rawValue: genreString.lowercased()) {
+                    genres.append(genreEnum)
+                }
+            }
 
             // Create User object
             let story = Story(
@@ -191,7 +201,9 @@ class FirebaseHelper: ObservableObject {
                 dateCreated: dateCreated,
                 title: title,
                 published: published,
-                conversation: chatMessages
+                conversation: chatMessages,
+                summary: summary,
+                genres: genres
             )
             
             completion(story)
@@ -221,35 +233,64 @@ class FirebaseHelper: ObservableObject {
                     "content": chatMessage.content
                 ]
             }
-            let data: [String: Any] = [
-                "author": user!.firstName,
-                "authorUid": user!.id,
-                "dateCreated": formatDate(date),
-                "title": "New Story",
-                "published": false,
-                "conversation": conversationData,
-            ]
             
-            // Saving story to story document
-            storyRef.setData(data) { error in
-                if error != nil {
-                    print("Error updating document")
-                } else {
-                    print("Document successfully updated")
+            // Generate summarization
+            OpenAIHelper.shared.generateSummarization(chat: chatMessages, name: user!.firstName, completion: { result in
+                switch result {
+                case .success(let output):
+                    let summary = output
+                    OpenAIHelper.shared.generateTitle(chat: chatMessages, completion: { result in
+                        switch result {
+                        case .success(let output):
+                            let title = output
+                            OpenAIHelper.shared.generateAndParseGenres(chat: chatMessages) { result in
+                                switch result {
+                                case .success(let output):
+                                    let genres = output
+                                    let data: [String: Any] = [
+                                        "author": user!.firstName,
+                                        "authorUid": user!.id,
+                                        "dateCreated": formatDate(date),
+                                        "title": title,
+                                        "published": false,
+                                        "conversation": conversationData,
+                                        "summary": summary,
+                                        "genres": genres
+                                    ]
+                                    print(data)
+                                    
+                                    // Saving story to story document
+                                    storyRef.setData(data) { error in
+                                        if error != nil {
+                                            print("Error updating document")
+                                        } else {
+                                            print("Document successfully updated")
+                                        }
+                                    }
+                                    
+                                    // Saving story to users story ids
+                                    let userRef = db.collection("Users").document(id!)
+                                    userRef.updateData([
+                                        "stories": FieldValue.arrayUnion([storyRef.documentID])
+                                    ]) { error in
+                                        if error != nil {
+                                            print("Error updating document")
+                                        } else {
+                                            print("Document successfully updated")
+                                        }
+                                    }
+                                case .failure:
+                                    print("Failed")
+                                }
+                            }
+                        case .failure:
+                            print("Failed")
+                        }
+                    })
+                case .failure:
+                    print("Failed")
                 }
-            }
-            
-            // Saving story to users story ids
-            let userRef = db.collection("Users").document(id!)
-            userRef.updateData([
-                "stories": FieldValue.arrayUnion([storyRef.documentID])
-            ]) { error in
-                if error != nil {
-                    print("Error updating document")
-                } else {
-                    print("Document successfully updated")
-                }
-            }
+            })
         }
     }
     
@@ -266,12 +307,10 @@ class FirebaseHelper: ObservableObject {
             let storyIds = user!.stories
             var stories: [Story] = []
             let dispatchGroup = DispatchGroup()
-            
             for storyId in storyIds {
                 dispatchGroup.enter()
                 fetchStory(id: storyId) { story in
                     if let story = story {
-                        print("Adding story to stories array")
                         stories.append(story)
                     } else {
                         print("An error occured. Story object came back nil.")
@@ -283,7 +322,6 @@ class FirebaseHelper: ObservableObject {
             
             dispatchGroup.notify(queue: .main) {
                 // Return stories
-                print(stories)
                 completion(stories)
             }
         }

@@ -13,6 +13,7 @@ struct BiographyView: View {
     @State var listenerOpacity: Double = 0.0
     @State var stories: [Story] = []
     @State var presentingTableViewCell = false
+    @State var selectedStory: Story? = nil
     
     var body: some View {
         ZStack {
@@ -32,24 +33,39 @@ struct BiographyView: View {
                             .font(.system(size: 20))
                     }
                 }
-                List {
-                    ForEach(stories) { story in
-                        StoryTableViewCell(story: story)
-                            .listRowInsets(EdgeInsets())
-                            .onTapGesture {
-                                listener.canListen.toggle()
-                                presentingTableViewCell.toggle()
-                            }
-                            .sheet(isPresented: $presentingTableViewCell) {
-                                StoryDetailView(story: story)
-                            }
+                if stories.isEmpty {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("You have no stories yet")
+                                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
+                        Spacer()
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                } else {
+                    List {
+                        ForEach(stories) { story in
+                            StoryTableViewCell(story: story)
+                                .listRowInsets(EdgeInsets())
+                                .onTapGesture {
+                                    self.selectedStory = story
+                                    listener.canListen.toggle()
+                                    presentingTableViewCell.toggle()
+                                }
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .background(Color.clear)
+            }
+            .sheet(item: self.$selectedStory) { story in
+                StoryDetailView(story: story)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
@@ -72,6 +88,6 @@ struct BiographyView: View {
 
 struct BiographyView_Previews: PreviewProvider {
     static var previews: some View {
-        BiographyView(speechRecognizer: SpeechRecognizer())
+        BiographyView(speechRecognizer: SpeechRecognizer(), selectedStory: Story(author: "", authorUid: "", dateCreated: "", title: "", published: false, conversation: [], summary: "", genres: []))
     }
 }
