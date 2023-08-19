@@ -161,7 +161,8 @@ struct SignUpView: View {
                                             birthDate: birthDate,
                                             gender: gender,
                                             username: username,
-                                            stories: []
+                                            stories: [],
+                                            likedStories: []
                                             )
                             
                             // Create auth object and firebase object

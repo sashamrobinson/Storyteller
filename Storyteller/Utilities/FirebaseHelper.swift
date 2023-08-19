@@ -7,14 +7,15 @@
 
 import SwiftUI
 import Firebase
+import FirebaseStorage
 import Foundation
 import OpenAISwift
-
 
 class FirebaseHelper: ObservableObject {
     
     // Database reference
     static let db = Firestore.firestore()
+    static let storage = Storage.storage()
     
     // TODO: - Change print error statements to Alerts
     /// Method for logging users into Firebase Auth
@@ -68,7 +69,8 @@ class FirebaseHelper: ObservableObject {
             "birthDate": user.birthDate,
             "gender": user.gender,
             "username": user.username,
-            "stories": [] as [Story]
+            "stories": [] as [Story],
+            "likedStories": [] as [String],
         ]) { error in
             if let error = error {
                 print(error.localizedDescription)
@@ -82,7 +84,7 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
-    // Method for logging user out
+    /// Method for logging user out of Firebase Auth and Local Storage
     static func logoutUser() {
         do {
             
@@ -124,6 +126,7 @@ class FirebaseHelper: ObservableObject {
             let birthDate = data["birthDate"] as? String,
             let gender = data["gender"] as? String,
             let username = data["username"] as? String,
+            let likedStories = data["likedStories"] as? [String],
             let stories = data["stories"] as? [String] else {
                 print("Invalid user document data")
                 completion(nil)
@@ -139,7 +142,8 @@ class FirebaseHelper: ObservableObject {
                 birthDate: birthDate,
                 gender: gender,
                 username: username,
-                stories: stories
+                stories: stories,
+                likedStories: likedStories
             )
             
             completion(user)
@@ -170,6 +174,9 @@ class FirebaseHelper: ObservableObject {
             let published = data["published"] as? Bool,
             let summary = data["summary"] as? String,
             let genresData = data["genres"] as? [String],
+            let numberOfLikes = data["numberOfLikes"] as? Int,
+            let storyId = data["storyId"] as? String,
+            let imageUrl = data["imageUrl"] as? String,
             let conversationData = data["conversation"] as? [[String: Any]] else {
                 print("Invalid user document data")
                 completion(nil)
@@ -196,6 +203,7 @@ class FirebaseHelper: ObservableObject {
 
             // Create User object
             let story = Story(
+                storyId: storyId,
                 author: author,
                 authorUid: authorUid,
                 dateCreated: dateCreated,
@@ -203,7 +211,9 @@ class FirebaseHelper: ObservableObject {
                 published: published,
                 conversation: chatMessages,
                 summary: summary,
-                genres: genres
+                genres: genres,
+                numberOfLikes: numberOfLikes,
+                imageUrl: imageUrl
             )
             
             completion(story)
@@ -259,7 +269,10 @@ class FirebaseHelper: ObservableObject {
                                         "published": false,
                                         "conversation": conversationData,
                                         "summary": summary,
-                                        "genres": genreData
+                                        "genres": genreData,
+                                        "numberOfLikes": 0,
+                                        "storyId": storyRef.documentID,
+                                        "imageUrl": ""
                                     ]
                                     print(data)
                                     
@@ -329,5 +342,111 @@ class FirebaseHelper: ObservableObject {
                 completion(stories)
             }
         }
+    }
+    
+    /// Method for adding / removing a like from a story (mostly for algorithm)
+    /// - Parameter likedStory: Boolean value representing if the user has liked the story or unliked it
+    static func addOrClearLike(_ likedStory: Bool, _ userId: String, _ storyId: String, completion: @escaping () -> Void) {
+        let storyRef = db.collection("Stories").document(storyId)
+        let userRef = db.collection("Users").document(userId)
+
+        if likedStory {
+            print("adding like")
+            // Add like to Story
+            storyRef.updateData(["numberOfLikes": FieldValue.increment(Int64(1))])
+            
+            // Add like to user profile
+            userRef.updateData(["likedStories": FieldValue.arrayUnion([storyId])])
+            completion()
+            
+        } else {
+            print("removing like")
+            // Remove like from Story
+            storyRef.updateData(["numberOfLikes": FieldValue.increment(Int64(-1))])
+
+            // Remove like from user profile
+            userRef.updateData(["likedStories": FieldValue.arrayRemove([storyId])])
+            completion()
+        }
+    }
+    
+    /// Method for updating a story when the user edits the title, summary and image
+    /// - Parameters:
+    ///   - storyId: a String containing the id of the story document
+    ///   - newTitle: a String containing the new title the user wishes to change to
+    ///   - newSummary: a String containing the new summary the user wishes to change to
+    ///   - newImage: a URL containing the path to a new image in the Firebase Storage
+    ///   - completion: completion handler for displaying success animation
+    static func updateStory(storyId: String, newTitle: String, newSummary: String, newImage: UIImage?, completion: @escaping (Error?) -> Void) {
+        // TODO: - Update genres
+        // TODO: - Update complete animation
+        addImageToStorage(selectedImage: newImage) { result in
+            switch result {
+            case .success(let imageUrl):
+                let storyRef = db.collection("Stories").document(storyId)
+                storyRef.updateData([
+                        "title": newTitle,
+                        "summary": newSummary,
+                        "imageUrl": imageUrl
+                ]) { error in
+                    if let error = error {
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                }
+                
+            case .failure(let error):
+                print("Error uploading image: \(error)")
+            }
+        }
+    }
+    
+    // TODO: - Refactor and comment
+    static func addImageToStorage(selectedImage: UIImage?, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let uid = LocalStorageHelper.retrieveUser() else {
+            print("Cannot get local user to add image to storage")
+            completion(.failure("Cannot get local user to add image to storage" as! Error))
+            return
+        }
+        
+        let storageRef = storage.reference(withPath: uid)
+        guard let imageData = selectedImage?.jpegData(compressionQuality: 0.5) else {
+            print("Cannot get image data")
+            completion(.failure("Cannot get image data" as! Error))
+            return
+        }
+        storageRef.putData(imageData) { metaData, error in
+            if let error = error {
+                print("Error pushing image to Storage")
+                completion(.failure(error))
+                return
+            }
+            
+            storageRef.downloadURL { url, error in
+                if let error = error {
+                    print("Error retrieving download URL")
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let imageUrl = url?.absoluteString {
+                    print("Successfully stored image with URL: \(imageUrl)")
+                    completion(.success(imageUrl))
+                } else {
+                    completion(.failure("Cannot get absolute string of image URL" as! Error))
+                }
+            }
+        }
+    }
+    
+    static func genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, genre: Genre, currentStories: [Story]) {
+        
+        // Fetch x amount of stories
+        
+    }
+    
+    static func userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, currentStories: [Story], user: User) {
+        
     }
 }

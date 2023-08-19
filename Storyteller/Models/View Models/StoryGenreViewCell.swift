@@ -17,7 +17,7 @@ struct StoryGenreViewCell: View {
                 .foregroundColor(.white)
                 .padding()
         }
-        .frame(width: CGFloat(genre.rawValue.count) * 15, height: 30)
+        .frame(width: CGFloat(genre.rawValue.count) * 10 + 50, height: 30)
         .background(Color(genre.color))
         .cornerRadius(12.5)
     }
@@ -25,6 +25,6 @@ struct StoryGenreViewCell: View {
 
 struct StoryGenreViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        StoryGenreViewCell(genre: .heartwarming)
+        StoryGenreViewCell(genre: .wow)
     }
 }

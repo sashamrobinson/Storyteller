@@ -32,6 +32,6 @@ struct StoryTableViewCell: View {
 
 struct StoryTableViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        StoryTableViewCell(story: Story(author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "Summary", genres: []))
+        StoryTableViewCell(story: Story(storyId: "StoryID", author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "Summary", genres: [], numberOfLikes: 5, imageUrl: ""))
     }
 }

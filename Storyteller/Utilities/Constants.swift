@@ -27,7 +27,7 @@ class Constants {
     
     // OpenAI
     static let MAX_TOKENS_FOR_CHAT = 60
-    static let MAX_TOKENS_FOR_SUMMARY = 600 // TODO: - Very this depending on length of conversation
+    static let MAX_TOKENS_FOR_SUMMARY = 300 // TODO: - Very this depending on length of conversation
     static let MAX_TOKENS_FOR_TITLE = 20
     static let MAX_TOKENS_FOR_GENRES = 100
     static let MAX_CHAT_MESSAGES = 8

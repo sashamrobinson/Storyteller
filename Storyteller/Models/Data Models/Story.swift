@@ -10,6 +10,7 @@ import OpenAISwift
 
 struct Story: Identifiable {
     let id = UUID()
+    let storyId: String
     let author: String
     let authorUid: String
     let dateCreated: String
@@ -18,4 +19,6 @@ struct Story: Identifiable {
     let conversation: [ChatMessage]
     let summary: String
     let genres: [Genre]
+    let numberOfLikes: Int
+    let imageUrl: String
 }

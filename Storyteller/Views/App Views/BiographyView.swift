@@ -88,6 +88,6 @@ struct BiographyView: View {
 
 struct BiographyView_Previews: PreviewProvider {
     static var previews: some View {
-        BiographyView(speechRecognizer: SpeechRecognizer(), selectedStory: Story(author: "", authorUid: "", dateCreated: "", title: "", published: false, conversation: [], summary: "", genres: []))
+        BiographyView(speechRecognizer: SpeechRecognizer(), selectedStory: Story(storyId: "StoryID", author: "", authorUid: "", dateCreated: "", title: "", published: false, conversation: [], summary: "", genres: [], numberOfLikes: 5, imageUrl: ""))
     }
 }
