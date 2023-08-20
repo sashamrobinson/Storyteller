@@ -19,6 +19,7 @@ struct StoryView: View {
             let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
             Color("#171717").ignoresSafeArea()
             VStack(alignment: .leading) {
+                // TODO: - Put stories in its own top view that disappears as you scroll down and appears as you scroll up
                 Text("Stories")
                     .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                     .foregroundColor(.white)

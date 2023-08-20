@@ -12,7 +12,7 @@ struct StoryGenreViewCell: View {
     @State var genre: Genre
     var body: some View {
         VStack() {
-            Text(genre.rawValue.prefix(1).capitalized + genre.rawValue.dropFirst())
+            Text(genre.name)
                 .font(.system(size: Constants.DETAIL_FONT_SIZE, weight: .semibold))
                 .foregroundColor(.white)
                 .padding()

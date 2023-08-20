@@ -11,10 +11,22 @@ struct StoryTableViewCell: View {
     var story: Story
     var body: some View {
         HStack {
-//            Image("Storyteller Background Icon Big", bundle: .main)
-//                .resizable()
-//                .frame(width: 80, height: 80)
-            Color.blue.frame(width: 60, height: 60)
+            VStack {
+                GeometryReader { geometry in
+                    AsyncImage(url: URL(string: story.imageUrl)) { image in
+                        image.resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
+
+                    }
+                    placeholder: {
+                        Color.clear.frame(width: 80, height: 80)
+                    }
+                }
+                .frame(width: 80, height: 80)
+            }
+
             VStack(alignment: .leading) {
                 Text(story.dateCreated)
                     .foregroundColor(Color.white.opacity(0.5))

@@ -285,6 +285,20 @@ class FirebaseHelper: ObservableObject {
                                         }
                                     }
                                     
+                                    // Update data collection for queries
+                                    for genre in genres {
+                                        let genreDocRef = db.collection("Data").document(genre.rawValue)
+                                        genreDocRef.updateData([
+                                            "stories": FieldValue.arrayUnion([storyRef.documentID])
+                                        ]) { error in
+                                            if let error = error {
+                                                print("Error updating genre document: \(error)")
+                                            } else {
+                                                print("Genre document successfully updated")
+                                            }
+                                        }
+                                    }
+                                    
                                     // Saving story to users story ids
                                     let userRef = db.collection("Users").document(id!)
                                     userRef.updateData([
@@ -380,7 +394,7 @@ class FirebaseHelper: ObservableObject {
     static func updateStory(storyId: String, newTitle: String, newSummary: String, newImage: UIImage?, completion: @escaping (Error?) -> Void) {
         // TODO: - Update genres
         // TODO: - Update complete animation
-        addImageToStorage(selectedImage: newImage) { result in
+        addImageToStorage(selectedImage: newImage, storyId: storyId) { result in
             switch result {
             case .success(let imageUrl):
                 let storyRef = db.collection("Stories").document(storyId)
@@ -403,14 +417,14 @@ class FirebaseHelper: ObservableObject {
     }
     
     // TODO: - Refactor and comment
-    static func addImageToStorage(selectedImage: UIImage?, completion: @escaping (Result<String, Error>) -> Void) {
+    static func addImageToStorage(selectedImage: UIImage?, storyId: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let uid = LocalStorageHelper.retrieveUser() else {
             print("Cannot get local user to add image to storage")
             completion(.failure("Cannot get local user to add image to storage" as! Error))
             return
         }
         
-        let storageRef = storage.reference(withPath: uid)
+        let storageRef = storage.reference(withPath: uid + "+" + storyId)
         guard let imageData = selectedImage?.jpegData(compressionQuality: 0.5) else {
             print("Cannot get image data")
             completion(.failure("Cannot get image data" as! Error))
@@ -440,10 +454,60 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
-    static func genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, genre: Genre, currentStories: [Story]) {
+    static func genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, genre: Genre, currentStories: [Story], maxLoadSize: DocumentLoadSize, completion: @escaping ([Story]) -> Void) {
         
-        // Fetch x amount of stories
+        // TODO: -- Make it so you can't see your own stories
+        var stories: [Story] = []
         
+        let dataRef = db.collection("Data").document(genre.rawValue)
+        dataRef.getDocument { document, error in
+            if error != nil {
+                print("Error retrieving genre specific data stories")
+                return
+            }
+            
+            // Get random stories
+            if let document = document, document.exists {
+                if let storyIdArray = document.get("stories") as? [String] {
+                    
+                    let shuffledArray = storyIdArray.shuffled()
+                    var selectedStories: [String] = []
+                    
+                    for index in 0...(shuffledArray.count > maxLoadSize.value ? maxLoadSize.value : shuffledArray.count - 1) {
+                        if selectedStories.count > numberOfPostsToReturn {
+                            break
+                        }
+                        
+                        selectedStories.append(shuffledArray[index])
+                    }
+                    
+                    // Get story objects
+                    let dispatchGroup = DispatchGroup()
+                    for storyId in selectedStories {
+                        dispatchGroup.enter()
+                        fetchStory(id: storyId) { story in
+                            if let story = story {
+                                stories.append(story)
+                                print(story.title)
+                            } else {
+                                print("An error occured. Story object came back nil.")
+                            }
+                            dispatchGroup.leave()
+
+                        }
+                    }
+                    
+                    dispatchGroup.notify(queue: .main) {
+                        completion(stories)
+                    }
+         
+                } else {
+                    completion(stories)
+                }
+            } else {
+                print("Error getting document")
+            }
+        }
     }
     
     static func userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, currentStories: [Story], user: User) {

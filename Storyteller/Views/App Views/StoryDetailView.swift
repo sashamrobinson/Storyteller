@@ -24,6 +24,7 @@ struct StoryDetailView: View {
     @State private var storyTitle = "My Story"
     @State private var storySummary = "Summary"
     @State private var showAlert: Bool = false
+    @State var allowedToEdit: Bool
     
     // Likes
     @State private var likedStory: Bool = false
@@ -46,16 +47,22 @@ struct StoryDetailView: View {
                             if let image = self.image {
                                 Image(uiImage: image)
                                 .resizable()
-                                .frame(width: 250, height: 250)
-                                .scaledToFill()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 250, height: 250, alignment: .center)
+                                .clipped()
                                 
                             } else if imageUrl.count > 1 {
-                                AsyncImage(url: URL(string: imageUrl)) { image in
-                                    image.resizable()
+                                GeometryReader { geometry in
+                                    AsyncImage(url: URL(string: imageUrl)) { image in
+                                        image.resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: geometry.size.width, height: geometry.size.height)
+                                        .clipped()
 
-                                }
-                                placeholder: {
-                                    Color.red.frame(width: 250, height: 250)
+                                    }
+                                    placeholder: {
+                                        Color.clear.frame(width: 250, height: 250)
+                                    }
                                 }
                                 .frame(width: 250, height: 250)
 
@@ -63,14 +70,6 @@ struct StoryDetailView: View {
                                 Color.blue.frame(width: 250, height: 250)
 
                             }
-//                            if let image = self.image {
-//                                Image(uiImage: image)
-//                                    .resizable()
-//                                    .frame(width: 250, height: 250)
-//                                    .scaledToFill()
-//                            } else {
-//                                Color.blue.frame(width: 250, height: 250)
-//                            }
                         }
                         .onTapGesture {
                             shouldShowImagePicker.toggle()
@@ -78,7 +77,7 @@ struct StoryDetailView: View {
                         .opacity(isEditing ? 0.8 : 1.0)
                         .disabled(!isEditing)
                         
-                        if userId == story.authorUid {
+                        if !allowedToEdit {
                             ZStack {
                                 Circle()
                                     .frame(width: 50, height: 50)
@@ -218,7 +217,7 @@ struct StoryDetailView: View {
             .padding()
             .padding()
             
-            if userId == story.authorUid {
+            if allowedToEdit {
                 Button(action: {
                     // Enable editing
                     isEditing.toggle()
@@ -265,6 +264,6 @@ struct StoryDetailView: View {
 
 struct StoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StoryDetailView(story: Story(storyId: "StoryID", author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: [.adventure, .funny, .love, .wow], numberOfLikes: 5, imageUrl: ""))
+        StoryDetailView(story: Story(storyId: "StoryID", author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: [.adventure, .funny, .love, .wow], numberOfLikes: 5, imageUrl: ""), allowedToEdit: true)
     }
 }

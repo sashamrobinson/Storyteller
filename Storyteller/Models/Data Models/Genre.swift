@@ -69,4 +69,33 @@ enum Genre: String, CaseIterable, Identifiable {
                 return "Be amazed by the extraordinary and fantastical, where the impossible becomes reality."
         }
     }
+    
+    var name: String {
+        switch self {
+            case .heartwarming:
+                return "Heartwarming"
+            case .sad:
+                return "Sad"
+            case .scary:
+                return "Scary"
+            case .adventure:
+                return "Adventure"
+            case .romance:
+                return "Romance"
+            case .funny:
+                return "Funny"
+            case .historical:
+                return "Historical"
+            case .struggle:
+                return "Struggle"
+            case .love:
+                return "Love"
+            case .sliceoflife:
+                return "Slice of Life"
+            case .exciting:
+                return "Exciting"
+            case .wow:
+                return "Wow"
+        }
+    }
 }

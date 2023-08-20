@@ -65,7 +65,7 @@ struct BiographyView: View {
                 }
             }
             .sheet(item: self.$selectedStory) { story in
-                StoryDetailView(story: story)
+                StoryDetailView(story: story, allowedToEdit: true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
