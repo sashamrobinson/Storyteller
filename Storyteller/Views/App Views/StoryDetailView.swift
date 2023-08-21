@@ -97,7 +97,7 @@ struct StoryDetailView: View {
                                     print("Cannot add or clear like. UserID is nil")
                                     return
                                 }
-                                FirebaseHelper.addOrClearLike(likedStory, userId!, story.storyId) {
+                                FirebaseHelper.addOrClearLike(likedStory: likedStory, userId: userId!, storyId: story.storyId, genres: story.genres) {
                                     likedStoryPending = false
                                 }
                             }

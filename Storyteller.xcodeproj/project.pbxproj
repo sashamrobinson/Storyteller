@@ -41,6 +41,7 @@
 		D95EE6932A8D69C7009A1CEB /* StoryGenreViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */; };
 		D966433C2A903A3B0020ECE0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D966433B2A903A3B0020ECE0 /* ImagePicker.swift */; };
 		D966433E2A918A3C0020ECE0 /* DocumentLoadSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D966433D2A918A3C0020ECE0 /* DocumentLoadSize.swift */; };
+		D96643402A940E410020ECE0 /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D966433F2A940E410020ECE0 /* EmailHelper.swift */; };
 		D96BB4952A57824900765EF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4942A57824900765EF5 /* FirebaseAuth */; };
 		D96BB4972A57824900765EF5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4962A57824900765EF5 /* FirebaseFirestore */; };
 		D96BB4992A57824900765EF5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D96BB4982A57824900765EF5 /* FirebaseStorage */; };
@@ -95,6 +96,7 @@
 		D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryGenreViewCell.swift; sourceTree = "<group>"; };
 		D966433B2A903A3B0020ECE0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D966433D2A918A3C0020ECE0 /* DocumentLoadSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentLoadSize.swift; sourceTree = "<group>"; };
+		D966433F2A940E410020ECE0 /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
 		D96BB49A2A5782B600765EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D96BB49C2A5789AA00765EF5 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGenreTableViewCell.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				D94564E12A75D46D006C83E2 /* StorytellerListenerHelper.swift */,
 				D94564E32A7F4E1A006C83E2 /* ErrorHelper.swift */,
 				D966433B2A903A3B0020ECE0 /* ImagePicker.swift */,
+				D966433F2A940E410020ECE0 /* EmailHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				D9C09BF42A5756B1008FAEA7 /* SignUpView.swift in Sources */,
 				D94564BE2A5A1209006C83E2 /* User.swift in Sources */,
 				D99893612A8C094F00042C22 /* Genre.swift in Sources */,
+				D96643402A940E410020ECE0 /* EmailHelper.swift in Sources */,
 				D94564E62A802380006C83E2 /* ErrorViewModel.swift in Sources */,
 				D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */,
 				D94564ED2A86E1E3006C83E2 /* StoryTableViewCell.swift in Sources */,

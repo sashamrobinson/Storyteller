@@ -14,6 +14,7 @@ struct BiographyView: View {
     @State var stories: [Story] = []
     @State var presentingTableViewCell = false
     @State var selectedStory: Story? = nil
+    @State var displaySettings: Bool = false
     
     var body: some View {
         ZStack {
@@ -26,11 +27,12 @@ struct BiographyView: View {
                         .foregroundColor(.white)
                     Spacer()
                     Button(action: {
-                        print("Search")
+                        displaySettings.toggle()
                     }) {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: "person.fill")
                             .foregroundColor(.white)
                             .font(.system(size: 20))
+                            .padding()
                     }
                 }
                 if stories.isEmpty {
@@ -82,6 +84,9 @@ struct BiographyView: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $displaySettings) {
+            SettingsView()
         }
     }
 }

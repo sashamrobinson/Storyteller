@@ -18,8 +18,9 @@ class User: Identifiable, ObservableObject {
     var username: String = ""
     var stories: [String] = []
     var likedStories: [String] = []
+    var genresLiked: [Genre: Int] = [:]
     
-    init(id: String, firstName: String, lastName: String, email: String, birthDate: String, gender: String, username: String, stories: [String], likedStories: [String]) {
+    init(id: String, firstName: String, lastName: String, email: String, birthDate: String, gender: String, username: String, stories: [String], likedStories: [String], genresLiked: [Genre: Int]) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
@@ -29,5 +30,6 @@ class User: Identifiable, ObservableObject {
         self.username = username
         self.stories = stories
         self.likedStories = likedStories
+        self.genresLiked = genresLiked
     }
 }

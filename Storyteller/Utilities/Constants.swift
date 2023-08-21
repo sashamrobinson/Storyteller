@@ -10,6 +10,7 @@ import Foundation
 class Constants {
     
     // Design
+    static let TITLE_FONT_SIZE = 50.0
     static let HEADER_FONT_SIZE = 30.0
     static let REGULAR_FONT_SIZE = 20.0
     static let SUBTEXT_FONT_SIZE = 15.0
@@ -31,7 +32,7 @@ class Constants {
     static let MAX_TOKENS_FOR_TITLE = 20
     static let MAX_TOKENS_FOR_GENRES = 100
     static let MAX_CHAT_MESSAGES = 8
-    static let INTRODUCTION_PROMPT = "You are having a friendly conversation and the user is telling a story. Your job is to ask the user short questions about their story and interject with small comments. Do not answer questions unrelated to their story. Try to stay on the topic of their conversation."
+    static let INTRODUCTION_PROMPT = "You are having a friendly conversation and the user is telling a story. Your job is to ask the user short questions about their story and interject with small comments. Avoid low level questions that require simple yes/no answers; Instead, focus on asking questions about details to enhance the story. Do not answer questions unrelated to their story. Try to stay on the topic of their conversation."
     static let SUMMARIZATION_PROMPT = "In a previous conversation, you were a biographer listening and asking questions to another person as they told you a story. Now, your job is to retell and summarize that conversation from your perspective. Avoid overelaborating on things. Use conversational language. Summarize the conversation as if it was a story."
     static let TITLE_PROMPT = "In a previous conversation, you were a biographer listening and asking questions to another person as they told you a story. Now, your job is to create an appropriate title based on what the user said for that story. Avoid cliches and try to keep it concise, appealing and allow for a little bit of creativity. Do not add any extra text or quotation marks, just provide the title alone."
     static let GENRES_PROMPT = "In a previous conversation, you were a biographer listening and asking questions to another person as they told you a story. Now, given a list of several genres, determine which genres you believe are applicable to the story. Return only the genres you believe applicable in a comma-seperated list with no additional text. The genres are: heartwarming, sad, scary, adventure, romance, funny, historical, struggle, love, slice of life, exciting and wow."

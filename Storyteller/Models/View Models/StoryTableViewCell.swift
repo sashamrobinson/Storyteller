@@ -21,12 +21,13 @@ struct StoryTableViewCell: View {
 
                     }
                     placeholder: {
-                        Color.clear.frame(width: 80, height: 80)
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.white)
                     }
                 }
                 .frame(width: 80, height: 80)
             }
-
             VStack(alignment: .leading) {
                 Text(story.dateCreated)
                     .foregroundColor(Color.white.opacity(0.5))

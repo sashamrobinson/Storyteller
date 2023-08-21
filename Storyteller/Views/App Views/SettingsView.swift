@@ -12,46 +12,107 @@ struct SettingsView: View {
     @State private var showLogOutAlert = false
     @State private var logoutUser = false
     
+    // User details
+    @State private var fullName: String = "Full Name"
+    @State private var username: String = "Username"
+    @State private var email: String = "Email@email.com"
+    @State private var birthDate: String = "Jan 01, 1970"
+    
     var body: some View {
-        VStack {
-            VStack(alignment: .leading) {
-                Text("Settings")
-                    .font(.system(size: 60, weight: .semibold))
+        ZStack {
+            Color("#171717").ignoresSafeArea()
+            VStack {
+                VStack(alignment: .leading) {
+                    Text("Settings")
+                        .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding(.bottom)
+                    
+                    Text("Name")
+                        .foregroundColor(.gray)
+                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                    TextField(fullName, text: $fullName)
+                        .foregroundColor(.white)
+                        .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                        .padding(.bottom)
+                    
+                    Text("Username")
+                        .foregroundColor(.gray)
+                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                    TextField(username, text: $username)
+                        .foregroundColor(.white)
+                        .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                        .padding(.bottom)
+
+                    
+                    Text("Email")
+                        .foregroundColor(.gray)
+                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                    TextField(email, text: $email)
+                        .foregroundColor(.white)
+                        .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                        .padding(.bottom)
+
+                    
+                    Text("Birth Date")
+                        .foregroundColor(.gray)
+                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                    TextField(birthDate, text: $birthDate)
+                        .foregroundColor(.white)
+                        .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding()
                 
-                Text("Configure your profile")
-                    .font(.system(size: 30, weight: .light))
-                    .foregroundColor(Color("#3A3A3A"))
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .padding()
-            
-            Button("Sign Out") {
-                showLogOutAlert.toggle()
+                Button("Sign Out") {
+                    showLogOutAlert.toggle()
+                }
+                .padding()
+                .frame(width: UIScreen.screenWidth / 2)
+                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                .foregroundColor(.white)
+                .background(Color("#292929"))
+                .cornerRadius(12.5)
+                .alert(isPresented: $showLogOutAlert) {
+                    Alert(
+                        title: Text("Are you sure you want to sign out?"),
+                        message: Text("You will need to reauthenticate to sign back in"),
+                        primaryButton: .default(Text("Yes")) {
+                            
+                            print("Logging out")
+                            
+                            // Logout user from Auth and Local Storage
+                            FirebaseHelper.logoutUser()
+                            
+                            // Move to other view
+                            logoutUser.toggle()
+                        },
+                        secondaryButton: .cancel(Text("No"))
+                    )
+                }
+                .navigationDestination(isPresented: $logoutUser) {
+                    HomeView().navigationBarBackButtonHidden(true)
+                }
                 
+                Spacer()
             }
-            .foregroundColor(.black)
-            .alert(isPresented: $showLogOutAlert) {
-                Alert(
-                    title: Text("Are you sure you want to sign out?"),
-                    message: Text("You will need to reauthenticate to sign back in"),
-                    primaryButton: .default(Text("Yes")) {
-                        
-                        print("Logging out")
-                        
-                        // Logout user from Auth and Local Storage
-                        FirebaseHelper.logoutUser()
-                        
-                        // Move to other view
-                        logoutUser.toggle()
-                    },
-                    secondaryButton: .cancel(Text("No"))
-                )
+
+        }
+        .onAppear {
+            if let id = LocalStorageHelper.retrieveUser() {
+                FirebaseHelper.fetchUserById(id: id) { user in
+                    guard user != nil else {
+                        print("Error getting user")
+                        return
+                    }
+                    
+                    self.fullName = user!.firstName + " " + user!.lastName
+                    self.username = user!.username
+                    self.email = user!.email
+                    self.birthDate = user!.birthDate
+                }
             }
-            .navigationDestination(isPresented: $logoutUser) {
-                HomeView().navigationBarBackButtonHidden(true)
-            }
-            
-            Spacer()
         }
     }
 }

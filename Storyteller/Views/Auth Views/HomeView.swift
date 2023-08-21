@@ -13,50 +13,54 @@ struct HomeView: View {
     @State private var offsetY: CGFloat = -400
     
     var body: some View {
-        VStack {
-            Image("Storyteller Background Icon Big", bundle: .main)
-                .edgesIgnoringSafeArea(.all)
-                .frame(width: 70, height: 70)
-                .offset(x: 0, y: offsetY)
-                .transition(.move(edge: .top))
-            
-            Spacer()
-            
-            Text("Welcome to")
-                .font(.system(size: 30, weight: .light))
-                .foregroundColor(Color("#8A8A8A"))
-            
-            Text("Storyteller")
-                .font(.system(size: 60, weight: .semibold))
-            
-            Spacer()
-            
-            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                Text("Login")
-                .padding()
-                .frame(width: UIScreen.screenWidth / 1.75)
-                .font(.system(size: 25, weight: .regular))
-                .foregroundColor(.white)
-                .background(.black)
-                .cornerRadius(12.5)
+        ZStack {
+            Color("#171717").ignoresSafeArea()
+            VStack {
+                Image("Storyteller Background Icon Big", bundle: .main)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: 70, height: 70)
+                    .offset(x: 0, y: offsetY)
+                    .transition(.move(edge: .top))
                 
-            }
-            
-            NavigationLink(destination: SignUpView().navigationBarBackButtonHidden(true)) {
-                Text("Sign Up")
-                .padding()
-                .frame(width: UIScreen.screenWidth / 1.75)
-                .font(.system(size: 25, weight: .regular))
-                .foregroundColor(.white)
-                .background(.black)
-                .cornerRadius(12.5)
-                .padding()
+                Spacer()
                 
+                Text("Welcome to")
+                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .light))
+                    .foregroundColor(Color(.gray))
+                
+                Text("Storyteller")
+                    .font(.system(size: Constants.TITLE_FONT_SIZE, weight: .semibold))
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
+                    Text("Login")
+                    .padding()
+                    .frame(width: UIScreen.screenWidth / 2)
+                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                    .foregroundColor(.white)
+                    .background(Color("#292929"))
+                    .cornerRadius(12.5)
+                    
+                }
+                
+                NavigationLink(destination: SignUpView().navigationBarBackButtonHidden(true)) {
+                    Text("Sign Up")
+                    .padding()
+                    .frame(width: UIScreen.screenWidth / 2)
+                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                    .foregroundColor(.white)
+                    .background(Color("#292929"))
+                    .cornerRadius(12.5)
+                    .padding()
+                    
+                }
             }
-        }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 2.5)) {
-                offsetY = -130
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.5)) {
+                    offsetY = -130
+                }
             }
         }
     }

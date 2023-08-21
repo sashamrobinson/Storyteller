@@ -42,12 +42,6 @@ struct TabBarControllerView: View {
                         Image(systemName: "books.vertical.fill")
                     }
                     .tag(3)
-                
-                SettingsView()
-                    .tabItem {
-                        Image(systemName: "person.fill")
-                    }
-                    .tag(4)
             }
             .tint(Color.white)
             .onChange(of: selectedTab) { newValue in

@@ -15,7 +15,7 @@ struct EmailPasswordView: View {
     var body: some View {
         VStack {
             Text("What's your email")
-                .foregroundColor(Color("#8A8A8A"))
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 80)
                 .padding(.horizontal)
@@ -26,12 +26,13 @@ struct EmailPasswordView: View {
                 
             }
             .padding()
-            .background(Color("#8A8A8A"))
+            .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
             .padding(.bottom, 5)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
+            .foregroundColor(.gray)
             
             Text("What's your password")
                 .foregroundColor(Color("#8A8A8A"))
@@ -44,11 +45,12 @@ struct EmailPasswordView: View {
                 
             }
             .padding()
-            .background(Color("#8A8A8A"))
+            .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
+            .foregroundColor(.gray)
             
         }
         .transition(.slide)

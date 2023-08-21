@@ -20,7 +20,7 @@ struct BirthDateGenderView: View {
     var body: some View {
         VStack {
             Text("What's your date of birth?")
-                .foregroundColor(Color("#8A8A8A"))
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 80)
                 .padding(.horizontal)
@@ -39,8 +39,8 @@ struct BirthDateGenderView: View {
                 }
                 .padding()
                 .frame(width: UIScreen.screenWidth / 2.5)
-                .background(Color("#8A8A8A"))
-                .foregroundColor(!self.month.isEmpty ? .black : .white.opacity(0.5))
+                .background(Color("#292929"))
+                .foregroundColor(.gray)
                 .cornerRadius(5)
                 .padding(.leading)
                 
@@ -53,8 +53,9 @@ struct BirthDateGenderView: View {
                 .multilineTextAlignment(.center)
                 .onReceive(Just($day)) { _ in limitText(2, 0)}
                 .keyboardType(.decimalPad)
-                .background(Color("#8A8A8A"))
+                .background(Color("#292929"))
                 .cornerRadius(5)
+                .foregroundColor(.gray)
                 
                 TextField(text: $year) {
                     Text("YYYY")
@@ -64,9 +65,10 @@ struct BirthDateGenderView: View {
                 .multilineTextAlignment(.center)
                 .onReceive(Just($year)) { _ in limitText(4, 1)}
                 .keyboardType(.decimalPad)
-                .background(Color("#8A8A8A"))
+                .background(Color("#292929"))
                 .cornerRadius(5)
                 .padding(.trailing)
+                .foregroundColor(.gray)
             }
             
             Text("What's your gender")
@@ -80,9 +82,10 @@ struct BirthDateGenderView: View {
                 
             }
             .padding()
-            .background(Color("#8A8A8A"))
+            .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
+            .foregroundColor(.gray)
             
         }
         .transition(.slide)

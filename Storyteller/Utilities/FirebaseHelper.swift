@@ -71,6 +71,7 @@ class FirebaseHelper: ObservableObject {
             "username": user.username,
             "stories": [] as [Story],
             "likedStories": [] as [String],
+            "genresLiked": [:] as [String: Int]
         ]) { error in
             if let error = error {
                 print(error.localizedDescription)
@@ -127,12 +128,21 @@ class FirebaseHelper: ObservableObject {
             let gender = data["gender"] as? String,
             let username = data["username"] as? String,
             let likedStories = data["likedStories"] as? [String],
+            let genresLikedData = data["genresLiked"] as? [String: Int],
             let stories = data["stories"] as? [String] else {
                 print("Invalid user document data")
                 completion(nil)
                 return
             }
-
+            
+            // Populate genres objects
+            var genresLiked: [Genre: Int] = [:]
+            for (genre, numberOfLikes) in genresLikedData {
+                if let genreEnum = Genre(rawValue: genre.lowercased()) {
+                    genresLiked[genreEnum] = numberOfLikes
+                }
+            }
+            
             // Create User object
             let user = User(
                 id: id,
@@ -143,7 +153,8 @@ class FirebaseHelper: ObservableObject {
                 gender: gender,
                 username: username,
                 stories: stories,
-                likedStories: likedStories
+                likedStories: likedStories,
+                genresLiked: genresLiked
             )
             
             completion(user)
@@ -359,8 +370,7 @@ class FirebaseHelper: ObservableObject {
     }
     
     /// Method for adding / removing a like from a story (mostly for algorithm)
-    /// - Parameter likedStory: Boolean value representing if the user has liked the story or unliked it
-    static func addOrClearLike(_ likedStory: Bool, _ userId: String, _ storyId: String, completion: @escaping () -> Void) {
+    static func addOrClearLike(likedStory: Bool, userId: String, storyId: String, genres: [Genre], completion: @escaping () -> Void) {
         let storyRef = db.collection("Stories").document(storyId)
         let userRef = db.collection("Users").document(userId)
 
@@ -371,6 +381,13 @@ class FirebaseHelper: ObservableObject {
             
             // Add like to user profile
             userRef.updateData(["likedStories": FieldValue.arrayUnion([storyId])])
+            
+            var updates: [String: Any] = [:]
+            for genre in genres {
+                updates["genresLiked.\(genre.rawValue)"] = FieldValue.increment(Int64(1))
+            }
+            userRef.updateData(updates)
+            
             completion()
             
         } else {
@@ -380,6 +397,13 @@ class FirebaseHelper: ObservableObject {
 
             // Remove like from user profile
             userRef.updateData(["likedStories": FieldValue.arrayRemove([storyId])])
+            
+            var updates: [String: Any] = [:]
+            for genre in genres {
+                updates["genresLiked.\(genre.rawValue)"] = FieldValue.increment(Int64(-1))
+            }
+            userRef.updateData(updates)
+            
             completion()
         }
     }
@@ -457,7 +481,8 @@ class FirebaseHelper: ObservableObject {
     static func genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, genre: Genre, currentStories: [Story], maxLoadSize: DocumentLoadSize, completion: @escaping ([Story]) -> Void) {
         
         // TODO: -- Make it so you can't see your own stories
-        var stories: [Story] = []
+        var storiesToReturn: [Story] = []
+        let storyIdsOfCurrentStories = currentStories.map { $0.storyId }
         
         let dataRef = db.collection("Data").document(genre.rawValue)
         dataRef.getDocument { document, error in
@@ -471,23 +496,27 @@ class FirebaseHelper: ObservableObject {
                 if let storyIdArray = document.get("stories") as? [String] {
                     
                     let shuffledArray = storyIdArray.shuffled()
-                    var selectedStories: [String] = []
+                    var selectedStoriesIds: [String] = []
                     
                     for index in 0...(shuffledArray.count > maxLoadSize.value ? maxLoadSize.value : shuffledArray.count - 1) {
-                        if selectedStories.count > numberOfPostsToReturn {
+                        if selectedStoriesIds.count > numberOfPostsToReturn {
                             break
                         }
                         
-                        selectedStories.append(shuffledArray[index])
+                        if storyIdsOfCurrentStories.contains(shuffledArray[index]) {
+                            continue
+                        }
+                        
+                        selectedStoriesIds.append(shuffledArray[index])
                     }
                     
                     // Get story objects
                     let dispatchGroup = DispatchGroup()
-                    for storyId in selectedStories {
+                    for storyId in selectedStoriesIds {
                         dispatchGroup.enter()
                         fetchStory(id: storyId) { story in
                             if let story = story {
-                                stories.append(story)
+                                storiesToReturn.append(story)
                                 print(story.title)
                             } else {
                                 print("An error occured. Story object came back nil.")
@@ -498,11 +527,11 @@ class FirebaseHelper: ObservableObject {
                     }
                     
                     dispatchGroup.notify(queue: .main) {
-                        completion(stories)
+                        completion(storiesToReturn)
                     }
          
                 } else {
-                    completion(stories)
+                    completion(storiesToReturn)
                 }
             } else {
                 print("Error getting document")
@@ -510,7 +539,48 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
-    static func userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, currentStories: [Story], user: User) {
+    static func userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, currentStories: [Story], completion: @escaping ([Story]) -> Void) {
         
+        var stories: [Story] = currentStories
+
+        // Divide users likes into categories
+        let id = LocalStorageHelper.retrieveUser()
+        guard id != nil else {
+            print("An error occured, cannot retrieve current local storage id.")
+            return
+        }
+        
+        let dispatchGroup = DispatchGroup()
+        fetchUserById(id: id!) { user in
+            guard user != nil else {
+                print("User came back nil")
+                return
+            }
+            
+            var totalGenresLiked: Double = 0
+            for (_, numberOfLikes) in user!.genresLiked {
+                totalGenresLiked += Double(numberOfLikes)
+            }
+            var genreIndex = 0
+            func fetchNextGenre() {
+                if genreIndex < user!.genresLiked.count {
+                    let genre = Array(user!.genresLiked.keys)[genreIndex]
+                    let numberOfLikes = user!.genresLiked[genre]!
+                    let numberOfPostsToFetch = round((Double(numberOfLikes) / totalGenresLiked) * Double(numberOfPostsToReturn))
+                    
+                    genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int(numberOfPostsToFetch), genre: genre, currentStories: stories, maxLoadSize: .light) { fetchedStories in
+                        stories.append(contentsOf: fetchedStories)
+                        genreIndex += 1
+                        fetchNextGenre()
+                    }
+                } else {
+                    completion(stories)
+                }
+            }
+            
+            fetchNextGenre()
+                   
+            
+        }
     }
 }
