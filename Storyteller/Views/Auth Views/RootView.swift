@@ -19,7 +19,12 @@ struct RootView: View {
                 // Populate currentUser
                 
                 // Move to main app
-                TabBarControllerView()
+                GeometryReader { proxy in
+                    let bottomEdge = proxy.safeAreaInsets.bottom
+                    let topEdge = proxy.safeAreaInsets.top
+                    TabBarControllerView(bottomEdge: (bottomEdge == 0 ? 15 : bottomEdge), topEdge: (topEdge == 0 ? 15 : topEdge))
+                        .ignoresSafeArea(.all, edges: .bottom)
+                }
             }
             
             else {

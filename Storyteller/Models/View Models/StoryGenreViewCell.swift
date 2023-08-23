@@ -17,7 +17,7 @@ struct StoryGenreViewCell: View {
                 .foregroundColor(.white)
                 .padding()
         }
-        .frame(width: CGFloat(genre.rawValue.count) * 10 + 50, height: 30)
+        .frame(width: CGFloat(genre.rawValue.count) * 7 + 50, height: 30)
         .background(Color(genre.color))
         .cornerRadius(12.5)
     }

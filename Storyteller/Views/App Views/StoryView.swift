@@ -15,9 +15,15 @@ struct StoryView: View {
     @State var listenerOpacity: Double = 0.0
     @State var stories: [Story] = []
     @State private var presentingTableViewCell: Bool = false
-    @State private var selectedStory: Story? = nil
     @State private var secondsTillDisplayEmpty: Int = 3
     @State private var displayEmpty: Bool = false
+    
+    // Scroll animations
+    @Binding var hideTab: Bool
+    @State var offset: CGFloat = 0
+    @State var lastOffset: CGFloat = 0
+    var bottomEdge: CGFloat
+    var topEdge: CGFloat
 
     var body: some View {
         ZStack {
@@ -29,6 +35,7 @@ struct StoryView: View {
                 Text("Stories")
                     .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                     .foregroundColor(.white)
+                    .offset(y: hideTab ? -topEdge - 50 :     0)
                 
                 if stories.isEmpty && !displayEmpty {
                     LoadingCircleAnimation()
@@ -49,26 +56,47 @@ struct StoryView: View {
                 }
                 
                 else {
-                    List {
-                        ForEach(stories) { story in
-                            StoryTableViewCell(story: story)
-                                .listRowInsets(EdgeInsets())
-                                .onTapGesture {
-                                    self.selectedStory = story
-                                    presentingTableViewCell.toggle()
-                                }
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 20) {
+                            ForEach(stories) { story in
+                                StoryTableViewCell(allowedToEdit: false, story: story)
+                            }
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .overlay(
+                            GeometryReader { proxy -> Color in
+                                
+                                let minY = proxy.frame(in: .named("SCROLL")).minY
+                                
+                                let durationOffset: CGFloat = 35
+                                
+                                DispatchQueue.main.async {
+                                    if minY < offset {
+                                        if offset < 0 && -minY > (lastOffset + durationOffset) {
+                                            withAnimation(.easeOut.speed(1.5)) {
+                                                hideTab = true
+                                            }
+                                            lastOffset = -offset
+                                        }
+                                    }
+                                    if minY > offset {
+                                        if offset < 0 && -minY > (lastOffset - durationOffset) {
+                                            withAnimation(.easeOut.speed(1.5)) {
+                                                hideTab = false
+                                            }
+                                            lastOffset = -offset
+                                        }
+                                    }
+                                    
+                                    self.offset = minY
+                                }
+                                
+                                return Color.clear
+                            }
+                        )
+                        .padding(.bottom, 50 + bottomEdge)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-                    .background(Color.clear)
+                    .coordinateSpace(name: "SCROLL")
                 }
-                
-            }
-            .sheet(item: self.$selectedStory) { story in
-                StoryDetailView(story: story, allowedToEdit: false)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
@@ -95,6 +123,6 @@ struct StoryView: View {
 
 struct StoryView_Provider: PreviewProvider {
     static var previews: some View {
-        StoryView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 0.0)
+        StoryView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 0.0, hideTab: .constant(false), bottomEdge: 0.0, topEdge: 0.0)
     }
 }

@@ -109,15 +109,12 @@ struct LoginView: View {
                     if email.count > 0 && password.count > 0 {
                         FirebaseHelper.login(email: email, password: password) { error in
                             
-                            // Error occured logging in user
                             if error != nil {
                                 errorMessage = "Incorrect information"
                             }
                             
-                            // No error, continue
                             else {
-                                                            
-                                // Move to StoryView
+                                
                                 loginUser = true
                                 
                             }
@@ -132,7 +129,7 @@ struct LoginView: View {
                 .cornerRadius(12.5)
                 .padding()
                 .navigationDestination(isPresented: $loginUser) {
-                    TabBarControllerView().navigationBarBackButtonHidden(true)
+                    RootView().navigationBarBackButtonHidden(true)
                 }
                 
                 

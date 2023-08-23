@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D9005A3E2A959F4000D3D45A /* LoadingCircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A3D2A959F4000D3D45A /* LoadingCircleAnimation.swift */; };
+		D9005A402A968D3000D3D45A /* TabStateScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A3F2A968D3000D3D45A /* TabStateScrollView.swift */; };
+		D9005A422A968DEF00D3D45A /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */; };
 		D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185662A5251E8001CAEC1 /* StorytellerApp.swift */; };
 		D941856B2A5251E9001CAEC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856A2A5251E9001CAEC1 /* Assets.xcassets */; };
 		D941856E2A5251E9001CAEC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */; };
@@ -62,6 +64,8 @@
 
 /* Begin PBXFileReference section */
 		D9005A3D2A959F4000D3D45A /* LoadingCircleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCircleAnimation.swift; sourceTree = "<group>"; };
+		D9005A3F2A968D3000D3D45A /* TabStateScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStateScrollView.swift; sourceTree = "<group>"; };
+		D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		D94185632A5251E8001CAEC1 /* Storyteller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storyteller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94185662A5251E8001CAEC1 /* StorytellerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorytellerApp.swift; sourceTree = "<group>"; };
 		D941856A2A5251E9001CAEC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 				D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */,
 				D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */,
 				D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */,
+				D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -264,6 +269,7 @@
 				D94564E72A85A881006C83E2 /* BiographyView.swift */,
 				D94564EE2A871E58006C83E2 /* StoryDetailView.swift */,
 				D998935E2A8C092400042C22 /* GenreStoriesView.swift */,
+				D9005A3F2A968D3000D3D45A /* TabStateScrollView.swift */,
 			);
 			path = "App Views";
 			sourceTree = "<group>";
@@ -368,6 +374,7 @@
 				D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */,
 				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,
 				D94564D82A6A1EB3006C83E2 /* OpenAIHelper.swift in Sources */,
+				D9005A402A968D3000D3D45A /* TabStateScrollView.swift in Sources */,
 				D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */,
 				D94564BA2A58FF9E006C83E2 /* StoryView.swift in Sources */,
 				D96BB49D2A5789AA00765EF5 /* FirebaseHelper.swift in Sources */,
@@ -377,6 +384,7 @@
 				D94564E42A7F4E1A006C83E2 /* ErrorHelper.swift in Sources */,
 				D94564C02A5A13AE006C83E2 /* Story.swift in Sources */,
 				D94564CA2A622C25006C83E2 /* TabBarControllerView.swift in Sources */,
+				D9005A422A968DEF00D3D45A /* CustomTabBarView.swift in Sources */,
 				D998935D2A8BF40E00042C22 /* SearchGenreTableViewCell.swift in Sources */,
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,
 				D998935F2A8C092400042C22 /* GenreStoriesView.swift in Sources */,

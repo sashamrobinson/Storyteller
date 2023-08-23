@@ -13,10 +13,17 @@ struct BiographyView: View {
     @State var listenerOpacity: Double = 0.0
     @State var stories: [Story] = []
     @State var presentingTableViewCell = false
-    @State var selectedStory: Story? = nil
     @State var displaySettings: Bool = false
     @State private var secondsTillDisplayEmpty: Int = 3
     @State private var displayEmpty: Bool = false
+    
+    // Scroll animations
+    @Binding var hideTab: Bool
+    @State var offset: CGFloat = 0
+    @State var lastOffset: CGFloat = 0
+    var bottomEdge: CGFloat
+    var topEdge: CGFloat
+    
     var body: some View {
         ZStack {
             let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
@@ -55,55 +62,47 @@ struct BiographyView: View {
                 }
                 
                 else {
-                    List {
-                        ForEach(stories) { story in
-                            StoryTableViewCell(story: story)
-                                .listRowInsets(EdgeInsets())
-                                .onTapGesture {
-                                    self.selectedStory = story
-                                    presentingTableViewCell.toggle()
-                                }
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 20) {
+                            ForEach(stories) { story in
+                                StoryTableViewCell(allowedToEdit: true, story: story)
+                            }
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .overlay(
+                            GeometryReader { proxy -> Color in
+                                
+                                let minY = proxy.frame(in: .named("SCROLL")).minY
+                                
+                                let durationOffset: CGFloat = 35
+                                
+                                DispatchQueue.main.async {
+                                    if minY < offset {
+                                        if offset < 0 && -minY > (lastOffset + durationOffset) {
+                                            withAnimation(.easeOut.speed(1.5)) {
+                                                hideTab = true
+                                            }
+                                            lastOffset = -offset
+                                        }
+                                    }
+                                    if minY > offset {
+                                        if offset < 0 && -minY > (lastOffset - durationOffset) {
+                                            withAnimation(.easeOut.speed(1.5)) {
+                                                hideTab = false
+                                            }
+                                            lastOffset = -offset
+                                        }
+                                    }
+                                    
+                                    self.offset = minY
+                                }
+                                
+                                return Color.clear
+                            }
+                        )
+                        .padding(.bottom, 50 + bottomEdge)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-                    .background(Color.clear)
+                    .coordinateSpace(name: "SCROLL")
                 }
-//                if stories.isEmpty {
-//                    VStack {
-//                        Spacer()
-//                        HStack {
-//                            Spacer()
-//                            Text("You have no stories yet")
-//                                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
-//                                .foregroundColor(.gray)
-//                            Spacer()
-//                        }
-//                        Spacer()
-//                    }
-//                } else {
-//                    List {
-//                        ForEach(stories) { story in
-//                            StoryTableViewCell(story: story)
-//                                .listRowInsets(EdgeInsets())
-//                                .onTapGesture {
-//                                    self.selectedStory = story
-//                                    listener.canListen.toggle()
-//                                    presentingTableViewCell.toggle()
-//                                }
-//                        }
-//                        .listRowBackground(Color.clear)
-//                        .listRowSeparator(.hidden)
-//                    }
-//                    .listStyle(.plain)
-//                    .scrollContentBackground(.hidden)
-//                    .background(Color.clear)
-//                }
-            }
-            .sheet(item: self.$selectedStory) { story in
-                StoryDetailView(story: story, allowedToEdit: true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding()
@@ -136,6 +135,6 @@ struct BiographyView: View {
 
 struct BiographyView_Previews: PreviewProvider {
     static var previews: some View {
-        BiographyView(speechRecognizer: SpeechRecognizer(), selectedStory: Story(storyId: "StoryID", author: "", authorUid: "", dateCreated: "", title: "", published: false, conversation: [], summary: "", genres: [], numberOfLikes: 5, imageUrl: ""))
+        BiographyView(speechRecognizer: SpeechRecognizer(), listenerOpacity: 0.0, hideTab: .constant(false), bottomEdge: 0.0, topEdge: 0.0)
     }
 }

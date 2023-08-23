@@ -34,10 +34,9 @@ struct StoryDetailView: View {
     @State var shouldShowImagePicker: Bool = false
     @State var imageUrl: String = ""
     @State var image: UIImage?
-    
+        
     var body: some View {
         ZStack {
-            
             Color("#171717").ignoresSafeArea()
             VStack() {
                 VStack() {
@@ -157,12 +156,7 @@ struct StoryDetailView: View {
                         .padding()
                     }
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .foregroundColor(Color("#171717"))
-                        .shadow(color: .black, radius: 5, x: 0, y: 2)
-
-                )
+                
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
                         Text("Summary")
@@ -208,7 +202,7 @@ struct StoryDetailView: View {
             Button(action: {
                 dismiss()
             }) {
-                Image(systemName: "chevron.down")
+                Image(systemName: "chevron.left")
                     .foregroundColor(.white)
                     .font(.system(size: 20))
             }
@@ -245,7 +239,7 @@ struct StoryDetailView: View {
                     
                     // Handle success animation
                     
-                    // Dismiss view to refresh	
+                    // Dismiss view to refresh
                     dismiss()
                 }
             }, secondaryButton: .cancel(Text("No")) {

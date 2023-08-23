@@ -13,6 +13,11 @@ struct SearchView: View {
     @State private var searchText: String = ""
     @State private var isTyping: Bool = false
     let allGenres = Genre.allCases
+    
+    // Scroll animations
+    @Binding var hideTab: Bool
+    var bottomEdge: CGFloat
+    var topEdge: CGFloat
 
     var body: some View {
         ZStack {
@@ -36,6 +41,7 @@ struct SearchView: View {
                             .padding()
                     }
                     .background(Color("#292929"))
+                    .cornerRadius(12.5)
                     
                     Text("Genres")
                         .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
@@ -46,7 +52,7 @@ struct SearchView: View {
                         ScrollView(showsIndicators: false) {
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2)) {
                                 ForEach(allGenres) { genre in
-                                    NavigationLink(destination: GenreStoriesView(genre: genre).navigationBarBackButtonHidden(true)) {
+                                    NavigationLink(destination: GenreStoriesView(genre: genre, hideTab: $hideTab, bottomEdge: bottomEdge, topEdge: topEdge).navigationBarBackButtonHidden(true)) {
                                         SearchGenreTableViewCell(genre: genre)
 
                                     }
@@ -71,6 +77,6 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(speechRecognizer: SpeechRecognizer())
+        SearchView(speechRecognizer: SpeechRecognizer(), hideTab: .constant(false), bottomEdge: 0.0, topEdge: 0.0)
     }
 }
