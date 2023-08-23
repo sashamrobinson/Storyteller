@@ -16,23 +16,28 @@ struct StoryView: View {
     @State var stories: [Story] = []
     @State private var presentingTableViewCell: Bool = false
     @State private var selectedStory: Story? = nil
+    @State private var secondsTillDisplayEmpty: Int = 3
+    @State private var displayEmpty: Bool = false
 
     var body: some View {
         ZStack {
             let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
             Color("#171717").ignoresSafeArea()
+            .foregroundColor(.white)
             VStack(alignment: .leading) {
-                // TODO: - Put stories in its own top view that disappears as you scroll down and appears as you scroll up
+                // TODO: - Put stories text in its own top view that disappears as you scroll down and appears as you scroll up
                 Text("Stories")
                     .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                     .foregroundColor(.white)
                 
-                if stories.isEmpty {
+                if stories.isEmpty && !displayEmpty {
+                    LoadingCircleAnimation()
+                } else if stories.isEmpty && displayEmpty {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("There are no available stories. Please check your connection")
+                            Text("There are no available stories. Please check your connection if this problem persists")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
@@ -41,7 +46,9 @@ struct StoryView: View {
                         }
                         Spacer()
                     }
-                } else {
+                }
+                
+                else {
                     List {
                         ForEach(stories) { story in
                             StoryTableViewCell(story: story)
@@ -71,6 +78,14 @@ struct StoryView: View {
 
         }
         .onAppear {
+            secondsTillDisplayEmpty = 3
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+                secondsTillDisplayEmpty -= 1
+                if secondsTillDisplayEmpty == 0 {
+                    timer.invalidate()
+                    displayEmpty = true
+                }
+            })
             FirebaseHelper.userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: 20, currentStories: stories, completion: { stories in
                 self.stories = stories
             })

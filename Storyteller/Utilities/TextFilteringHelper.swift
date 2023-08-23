@@ -70,7 +70,20 @@ func extractGenres(_ input: String) -> [Genre] {
     }
     
     return selectedGenres
+}
 
+/// Function for generating a random verification code for verifying user email
+/// - Parameter length: the length of the code
+/// - Returns: the code in a String
+func generateRandomCharacterVerificationCode(length: Int) -> String {
+    let characters: [String] = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"]
+    var code: String = ""
+    for _ in 0...(length - 1) {
+        let randomInt = Int.random(in: 0...(characters.count - 1))
+        code.append(characters[randomInt])
+    }
+    
+    return code
 }
 
 extension String {

@@ -11,6 +11,7 @@ struct SearchView: View {
     
     @ObservedObject var speechRecognizer: SpeechRecognizer
     @State private var searchText: String = ""
+    @State private var isTyping: Bool = false
     let allGenres = Genre.allCases
 
     var body: some View {
@@ -25,6 +26,9 @@ struct SearchView: View {
                         TextField("", text: $searchText, prompt: Text("What are you looking for?").foregroundColor(.gray))
                             .foregroundColor(.white)
                             .padding()
+                            .onChange(of: searchText) { newValue in
+                                isTyping = true
+                            }
                         
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.white)
@@ -38,18 +42,19 @@ struct SearchView: View {
                         .foregroundColor(.gray)
                         .padding(.top)
                     
-                    ScrollView(showsIndicators: false) {
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2)) {
-                            ForEach(allGenres) { genre in
-                                NavigationLink(destination: GenreStoriesView(genre: genre).navigationBarBackButtonHidden(true)) {
-                                    SearchGenreTableViewCell(genre: genre)
+                    if !isTyping {
+                        ScrollView(showsIndicators: false) {
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2)) {
+                                ForEach(allGenres) { genre in
+                                    NavigationLink(destination: GenreStoriesView(genre: genre).navigationBarBackButtonHidden(true)) {
+                                        SearchGenreTableViewCell(genre: genre)
 
+                                    }
                                 }
                             }
                         }
+                        .ignoresSafeArea()
                     }
-                    .ignoresSafeArea()
-
                 }
                 .padding()
 //                .background(

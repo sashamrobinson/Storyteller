@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct SettingsView: View {
     
@@ -64,7 +65,6 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding()
-                
                 Button("Sign Out") {
                     showLogOutAlert.toggle()
                 }
@@ -91,10 +91,7 @@ struct SettingsView: View {
                         secondaryButton: .cancel(Text("No"))
                     )
                 }
-                .navigationDestination(isPresented: $logoutUser) {
-                    HomeView().navigationBarBackButtonHidden(true)
-                }
-                
+
                 Spacer()
             }
 
@@ -114,6 +111,10 @@ struct SettingsView: View {
                 }
             }
         }
+        .navigationDestination(isPresented: $logoutUser) {
+            HomeView().navigationBarBackButtonHidden(true)
+        }
+        
     }
 }
 

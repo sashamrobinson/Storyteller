@@ -15,7 +15,8 @@ struct BiographyView: View {
     @State var presentingTableViewCell = false
     @State var selectedStory: Story? = nil
     @State var displaySettings: Bool = false
-    
+    @State private var secondsTillDisplayEmpty: Int = 3
+    @State private var displayEmpty: Bool = false
     var body: some View {
         ZStack {
             let listener = StorytellerListenerHelper(speechRecognizer: speechRecognizer, listenerOpacity: $listenerOpacity)
@@ -35,26 +36,31 @@ struct BiographyView: View {
                             .padding()
                     }
                 }
-                if stories.isEmpty {
+                if stories.isEmpty && !displayEmpty {
+                    LoadingCircleAnimation()
+                } else if stories.isEmpty && displayEmpty {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("You have no stories yet")
+                            Text("You have no stories yet. Please check your available connection if you believe this is an error")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .padding()
                             Spacer()
                         }
                         Spacer()
                     }
-                } else {
+                }
+                
+                else {
                     List {
                         ForEach(stories) { story in
                             StoryTableViewCell(story: story)
                                 .listRowInsets(EdgeInsets())
                                 .onTapGesture {
                                     self.selectedStory = story
-                                    listener.canListen.toggle()
                                     presentingTableViewCell.toggle()
                                 }
                         }
@@ -65,6 +71,36 @@ struct BiographyView: View {
                     .scrollContentBackground(.hidden)
                     .background(Color.clear)
                 }
+//                if stories.isEmpty {
+//                    VStack {
+//                        Spacer()
+//                        HStack {
+//                            Spacer()
+//                            Text("You have no stories yet")
+//                                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
+//                                .foregroundColor(.gray)
+//                            Spacer()
+//                        }
+//                        Spacer()
+//                    }
+//                } else {
+//                    List {
+//                        ForEach(stories) { story in
+//                            StoryTableViewCell(story: story)
+//                                .listRowInsets(EdgeInsets())
+//                                .onTapGesture {
+//                                    self.selectedStory = story
+//                                    listener.canListen.toggle()
+//                                    presentingTableViewCell.toggle()
+//                                }
+//                        }
+//                        .listRowBackground(Color.clear)
+//                        .listRowSeparator(.hidden)
+//                    }
+//                    .listStyle(.plain)
+//                    .scrollContentBackground(.hidden)
+//                    .background(Color.clear)
+//                }
             }
             .sheet(item: self.$selectedStory) { story in
                 StoryDetailView(story: story, allowedToEdit: true)
@@ -76,7 +112,14 @@ struct BiographyView: View {
                 .opacity(listenerOpacity)
         }
         .onAppear {
-            // TODO: - Replace this call with a scroll up load functionality that will call this so as to limit resources wasted
+            secondsTillDisplayEmpty = 3
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+                secondsTillDisplayEmpty -= 1
+                if secondsTillDisplayEmpty == 0 {
+                    timer.invalidate()
+                    displayEmpty = true
+                }
+            })
             if let id = LocalStorageHelper.retrieveUser() {
                 FirebaseHelper.fetchStoriesFromUserDocument(id: id) { fetchedStories in
                     if let fetchedStories = fetchedStories {

@@ -35,7 +35,7 @@ struct EmailPasswordView: View {
             .foregroundColor(.gray)
             
             Text("What's your password")
-                .foregroundColor(Color("#8A8A8A"))
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
             

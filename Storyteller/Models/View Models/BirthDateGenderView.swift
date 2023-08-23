@@ -72,9 +72,10 @@ struct BirthDateGenderView: View {
             }
             
             Text("What's your gender")
-                .foregroundColor(Color("#8A8A8A"))
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
+                .foregroundColor(.gray)
             
             TextField(text: $gender) {
                 Text("Gender")
