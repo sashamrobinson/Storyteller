@@ -10,7 +10,6 @@ import SwiftUI
 struct StoryTableViewCell: View {
     @State private var displayExpandedForm: Bool = false
     @State private var presentingTableViewCell: Bool = false
-    @GestureState private var isDragging: Bool = false
     var allowedToEdit: Bool
 
     var story: Story
@@ -39,9 +38,6 @@ struct StoryTableViewCell: View {
                     
                 }
                 VStack(alignment: .leading) {
-//                    Text(story.dateCreated)
-//                        .foregroundColor(Color.white.opacity(0.5))
-//                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
                     Text(story.title)
                         .foregroundColor(Color.white)
                         .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
@@ -78,28 +74,19 @@ struct StoryTableViewCell: View {
                 displayExpandedForm.toggle()
             }
         }
-        .gesture(
-            DragGesture()
-                .updating($isDragging) { value, state, _ in
-                    state = true
-                }
-                .onEnded { value in
-                    if value.translation.width < 0 {
-                        // Dragged to the right
-                        print("test")
-                        presentingTableViewCell.toggle()
-                        
-                    }
-                }
-        )
+        .onLongPressGesture(minimumDuration: 0.1, perform: {
+            presentingTableViewCell.toggle()
+        })
         .background(
-            NavigationLink("", destination: StoryDetailView(story: story, allowedToEdit: allowedToEdit).navigationBarBackButtonHidden(true), isActive: $presentingTableViewCell)
-                .opacity(0)
+            EmptyView()
+                .fullScreenCover(isPresented: $presentingTableViewCell) {
+                    NavigationView {
+                        StoryDetailView(story: story, allowedToEdit: allowedToEdit)
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    .navigationViewStyle(.stack)
+                }
         )
-        .navigationDestination(isPresented: $presentingTableViewCell) {
-            StoryDetailView(story: story, allowedToEdit: allowedToEdit).navigationBarBackButtonHidden(true)
-
-        }
     }
 }
 

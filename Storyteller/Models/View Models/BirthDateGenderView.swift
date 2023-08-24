@@ -40,13 +40,13 @@ struct BirthDateGenderView: View {
                 .padding()
                 .frame(width: UIScreen.screenWidth / 2.5)
                 .background(Color("#292929"))
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 .cornerRadius(5)
                 .padding(.leading)
                 
                 TextField(text: $day) {
                     Text("DD")
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.gray)
                 }
                 .padding()
                 .frame(width: UIScreen.screenWidth / 5)
@@ -55,11 +55,11 @@ struct BirthDateGenderView: View {
                 .keyboardType(.decimalPad)
                 .background(Color("#292929"))
                 .cornerRadius(5)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 
                 TextField(text: $year) {
                     Text("YYYY")
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.gray)
                 }
                 .padding()
                 .multilineTextAlignment(.center)
@@ -68,7 +68,7 @@ struct BirthDateGenderView: View {
                 .background(Color("#292929"))
                 .cornerRadius(5)
                 .padding(.trailing)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
             }
             
             Text("What's your gender")
@@ -79,14 +79,14 @@ struct BirthDateGenderView: View {
             
             TextField(text: $gender) {
                 Text("Gender")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.gray)
                 
             }
             .padding()
             .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             
         }
         .transition(.slide)

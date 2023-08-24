@@ -440,7 +440,12 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
-    // TODO: - Refactor and comment
+    
+    /// Method for adding images to Firebase Storage
+    /// - Parameters:
+    ///   - selectedImage: the image that the user selected and wishes to be parsed to storage
+    ///   - storyId: the story ID for interal querying to which we save the images url to
+    ///   - completion: completion handler for external use
     static func addImageToStorage(selectedImage: UIImage?, storyId: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let uid = LocalStorageHelper.retrieveUser() else {
             print("Cannot get local user to add image to storage")
@@ -478,6 +483,13 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
+    /// Method for generating stories from a specific genre
+    /// - Parameters:
+    ///   - numberOfPostsToReturn: the number of Story objects to return
+    ///   - genre: an enum representing which genre to query for
+    ///   - currentStories: the current Story objects being displayed
+    ///   - maxLoadSize: an enum representing the max amount of Storys we can handle
+    ///   - completion: completion handler for external use
     static func genreSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, genre: Genre, currentStories: [Story], maxLoadSize: DocumentLoadSize, completion: @escaping ([Story]) -> Void) {
         
         // TODO: -- Make it so you can't see your own stories
@@ -517,7 +529,6 @@ class FirebaseHelper: ObservableObject {
                         fetchStory(id: storyId) { story in
                             if let story = story {
                                 storiesToReturn.append(story)
-                                print(story.title)
                             } else {
                                 print("An error occured. Story object came back nil.")
                             }
@@ -539,6 +550,11 @@ class FirebaseHelper: ObservableObject {
         }
     }
     
+    /// Method for generating user specific stories based on the users liked genres
+    /// - Parameters:
+    ///   - numberOfPostsToReturn: the number of Story objects to return for display
+    ///   - currentStories: an array of the current Story objects being displayed
+    ///   - completion: completion handler for external use
     static func userSpecificStoryGenerationAlgorithm(numberOfPostsToReturn: Int, currentStories: [Story], completion: @escaping ([Story]) -> Void) {
         
         var stories: [Story] = currentStories
@@ -550,7 +566,6 @@ class FirebaseHelper: ObservableObject {
             return
         }
         
-        let dispatchGroup = DispatchGroup()
         fetchUserById(id: id!) { user in
             guard user != nil else {
                 print("User came back nil")
@@ -580,7 +595,6 @@ class FirebaseHelper: ObservableObject {
             
             fetchNextGenre()
                    
-            
         }
     }
 }

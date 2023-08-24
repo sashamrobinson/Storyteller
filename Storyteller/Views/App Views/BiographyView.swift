@@ -63,9 +63,9 @@ struct BiographyView: View {
                 
                 else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 10) {
                             ForEach(stories) { story in
-                                StoryTableViewCell(allowedToEdit: true, story: story)
+//                                StoryTableViewCell(allowedToEdit: true, story: story, presentingTableViewCell: $presentingTableViewCell, selectedStory: $selectedStory)
                             }
                         }
                         .overlay(

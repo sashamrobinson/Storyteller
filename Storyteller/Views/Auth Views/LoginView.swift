@@ -11,7 +11,6 @@ struct LoginView: View {
     
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var rememberMe: Bool = false
     @State private var errorMessage: String = ""
     @State private var loginUser: Bool = false
     
@@ -58,9 +57,9 @@ struct LoginView: View {
                         .padding(.top, 80)
                         .padding(.horizontal)
                     
-                    TextField( text: $email) {
+                    TextField(text: $email) {
                         Text("Email")
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.gray)
                         
                     }
                     .padding()
@@ -69,6 +68,7 @@ struct LoginView: View {
                     .padding(.horizontal)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
+                    .foregroundColor(.white)
                     
                     Text("Password")
                         .foregroundColor(.gray)
@@ -86,14 +86,7 @@ struct LoginView: View {
                     .padding(.horizontal)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
-                    
-                    //MARK: -- Get remember me working (or just remove it)
-                    HStack() {
-                        Toggle("", isOn: $rememberMe)
-                            
-                        Text("Remember Me")
-                            .foregroundColor(rememberMe ? .white : .gray)
-                    }
+                    .foregroundColor(.white)
                     
                 }
                 
@@ -129,9 +122,8 @@ struct LoginView: View {
                 .cornerRadius(12.5)
                 .padding()
                 .navigationDestination(isPresented: $loginUser) {
-                    RootView().navigationBarBackButtonHidden(true)
+                    SplashScreenView().navigationBarBackButtonHidden(true)
                 }
-                
                 
                 NavigationLink(destination: SignUpView().navigationBarBackButtonHidden(true)) {
                     Text("Don't have an account? Sign up")

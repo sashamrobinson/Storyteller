@@ -22,7 +22,7 @@ struct UsernameView: View {
             
             TextField(text: $username) {
                 Text("Username")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.gray)
                 
             }
             .padding()
@@ -32,7 +32,7 @@ struct UsernameView: View {
             .padding(.bottom, 5)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
         }
     }
 }

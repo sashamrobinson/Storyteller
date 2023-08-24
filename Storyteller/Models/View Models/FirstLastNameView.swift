@@ -21,29 +21,26 @@ struct FirstLastNameView: View {
             
             TextField(text: $firstName) {
                 Text("First Name")
-                    .foregroundColor(.white.opacity(0.5))
-                
+                    .foregroundColor(.gray)
             }
-            
             .padding()
             .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
             .padding(.bottom, 5)
             .autocorrectionDisabled(true)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             
             TextField(text: $lastName) {
                 Text("Last Name")
-                    .foregroundColor(.white.opacity(0.5))
-                
+                    .foregroundColor(.gray)
             }
             .padding()
             .background(Color("#292929"))
             .cornerRadius(5)
             .padding(.horizontal)
             .autocorrectionDisabled(true)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             
         }
         .transition(.slide)
@@ -53,6 +50,6 @@ struct FirstLastNameView: View {
 
 struct FirstLastNameView_Previews: PreviewProvider {
     static var previews: some View {
-        FirstLastNameView(firstName: .constant("First Name"), lastName: .constant("Last Name"))
+        FirstLastNameView(firstName: .constant(""), lastName: .constant(""))
     }
 }

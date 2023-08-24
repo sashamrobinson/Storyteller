@@ -22,7 +22,7 @@ struct EmailPasswordView: View {
             
             TextField(text: $email) {
                 Text("Email")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.gray)
                 
             }
             .padding()
@@ -32,7 +32,7 @@ struct EmailPasswordView: View {
             .padding(.bottom, 5)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             
             Text("What's your password")
                 .foregroundColor(.gray)
@@ -41,7 +41,7 @@ struct EmailPasswordView: View {
             
             SecureField(text: $password) {
                 Text("Password")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.gray)
                 
             }
             .padding()
@@ -50,7 +50,7 @@ struct EmailPasswordView: View {
             .padding(.horizontal)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             
         }
         .transition(.slide)

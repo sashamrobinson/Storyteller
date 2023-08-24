@@ -11,9 +11,13 @@ import AVFoundation
 struct StoryDetailView: View {
     
     // MARK: Variables
-    @Environment(\.dismiss) var dismiss
     @State var story: Story
     @State var userId: String? = nil
+    
+    // Dismiss actions
+    @Environment(\.dismiss) var dismiss
+    @GestureState private var isDragging: Bool = false
+
 
     // Speech
     @ObservedObject var speechUtterance = SpeechUtterance()
@@ -67,7 +71,6 @@ struct StoryDetailView: View {
 
                             } else {
                                 Color.blue.frame(width: 250, height: 250)
-
                             }
                         }
                         .onTapGesture {
@@ -104,8 +107,8 @@ struct StoryDetailView: View {
                             .disabled(likedStoryPending)
                         }
                     }
-                    HStack {
-                        VStack(alignment: .leading) {
+                    HStack() {
+                        VStack(alignment: .leading, spacing: 0) {
                             Text(story.dateCreated)
                                 .foregroundColor(Color.gray)
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
@@ -119,6 +122,7 @@ struct StoryDetailView: View {
                             Text("By " + story.author)
                                 .foregroundColor(Color.gray)
                                 .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .padding(.bottom)
                             
                             if !story.genres.isEmpty {
                                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 30), count: 2), alignment: .leading) {
@@ -156,6 +160,19 @@ struct StoryDetailView: View {
                         .padding()
                     }
                 }
+                .gesture(
+                    DragGesture()
+                        .updating($isDragging) { value, state, _ in
+                            state = true
+                        }
+                        .onEnded { value in
+                            if value.translation.height > 0 {
+                                // Dragged up
+                                dismiss()
+
+                            }
+                        }
+                )
                 
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {

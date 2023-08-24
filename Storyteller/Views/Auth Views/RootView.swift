@@ -15,9 +15,7 @@ struct RootView: View {
     var body: some View {
         NavigationStack {
             if LocalStorageHelper.retrieveUser() != nil {
-                
-                // Populate currentUser
-                
+                                
                 // Move to main app
                 GeometryReader { proxy in
                     let bottomEdge = proxy.safeAreaInsets.bottom

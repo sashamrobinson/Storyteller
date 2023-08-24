@@ -14,9 +14,10 @@ struct StoryView: View {
     @ObservedObject var speechRecognizer: SpeechRecognizer
     @State var listenerOpacity: Double = 0.0
     @State var stories: [Story] = []
-    @State private var presentingTableViewCell: Bool = false
     @State private var secondsTillDisplayEmpty: Int = 3
     @State private var displayEmpty: Bool = false
+    @State private var presentingTableViewCell: Bool = false
+    @State var selectedStory: Story?
     
     // Scroll animations
     @Binding var hideTab: Bool
@@ -57,7 +58,7 @@ struct StoryView: View {
                 
                 else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 10) {
                             ForEach(stories) { story in
                                 StoryTableViewCell(allowedToEdit: false, story: story)
                             }

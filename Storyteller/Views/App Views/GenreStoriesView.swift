@@ -24,8 +24,8 @@ struct GenreStoriesView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color("#171717").ignoresSafeArea()
-            VStack(alignment: .leading) {
-                HStack {
+            VStack {
+                VStack(alignment: .leading) {
                     Button(action: {
                         dismiss()
                     }) {
@@ -34,17 +34,20 @@ struct GenreStoriesView: View {
                             .font(.system(size: 20))
                     }
                     .frame(width: 30, height: 30)
-                    .padding()
-                }
-                VStack(alignment: .leading) {
+                    
                     Text(genre.name)
                         .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                         .foregroundColor(.white)
-                    
+                        
                     Text(genre.description)
                         .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .medium))
                         .foregroundColor(.gray)
                     
+                }
+                .padding(.top)
+                .offset(y: hideTab ? -topEdge - 50 :     0)
+
+                VStack(alignment: .leading) {
                     if stories.isEmpty {
                         VStack {
                             Spacer()
@@ -61,7 +64,7 @@ struct GenreStoriesView: View {
                         }
                     } else {
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(alignment: .leading, spacing: 20) {
+                            VStack(alignment: .leading, spacing: 10) {
                                 ForEach(stories) { story in
                                     StoryTableViewCell(allowedToEdit: false, story: story)
                                 }

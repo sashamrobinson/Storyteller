@@ -111,9 +111,16 @@ struct SettingsView: View {
                 }
             }
         }
-        .navigationDestination(isPresented: $logoutUser) {
-            HomeView().navigationBarBackButtonHidden(true)
-        }
+        .background(
+            EmptyView()
+                .fullScreenCover(isPresented: $logoutUser) {
+                    NavigationView {
+                        RootView()
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    .navigationViewStyle(.stack)
+                }
+        )
         
     }
 }

@@ -19,7 +19,6 @@ struct CreateView: View {
     @State private var offsetMoonY: CGFloat = -UIScreen.screenHeight
     @State private var bgOpacity: CGFloat = 0
     
-    @State private var isInfoViewVisible = false
     @State private var errorType: ErrorHelper.AppErrorType?
     
     // TTS / STT
@@ -41,22 +40,6 @@ struct CreateView: View {
                     .opacity(bgOpacity)
             }
             .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        isInfoViewVisible.toggle()
-                    } label: {
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 30))
-                            .foregroundColor(.white)
-                            
-                    }
-                    .padding()
-                }
-                Spacer()
-            }
 
             VStack {
                 ZStack {
@@ -122,9 +105,6 @@ struct CreateView: View {
         .onDisappear() {
             speechRecognizer.resetTranscript()
             speechRecognizer.stopTranscribing()
-        }
-        .sheet(isPresented: $isInfoViewVisible) {
-            SpeakingInfoView()
         }
         .alert(item: $errorType) { errorType in
             ErrorHelper.alert(for: errorType)

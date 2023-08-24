@@ -10,6 +10,7 @@
 		D9005A3E2A959F4000D3D45A /* LoadingCircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A3D2A959F4000D3D45A /* LoadingCircleAnimation.swift */; };
 		D9005A402A968D3000D3D45A /* TabStateScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A3F2A968D3000D3D45A /* TabStateScrollView.swift */; };
 		D9005A422A968DEF00D3D45A /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */; };
+		D9005A442A96E8DD00D3D45A /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9005A432A96E8DD00D3D45A /* FlowLayout.swift */; };
 		D94185672A5251E8001CAEC1 /* StorytellerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94185662A5251E8001CAEC1 /* StorytellerApp.swift */; };
 		D941856B2A5251E9001CAEC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856A2A5251E9001CAEC1 /* Assets.xcassets */; };
 		D941856E2A5251E9001CAEC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D941856D2A5251E9001CAEC1 /* Preview Assets.xcassets */; };
@@ -29,7 +30,6 @@
 		D94564CA2A622C25006C83E2 /* TabBarControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564C92A622C25006C83E2 /* TabBarControllerView.swift */; };
 		D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564CB2A622D10006C83E2 /* SearchView.swift */; };
 		D94564CE2A62606E006C83E2 /* SpeakingPulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564CD2A62606E006C83E2 /* SpeakingPulseAnimation.swift */; };
-		D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */; };
 		D94564D22A634F24006C83E2 /* SpeechUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D12A634F24006C83E2 /* SpeechUtterance.swift */; };
 		D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */; };
 		D94564D62A638FFF006C83E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94564D52A638FFF006C83E2 /* Constants.swift */; };
@@ -66,6 +66,7 @@
 		D9005A3D2A959F4000D3D45A /* LoadingCircleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCircleAnimation.swift; sourceTree = "<group>"; };
 		D9005A3F2A968D3000D3D45A /* TabStateScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStateScrollView.swift; sourceTree = "<group>"; };
 		D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
+		D9005A432A96E8DD00D3D45A /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		D94185632A5251E8001CAEC1 /* Storyteller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storyteller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94185662A5251E8001CAEC1 /* StorytellerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorytellerApp.swift; sourceTree = "<group>"; };
 		D941856A2A5251E9001CAEC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		D94564C92A622C25006C83E2 /* TabBarControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerView.swift; sourceTree = "<group>"; };
 		D94564CB2A622D10006C83E2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		D94564CD2A62606E006C83E2 /* SpeakingPulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingPulseAnimation.swift; sourceTree = "<group>"; };
-		D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingInfoView.swift; sourceTree = "<group>"; };
 		D94564D12A634F24006C83E2 /* SpeechUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechUtterance.swift; sourceTree = "<group>"; };
 		D94564D32A638F5F006C83E2 /* LocalStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageHelper.swift; sourceTree = "<group>"; };
 		D94564D52A638FFF006C83E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -236,12 +236,12 @@
 				D94564AF2A579D44006C83E2 /* EmailPasswordView.swift */,
 				D94564B12A57A504006C83E2 /* BirthDateGenderView.swift */,
 				D94564B32A57D96E006C83E2 /* UsernameView.swift */,
-				D94564CF2A6263E1006C83E2 /* SpeakingInfoView.swift */,
 				D94564E52A802380006C83E2 /* ErrorViewModel.swift */,
 				D94564EC2A86E1E3006C83E2 /* StoryTableViewCell.swift */,
 				D998935C2A8BF40E00042C22 /* SearchGenreTableViewCell.swift */,
 				D95EE6922A8D69C7009A1CEB /* StoryGenreViewCell.swift */,
 				D9005A412A968DEF00D3D45A /* CustomTabBarView.swift */,
+				D9005A432A96E8DD00D3D45A /* FlowLayout.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -371,7 +371,6 @@
 				D94564D42A638F5F006C83E2 /* LocalStorageHelper.swift in Sources */,
 				D94564ED2A86E1E3006C83E2 /* StoryTableViewCell.swift in Sources */,
 				D94564C62A6214B5006C83E2 /* CreateView.swift in Sources */,
-				D94564D02A6263E1006C83E2 /* SpeakingInfoView.swift in Sources */,
 				D94564B42A57D96E006C83E2 /* UsernameView.swift in Sources */,
 				D94564D82A6A1EB3006C83E2 /* OpenAIHelper.swift in Sources */,
 				D9005A402A968D3000D3D45A /* TabStateScrollView.swift in Sources */,
@@ -387,6 +386,7 @@
 				D9005A422A968DEF00D3D45A /* CustomTabBarView.swift in Sources */,
 				D998935D2A8BF40E00042C22 /* SearchGenreTableViewCell.swift in Sources */,
 				D94564CC2A622D10006C83E2 /* SearchView.swift in Sources */,
+				D9005A442A96E8DD00D3D45A /* FlowLayout.swift in Sources */,
 				D998935F2A8C092400042C22 /* GenreStoriesView.swift in Sources */,
 				D9005A3E2A959F4000D3D45A /* LoadingCircleAnimation.swift in Sources */,
 				D9E0AA752A56694D00841B0F /* PositioningHelper.swift in Sources */,
