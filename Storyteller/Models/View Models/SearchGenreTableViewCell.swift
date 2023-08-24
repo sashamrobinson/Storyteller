@@ -21,6 +21,8 @@ struct SearchGenreTableViewCell: View {
         .frame(width: UIScreen.screenWidth / 2 - 20, height: 100)
         .background(Color(genre.color))
         .cornerRadius(12.5)
+        .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+
     }
 }
 

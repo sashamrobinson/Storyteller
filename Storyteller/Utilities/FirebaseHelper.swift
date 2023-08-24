@@ -597,4 +597,85 @@ class FirebaseHelper: ObservableObject {
                    
         }
     }
+    
+    // TODO: - Implement querying further than just title
+    /// Method for querying for stories based on a keyword. Keyword checked against title 
+    /// - Parameter query: a String representing the query in the document
+    static func queryStoriesWithKeyword(query: String, completion: @escaping ([Story]) -> Void) {
+        var stories: [Story] = []
+
+        db.collection("Stories")
+            .whereField("title", isGreaterThanOrEqualTo: query)
+            .whereField("title", isLessThanOrEqualTo: query + "\u{f8ff}")
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    completion(stories)
+                    return
+                }
+                
+                guard let querySnapshot = querySnapshot else {
+                    print("Empty query snapshot")
+                    completion(stories)
+                    return
+                }
+                
+                for document in querySnapshot.documents {
+                    let data = document.data()
+                    
+                    guard let author = data["author"] as? String,
+                    let dateCreated = data["dateCreated"] as? String,
+                    let title = data["title"] as? String,
+                    let authorUid = data["authorUid"] as? String,
+                    let published = data["published"] as? Bool,
+                    let summary = data["summary"] as? String,
+                    let genresData = data["genres"] as? [String],
+                    let numberOfLikes = data["numberOfLikes"] as? Int,
+                    let storyId = data["storyId"] as? String,
+                    let imageUrl = data["imageUrl"] as? String,
+                    let conversationData = data["conversation"] as? [[String: Any]] else {
+                        print("Invalid user document data")
+                        completion(stories)
+                        return
+                    }
+                    
+                    // Populate chat message objects
+                    var chatMessages: [ChatMessage] = []
+                    for chatData in conversationData {
+                        if let role = chatData["role"] as? String,
+                           let content = chatData["content"] as? String {
+                               let chatMessage = ChatMessage(role: role == "user" ? .user : .assistant, content:    content)
+                               chatMessages.append(chatMessage)
+                        }
+                    }
+                   
+                    // Populate genres objects
+                    var genres: [Genre] = []
+                    for genreString in genresData {
+                        if let genreEnum = Genre(rawValue: genreString.lowercased()) {
+                            genres.append(genreEnum)
+                        }
+                    }
+   
+                    // Create User object
+                    
+                    let story = Story(
+                       storyId: storyId,
+                       author: author,
+                       authorUid: authorUid,
+                       dateCreated: dateCreated,
+                       title: title,
+                       published: published,
+                       conversation: chatMessages,
+                       summary: summary,
+                       genres: genres,
+                       numberOfLikes: numberOfLikes,
+                       imageUrl: imageUrl
+                    )
+                    stories.append(story)
+                }
+                
+                completion(stories)
+            }
+    }
 }

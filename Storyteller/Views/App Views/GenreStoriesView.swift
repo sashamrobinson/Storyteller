@@ -38,10 +38,13 @@ struct GenreStoriesView: View {
                     Text(genre.name)
                         .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                         .foregroundColor(.white)
+                        .padding(.leading)
                         
                     Text(genre.description)
                         .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .medium))
                         .foregroundColor(.gray)
+                        .padding(.leading)
+
                     
                 }
                 .padding(.top)

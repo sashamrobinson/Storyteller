@@ -42,139 +42,168 @@ struct StoryDetailView: View {
     var body: some View {
         ZStack {
             Color("#171717").ignoresSafeArea()
-            VStack() {
+            ScrollView(showsIndicators: false) {
                 VStack() {
-                    ZStack(alignment: .topTrailing) {
-                        VStack {
-                            // TODO: - Add if statement for if story image exists else
-                            if let image = self.image {
-                                Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 250, height: 250, alignment: .center)
-                                .clipped()
-                                
-                            } else if imageUrl.count > 1 {
-                                GeometryReader { geometry in
-                                    AsyncImage(url: URL(string: imageUrl)) { image in
-                                        image.resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: geometry.size.width, height: geometry.size.height)
-                                        .clipped()
-
+                    VStack() {
+                        HStack() {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20))
+                            }
+                            Spacer()
+                            if allowedToEdit {
+                                Button(action: {
+                                    // Enable editing
+                                    isEditing.toggle()
+                                    if !isEditing {
+                                        print(storyTitle)
+                                        showAlert.toggle()
                                     }
-                                    placeholder: {
-                                        Color.clear.frame(width: 250, height: 250)
-                                    }
+                                    
+                                }) {
+                                    Image(systemName: isEditing ? "checkmark" : "pencil")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 20))
                                 }
-                                .frame(width: 250, height: 250)
-
-                            } else {
-                                Color.blue.frame(width: 250, height: 250)
+                                .frame(width: 30, height: 30)
                             }
                         }
-                        .onTapGesture {
-                            shouldShowImagePicker.toggle()
-                        }
-                        .opacity(isEditing ? 0.8 : 1.0)
-                        .disabled(!isEditing)
+                        .padding()
                         
-                        if !allowedToEdit {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("#171717"))
-                                Image(systemName: likedStory ? "heart.fill" : "heart")
+                        ZStack(alignment: .topTrailing) {
+                            VStack {
+                                // TODO: - Add if statement for if story image exists else
+                                if let image = self.image {
+                                    Image(uiImage: image)
                                     .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(.white)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 250, height: 250, alignment: .center)
+                                    .clipped()
+                                    
+                                } else if imageUrl.count > 1 {
+                                    GeometryReader { geometry in
+                                        AsyncImage(url: URL(string: imageUrl)) { image in
+                                            image.resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: geometry.size.width, height: geometry.size.height)
+                                            .clipped()
+
+                                        }
+                                        placeholder: {
+                                            Color.clear.frame(width: 250, height: 250)
+                                        }
+                                    }
+                                    .frame(width: 250, height: 250)
+
+                                } else {
+                                    Color.blue.frame(width: 250, height: 250)
+                                }
                             }
                             .onTapGesture {
-                                likedStoryPending = true
-                                withAnimation {
-                                    likedStory.toggle()
-                                }
-                                
-                                guard userId != nil else {
-                                    print("Cannot add or clear like. UserID is nil")
-                                    return
-                                }
-                                FirebaseHelper.addOrClearLike(likedStory: likedStory, userId: userId!, storyId: story.storyId, genres: story.genres) {
-                                    likedStoryPending = false
-                                }
+                                shouldShowImagePicker.toggle()
                             }
-                            .offset(x: 10, y: -10)
-                            .disabled(likedStoryPending)
-                        }
-                    }
-                    HStack() {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text(story.dateCreated)
-                                .foregroundColor(Color.gray)
-                                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                            .opacity(isEditing ? 0.8 : 1.0)
+                            .disabled(!isEditing)
                             
-                            TextField(storyTitle, text: $storyTitle)
-                                .foregroundColor(isEditing ? Color.white.opacity(0.8) : Color.white)
-                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
-                                .padding(.bottom, 5)
-                                .disabled(!isEditing)
-
-                            Text("By " + story.author)
-                                .foregroundColor(Color.gray)
-                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
-                                .padding(.bottom)
-                            
-                            if !story.genres.isEmpty {
-                                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 30), count: 2), alignment: .leading) {
-                                    ForEach(story.genres) { genre in
-                                        StoryGenreViewCell(genre: genre)
-
+                            if !allowedToEdit {
+                                ZStack {
+                                    Circle()
+                                        .frame(width: 50, height: 50)
+                                        .foregroundColor(Color("#171717"))
+                                    Image(systemName: likedStory ? "heart.fill" : "heart")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.white)
+                                }
+                                .onTapGesture {
+                                    likedStoryPending = true
+                                    withAnimation {
+                                        likedStory.toggle()
+                                    }
+                                    
+                                    guard userId != nil else {
+                                        print("Cannot add or clear like. UserID is nil")
+                                        return
+                                    }
+                                    FirebaseHelper.addOrClearLike(likedStory: likedStory, userId: userId!, storyId: story.storyId, genres: story.genres) {
+                                        likedStoryPending = false
                                     }
                                 }
+                                .offset(x: 10, y: -10)
+                                .disabled(likedStoryPending)
                             }
                         }
-                        .padding()
-                        Spacer()
-                        Button(action: {
-                            // TODO: - Refactor code to work with just one variable, issues with @Published wrapper
-                            isSpeaking.toggle()
-                            speechUtterance.toggleSpeaking()
-                            if speechUtterance.speaker.isPaused {
-                                speechUtterance.resumeSpeaking()
-                            }
-                            
-                            else if isSpeaking {
-                                speechUtterance.speak(text: storyTitle) {
-                                    isSpeaking.toggle()
-                                    speechUtterance.toggleSpeaking()
-                                }
-                            } else {
-                                // Pause
-                                speechUtterance.pause()
-                            }
-                        }) {
-                            Image(systemName: isSpeaking ? "pause.circle.fill" : "play.circle.fill")
-                                .foregroundColor(.white)
-                                .font(.system(size: 50))
-                        }
-                        .padding()
-                    }
-                }
-                .gesture(
-                    DragGesture()
-                        .updating($isDragging) { value, state, _ in
-                            state = true
-                        }
-                        .onEnded { value in
-                            if value.translation.height > 0 {
-                                // Dragged up
-                                dismiss()
+                        HStack() {
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text(story.dateCreated)
+                                    .foregroundColor(Color.gray)
+                                    .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                                    .padding(.leading)
 
+                                
+                                TextField(storyTitle, text: $storyTitle)
+                                    .foregroundColor(isEditing ? Color.white.opacity(0.8) : Color.white)
+                                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                    .padding(.bottom, 5)
+                                    .padding(.leading)
+
+                                    .disabled(!isEditing)
+
+                                Text("By " + story.author)
+                                    .foregroundColor(Color.gray)
+                                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                    .padding(.leading)
+                                
+                                FlowLayout(story.genres) { genre in
+                                    StoryGenreViewCell(genre: genre)
+                                }
+                                  .padding()
+                                  .frame(height: 80)
                             }
+                            .padding(.top)
+                            Button(action: {
+                                // TODO: - Refactor code to work with just one variable, issues with @Published wrapper
+                                isSpeaking.toggle()
+                                speechUtterance.toggleSpeaking()
+                                if speechUtterance.speaker.isPaused {
+                                    speechUtterance.resumeSpeaking()
+                                }
+                                
+                                else if isSpeaking {
+                                    speechUtterance.speak(text: storyTitle) {
+                                        isSpeaking.toggle()
+                                        speechUtterance.toggleSpeaking()
+                                    }
+                                } else {
+                                    // Pause
+                                    speechUtterance.pause()
+                                }
+                            }) {
+                                Image(systemName: isSpeaking ? "pause.circle.fill" : "play.circle.fill")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 30))
+                            }
+                            .padding()
+                            .padding(.bottom)
                         }
-                )
-                
-                ScrollView(showsIndicators: false) {
+                    }
+//                    .gesture(
+//                        DragGesture()
+//                            .updating($isDragging) { value, state, _ in
+//                                state = true
+//                            }
+//                            .onEnded { value in
+//                                if value.translation.height > 0 {
+//                                    // Dragged up
+//                                    dismiss()
+//
+//                                }
+//                            }
+//                    )
+                    
                     VStack(alignment: .leading) {
                         Text("Summary")
                             .foregroundColor(Color.white)
@@ -188,65 +217,46 @@ struct StoryDetailView: View {
                             .disabled(!isEditing)
                     }
                     .foregroundColor(isEditing ? Color.white.opacity(0.8) : Color.white)
+                    .padding()
+                    .background(.blue)
+                    .cornerRadius(12.5)
+                    .padding()
+                    .ignoresSafeArea()
                 }
-                .padding()
-                .background(.blue)
-                .cornerRadius(12.5)
-                .padding()
-                .ignoresSafeArea()
-            }
-            .onAppear() {
-                storyTitle = story.title
-                storySummary = story.summary
-                imageUrl = story.imageUrl
-                
-                if let id = LocalStorageHelper.retrieveUser() {
-                    self.userId = id
-                    FirebaseHelper.fetchUserById(id: id) { user in
-                        guard user != nil else {
-                            print("User is undefined cannot check for likes")
-                            return
-                        }
-                        
-                        if user!.likedStories.contains(story.storyId) {
-                            self.likedStory = true
-                        }
-                    }
-                }
-            }
-            .padding(.top)
-            
-            Button(action: {
-                dismiss()
-            }) {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.white)
-                    .font(.system(size: 20))
-            }
-            .frame(width: 30, height: 30)
-            .position(x: 0, y: 0)
-            .padding()
-            .padding()
-            
-            if allowedToEdit {
-                Button(action: {
-                    // Enable editing
-                    isEditing.toggle()
-                    if !isEditing {
-                        print(storyTitle)
-                        showAlert.toggle()
-                    }
+                .onAppear() {
+                    storyTitle = story.title
+                    storySummary = story.summary
+                    imageUrl = story.imageUrl
                     
-                }) {
-                    Image(systemName: isEditing ? "checkmark" : "pencil")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
+                    if let id = LocalStorageHelper.retrieveUser() {
+                        self.userId = id
+                        FirebaseHelper.fetchUserById(id: id) { user in
+                            guard user != nil else {
+                                print("User is undefined cannot check for likes")
+                                return
+                            }
+                            
+                            if user!.likedStories.contains(story.storyId) {
+                                self.likedStory = true
+                            }
+                        }
+                    }
                 }
-                .frame(width: 30, height: 30)
-                .position(x: UIScreen.screenWidth - 60, y: 0)
-                .padding()
-                .padding()
+                .padding(.top)
             }
+            
+//            Button(action: {
+//                dismiss()
+//            }) {
+//                Image(systemName: "chevron.left")
+//                    .foregroundColor(.white)
+//                    .font(.system(size: 20))
+//            }
+//            .frame(width: 30, height: 30)
+//            .position(x: 0, y: 0)
+//            .padding()
+//            .padding()
+            
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Save your changes?"), primaryButton: .default(Text("Yes")) {

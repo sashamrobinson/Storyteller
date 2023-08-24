@@ -17,7 +17,6 @@ struct StoryView: View {
     @State private var secondsTillDisplayEmpty: Int = 3
     @State private var displayEmpty: Bool = false
     @State private var presentingTableViewCell: Bool = false
-    @State var selectedStory: Story?
     
     // Scroll animations
     @Binding var hideTab: Bool
