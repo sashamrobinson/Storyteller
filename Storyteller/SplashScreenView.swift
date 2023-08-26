@@ -10,8 +10,6 @@ import SwiftUI
 struct SplashScreenView: View {
     
     @State private var isActive: Bool = false
-    @State private var size = 0.7
-    @State private var opacity = 0.5
     
     var body: some View {
         if isActive {
@@ -19,24 +17,9 @@ struct SplashScreenView: View {
         } else {
             ZStack {
                 Color("#171717").ignoresSafeArea()
-                VStack {
-                    VStack {
-                        Image("Storyteller Background Icon Big", bundle: .main)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 300, height: 300)
-                    }
-                    .scaleEffect(size)
-                    .opacity(opacity)
-                    .onAppear() {
-                        withAnimation(.easeIn(duration: 1.2)) {
-                            self.size = 0.9
-                            self.opacity = 1.0
-                        }
-                    }
-                }
+                MoonPresentingAnimation()
                 .onAppear() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         withAnimation {
                             self.isActive = true
                         }

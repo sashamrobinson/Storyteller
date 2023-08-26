@@ -415,27 +415,43 @@ class FirebaseHelper: ObservableObject {
     ///   - newSummary: a String containing the new summary the user wishes to change to
     ///   - newImage: a URL containing the path to a new image in the Firebase Storage
     ///   - completion: completion handler for displaying success animation
-    static func updateStory(storyId: String, newTitle: String, newSummary: String, newImage: UIImage?, completion: @escaping (Error?) -> Void) {
-        // TODO: - Update genres
-        // TODO: - Update complete animation
-        addImageToStorage(selectedImage: newImage, storyId: storyId) { result in
-            switch result {
-            case .success(let imageUrl):
-                let storyRef = db.collection("Stories").document(storyId)
-                storyRef.updateData([
-                        "title": newTitle,
-                        "summary": newSummary,
-                        "imageUrl": imageUrl
-                ]) { error in
-                    if let error = error {
-                        completion(error)
-                    } else {
-                        completion(nil)
-                    }
+    static func updateStory(storyId: String, newTitle: String, newSummary: String, newImage: UIImage?, publishedBool: Bool, completion: @escaping (Error?) -> Void) {
+        
+        if newImage == nil {
+            // An image was not set, only update other fields
+            let storyRef = db.collection("Stories").document(storyId)
+            storyRef.updateData([
+                    "title": newTitle,
+                    "summary": newSummary,
+                    "published": publishedBool
+            ]) { error in
+                if let error = error {
+                    completion(error)
+                } else {
+                    completion(nil)
                 }
-                
-            case .failure(let error):
-                print("Error uploading image: \(error)")
+            }
+        } else {
+            addImageToStorage(selectedImage: newImage, storyId: storyId) { result in
+                switch result {
+                case .success(let imageUrl):
+                    let storyRef = db.collection("Stories").document(storyId)
+                    storyRef.updateData([
+                            "title": newTitle,
+                            "summary": newSummary,
+                            "published": publishedBool,
+                            "imageUrl": imageUrl
+                    ]) { error in
+                        if let error = error {
+                            completion(error)
+                        } else {
+                            completion(nil)
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print("Error uploading image: \(error)")
+                }
             }
         }
     }
@@ -455,7 +471,7 @@ class FirebaseHelper: ObservableObject {
         
         let storageRef = storage.reference(withPath: uid + "+" + storyId)
         guard let imageData = selectedImage?.jpegData(compressionQuality: 0.5) else {
-            print("Cannot get image data")
+            print("Cannot get image data - either no image data was provided or an error occured")
             completion(.failure("Cannot get image data" as! Error))
             return
         }

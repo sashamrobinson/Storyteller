@@ -16,8 +16,6 @@ struct StoryDetailView: View {
     
     // Dismiss actions
     @Environment(\.dismiss) var dismiss
-    @GestureState private var isDragging: Bool = false
-
 
     // Speech
     @ObservedObject var speechUtterance = SpeechUtterance()
@@ -27,7 +25,8 @@ struct StoryDetailView: View {
     @State private var isEditing: Bool = false
     @State private var storyTitle = "My Story"
     @State private var storySummary = "Summary"
-    @State private var showAlert: Bool = false
+    @State private var shouldPublish: Bool = false
+    @State private var canSubmitUpdatedStory: Bool = false
     @State var allowedToEdit: Bool
     
     // Likes
@@ -38,6 +37,16 @@ struct StoryDetailView: View {
     @State var shouldShowImagePicker: Bool = false
     @State var imageUrl: String = ""
     @State var image: UIImage?
+    
+    // Modal pop up
+    @State var isShowing: Bool = false
+    @State private var showingPublish: Bool = true
+    
+    // Animations
+    @State private var currentHeight: CGFloat = 300
+    @State private var isDragging: Bool = false
+    let minHeight: CGFloat = 300
+    let maxHeight: CGFloat = 300
         
     var body: some View {
         ZStack {
@@ -59,8 +68,9 @@ struct StoryDetailView: View {
                                     // Enable editing
                                     isEditing.toggle()
                                     if !isEditing {
-                                        print(storyTitle)
-                                        showAlert.toggle()
+                                        withAnimation(.easeInOut) {
+                                            isShowing.toggle()
+                                        }
                                     }
                                     
                                 }) {
@@ -82,6 +92,7 @@ struct StoryDetailView: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 250, height: 250, alignment: .center)
                                     .clipped()
+                                    .cornerRadius(12.5)
                                     
                                 } else if imageUrl.count > 1 {
                                     GeometryReader { geometry in
@@ -90,16 +101,22 @@ struct StoryDetailView: View {
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: geometry.size.width, height: geometry.size.height)
                                             .clipped()
+                                            .cornerRadius(12.5)
 
                                         }
                                         placeholder: {
-                                            Color.clear.frame(width: 250, height: 250)
+                                            Color.clear
+                                                .frame(width: 250, height: 250)
+                                                .cornerRadius(12.5)
+
                                         }
                                     }
                                     .frame(width: 250, height: 250)
 
                                 } else {
                                     Color.blue.frame(width: 250, height: 250)
+                                        .cornerRadius(12.5)
+
                                 }
                             }
                             .onTapGesture {
@@ -165,20 +182,16 @@ struct StoryDetailView: View {
                             }
                             .padding(.top)
                             Button(action: {
-                                // TODO: - Refactor code to work with just one variable, issues with @Published wrapper
                                 isSpeaking.toggle()
                                 speechUtterance.toggleSpeaking()
                                 if speechUtterance.speaker.isPaused {
                                     speechUtterance.resumeSpeaking()
-                                }
-                                
-                                else if isSpeaking {
-                                    speechUtterance.speak(text: storyTitle) {
+                                } else if isSpeaking {
+                                    speechUtterance.speak(text: storySummary) {
                                         isSpeaking.toggle()
                                         speechUtterance.toggleSpeaking()
                                     }
                                 } else {
-                                    // Pause
                                     speechUtterance.pause()
                                 }
                             }) {
@@ -190,19 +203,6 @@ struct StoryDetailView: View {
                             .padding(.bottom)
                         }
                     }
-//                    .gesture(
-//                        DragGesture()
-//                            .updating($isDragging) { value, state, _ in
-//                                state = true
-//                            }
-//                            .onEnded { value in
-//                                if value.translation.height > 0 {
-//                                    // Dragged up
-//                                    dismiss()
-//
-//                                }
-//                            }
-//                    )
                     
                     VStack(alignment: .leading) {
                         Text("Summary")
@@ -218,7 +218,7 @@ struct StoryDetailView: View {
                     }
                     .foregroundColor(isEditing ? Color.white.opacity(0.8) : Color.white)
                     .padding()
-                    .background(.blue)
+                    .background(Color("#292929"))
                     .cornerRadius(12.5)
                     .padding()
                     .ignoresSafeArea()
@@ -235,7 +235,7 @@ struct StoryDetailView: View {
                                 print("User is undefined cannot check for likes")
                                 return
                             }
-                            
+                                                        
                             if user!.likedStories.contains(story.storyId) {
                                 self.likedStory = true
                             }
@@ -245,41 +245,171 @@ struct StoryDetailView: View {
                 .padding(.top)
             }
             
-//            Button(action: {
-//                dismiss()
-//            }) {
-//                Image(systemName: "chevron.left")
-//                    .foregroundColor(.white)
-//                    .font(.system(size: 20))
-//            }
-//            .frame(width: 30, height: 30)
-//            .position(x: 0, y: 0)
-//            .padding()
-//            .padding()
-            
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Save your changes?"), primaryButton: .default(Text("Yes")) {
-                
-                // Update database
-                FirebaseHelper.updateStory(storyId: story.storyId, newTitle: storyTitle, newSummary: storySummary, newImage: image) { error in
+            ZStack(alignment: .bottom) {
+                if isShowing {
+                    Color.black
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            isShowing = false
+                        }
                     
-                    // Handle success animation
+                    VStack(alignment: .center) {
+                        Capsule()
+                            .frame(width: 40, height: 6)
+                            .foregroundColor(.white)
+                            .background(.white.opacity(0.001))
+                            .gesture(dragGesture)
+                        
+                        if showingPublish {
+                            Text("Would you like to publish this story? Anyone will be able to read and listen to it")
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .padding()
+                                .padding()
+                                .padding()
+                            HStack(spacing: 30) {
+                                Button("No") {
+                                    shouldPublish = false
+                                    withAnimation(.easeInOut(duration: 1)) {
+                                        showingPublish = false
+                                    }
+                                }
+                                .padding()
+                                .frame(width: UIScreen.screenWidth / 3)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .foregroundColor(.white)
+                                .background(Color("#292929"))
+                                .cornerRadius(12.5)
+                                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+
+                                Button("Yes") {
+                                    shouldPublish = true
+                                    withAnimation(.easeInOut(duration: 1)) {
+                                        showingPublish = false
+                                    }
+                                }
+                                .padding()
+                                .frame(width: UIScreen.screenWidth / 3)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .foregroundColor(.white)
+                                .background(Color("#292929"))
+                                .cornerRadius(12.5)
+                                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+
+                            }
+                        } else {
+                            Text("Are you finished editing your story? You can always come back later")
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .padding()
+                                .padding()
+                                .padding()
+                            
+                            HStack(spacing: 30) {
+                                Button("No") {
+                                    storyTitle = story.title
+                                    storySummary = story.summary
+                                    
+                                    withAnimation(.easeInOut) {
+                                        isShowing = false
+                                    }
+                                }
+                                .padding()
+                                .frame(width: UIScreen.screenWidth / 3)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .foregroundColor(.white)
+                                .background(Color("#292929"))
+                                .cornerRadius(12.5)
+                                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+
+                                Button("Yes") {
+                                    canSubmitUpdatedStory = true
+                                    FirebaseHelper.updateStory(storyId: story.storyId, newTitle: storyTitle, newSummary: storySummary, newImage: image, publishedBool: shouldPublish) { error in
                     
-                    // Dismiss view to refresh
-                    dismiss()
+                                        // Handle success animation
+                    
+                                        // Dismiss view to refresh
+                                        dismiss()
+                                    }
+                                    withAnimation(.easeInOut) {
+                                        isShowing = false
+                                    }
+                                }
+                                .padding()
+                                .frame(width: UIScreen.screenWidth / 3)
+                                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
+                                .foregroundColor(.white)
+                                .background(Color("#292929"))
+                                .cornerRadius(12.5)
+                                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+                            }
+                        }
+                    }
+                    .frame(height: currentHeight)
+                    .frame(maxWidth: .infinity)
+                    .background(Color("#292929"))
+                    .cornerRadius(12.5)
+                    .transition(.move(edge: .bottom))
+                    .animation(isDragging ? nil : .easeInOut(duration: 0.45))
                 }
-            }, secondaryButton: .cancel(Text("No")) {
-                
-                // Reset text
-                storyTitle = story.title
-                storySummary = story.summary
-                
-            })
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea()
         }
         .fullScreenCover(isPresented: $shouldShowImagePicker) {
             ImagePicker(image: $image)
         }
+//        .alert(isPresented: $showAlert) {
+//            Alert(title: Text("Save your changes?"), primaryButton: .default(Text("Yes")) {
+//
+//                // Update database
+//                FirebaseHelper.updateStory(storyId: story.storyId, newTitle: storyTitle, newSummary: storySummary, newImage: image) { error in
+//
+//                    // Handle success animation
+//
+//                    // Dismiss view to refresh
+//                    dismiss()
+//                }
+//            }, secondaryButton: .cancel(Text("No")) {
+//
+//                // Reset text
+//                storyTitle = story.title
+//                storySummary = story.summary
+//
+//            })
+//        }
+    }
+    
+    @State private var prevDragTranslation = CGSize.zero
+    
+    var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+            .onChanged { val in
+                if !isDragging {
+                    isDragging = true
+                }
+                
+                let dragAmount = val.translation.height - prevDragTranslation.height
+                if currentHeight > maxHeight || currentHeight < minHeight {
+                    currentHeight -= dragAmount / 6
+                } else {
+                    currentHeight -= dragAmount
+                }
+                
+                prevDragTranslation = val.translation
+            }
+            .onEnded { val in
+                prevDragTranslation = .zero
+                isDragging = false
+                if currentHeight > maxHeight {
+                    currentHeight = maxHeight
+                } else if currentHeight < minHeight {
+                    currentHeight = minHeight
+                }
+            }
     }
 }
 

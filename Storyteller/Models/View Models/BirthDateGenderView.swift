@@ -93,7 +93,6 @@ struct BirthDateGenderView: View {
         .frame(maxWidth: .infinity, alignment: .center)
     }
     
-    // TODO: - Abstract this to a helper utility file
     func limitText(_ upper: Int, _ variable: Int) {
         if (variable == 0) {
             if day.count > upper {

@@ -14,10 +14,7 @@ struct CreateView: View {
     @Environment(\.dismiss) var dismiss
 
     // Animation
-    @State private var talkingCurrently = false
-    @State private var animationVisible = false
-    @State private var offsetMoonY: CGFloat = -UIScreen.screenHeight
-    @State private var bgOpacity: CGFloat = 0
+    @State private var speakingStatus: SpeakingStatus = .willSpeak
     
     @State private var errorType: ErrorHelper.AppErrorType?
     
@@ -32,37 +29,18 @@ struct CreateView: View {
         
     var body: some View {
         ZStack {
-            GeometryReader { geometry in
-                Image("Storyteller Stars Background", bundle: .main)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .opacity(bgOpacity)
-            }
-            .edgesIgnoringSafeArea(.all)
-
+            Color("#171717").ignoresSafeArea()
             VStack {
-                ZStack {
-                    if speechUtterance.isSpeaking {
-                        SpeakingPulseAnimation()
-                            .opacity(animationVisible ? 1 : 0)
-                            .onAppear() {
-                                withAnimation(.easeInOut(duration: 1.0)) {
-                                    animationVisible.toggle()
-                                }
-                            }
-                    }
-                    
-                    Image("Storyteller Background Icon Big", bundle: .main)
-                        .resizable()
-                        .scaledToFit()
-                        .offset(x: 0, y: offsetMoonY)
-                        .transition(.move(edge: .top))
-                        .frame(width: 300, height: 300)
+                switch speakingStatus {
+                case .willSpeak:
+                    MoonPresentingAnimation()
+                case .currentlySpeaking:
+                    BeginMoonGlowingAnimation()
+                case .stoppedSpeaking:
+                    EndMoonGlowingAnimation()
                 }
             }
         }
-        .background(Color("#171614"))
         .onAppear {
             
             // Reset data
@@ -84,27 +62,17 @@ struct CreateView: View {
                 self.user = user!
                 
                 // Begin speaking
-                print(speechUtterance.isSpeaking)
                 speechUtterance.toggleSpeaking()
+                speakingStatus = .currentlySpeaking
                 speechUtterance.speak(text: "Hi \(user!.firstName), " + Constants.INTRODUCTION_STRING, completion: {
-                    print(speechUtterance.isSpeaking)
                     startConversation()
                 })
             }
-            
-            // Animations
-            withAnimation(.easeInOut(duration: 2.0)) {
-                offsetMoonY = 0
-            }
-            
-            withAnimation(.easeInOut(duration: 2.0)) {
-                bgOpacity = 1.0
-            }
-            
         }
         .onDisappear() {
             speechRecognizer.resetTranscript()
             speechRecognizer.stopTranscribing()
+            speechUtterance.pause()
         }
         .alert(item: $errorType) { errorType in
             ErrorHelper.alert(for: errorType)
@@ -115,6 +83,7 @@ struct CreateView: View {
     private func startConversation() {
             
         // Reset speech recognizer, begin transcribing and begin recording
+        speakingStatus = .stoppedSpeaking
         speechRecognizer.resetTranscript()
         speechRecognizer.startTranscribing(completion: {
             endConversation()
@@ -192,6 +161,7 @@ struct CreateView: View {
                     // Add message to ChatMessage array
                     currentChatMessages.append(ChatMessage(role: .assistant, content: output))
                     speechUtterance.toggleSpeaking()
+                    speakingStatus = .currentlySpeaking
                     speechUtterance.speak(text: output, completion: {
                         startConversation()
                     })

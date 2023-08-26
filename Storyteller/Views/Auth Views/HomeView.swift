@@ -16,12 +16,8 @@ struct HomeView: View {
         ZStack {
             Color("#171717").ignoresSafeArea()
             VStack {
-                Image("Storyteller Background Icon Big", bundle: .main)
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width: 70, height: 70)
-                    .offset(x: 0, y: offsetY)
-                    .transition(.move(edge: .top))
-                
+                Spacer()
+                MoonPresentingAnimation()
                 Spacer()
                 
                 Text("Welcome to")

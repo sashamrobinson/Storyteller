@@ -38,21 +38,21 @@ class SpeechUtterance: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
         }
     }
     
-    // Method for pausing speech
+    /// Method for pausing speech
     func pause() {
         if !isSpeaking {
             speaker.pauseSpeaking(at: .immediate)
         }
     }
     
-    // Method for resuming speech
+    /// Method for resuming speech
     func resumeSpeaking() {
         if isSpeaking {
             speaker.continueSpeaking()
         }
     }
     
-    // Method for toggling isSpeaking variable
+    /// Method for toggling isSpeaking variable
     func toggleSpeaking() {
         isSpeaking.toggle()
     }

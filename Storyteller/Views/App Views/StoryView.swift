@@ -31,11 +31,10 @@ struct StoryView: View {
             Color("#171717").ignoresSafeArea()
             .foregroundColor(.white)
             VStack(alignment: .leading) {
-                // TODO: - Put stories text in its own top view that disappears as you scroll down and appears as you scroll up
                 Text("Stories")
                     .font(.system(size: Constants.HEADER_FONT_SIZE, weight: .semibold))
                     .foregroundColor(.white)
-                    .offset(y: hideTab ? -topEdge - 50 :     0)
+                    .offset(y: hideTab ? -topEdge - 50 : 0)
                 
                 if stories.isEmpty && !displayEmpty {
                     LoadingCircleAnimation()

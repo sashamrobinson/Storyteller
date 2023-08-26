@@ -19,8 +19,10 @@ struct StorytellerListenerHelper: View {
     @State var canListen: Bool = true
     
     // Animations Variables
-    @State private var scale = 0.2
     @State private var displayCreateView = false
+    @State private var rotationAngle: Double = 0
+    @State private var initialSize: CGFloat = 40
+    @State private var opacity: CGFloat = 0
     
     init(speechRecognizer: SpeechRecognizer, listenerOpacity: Binding<Double>) {
         self.speechRecognizer = speechRecognizer
@@ -28,22 +30,33 @@ struct StorytellerListenerHelper: View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color.black.opacity(0.7)
+        ZStack() {
+            Color.black.opacity(0.3)
                 .ignoresSafeArea()
-             
-            Image("Storyteller Background Icon Big", bundle: .main)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 150, height: 150)
-                .scaleEffect(scale)
-                .animation(.easeInOut(duration: 0.25), value: scale)
-                // Temporary
-                .padding(.bottom, 100)
+            
+            if listenerOpacity == 1.0 {
+                VStack {
+                    HStack {
+                        Image("Storyteller Moon Icon", bundle: .main)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: initialSize, height: initialSize)
+                            .rotationEffect(.degrees(rotationAngle))
+                    }
+                }
+                .onAppear() {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        opacity = 1.0
+                    }
+                    withAnimation(.easeInOut(duration: 1.0)) {
+                        initialSize = 150
+                        rotationAngle -= 30
+                    }
+                }
+            }
             
         }
         .onAppear() {
-            scale = 1
             startListening()
             shouldListenForCommands = true
         }
@@ -58,8 +71,7 @@ struct StorytellerListenerHelper: View {
             shouldListenForCommands = true
         }
         .opacity(listenerOpacity)
-        .animation(.easeInOut(duration: 0.25))
-        .sheet(isPresented: $displayCreateView) {
+        .fullScreenCover(isPresented: $displayCreateView) {
             CreateView().navigationBarBackButtonHidden(true)
         }
     }
@@ -98,10 +110,15 @@ struct StorytellerListenerHelper: View {
                 if parseTextForCommand(transcript, Constants.BEGIN_STORY_STRINGS) {
                     shouldListenForCommands = false
                     listeningForCall = true
-                    listenerOpacity = 0.0
                     
                     // Transition to create view
-                    displayCreateView = true
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        initialSize = 0
+                    }
+                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                        listenerOpacity = 0.0
+                        displayCreateView = true
+                    }
                 }
             }
             
@@ -125,6 +142,6 @@ struct StorytellerListenerHelper: View {
 
 struct StorytellerListenerHelper_Previews: PreviewProvider {
     static var previews: some View {
-        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer(), listenerOpacity: .constant(0.0))
+        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer(), listenerOpacity: .constant(1.0))
     }
 }
