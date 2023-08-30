@@ -39,20 +39,22 @@ class FirebaseHelper: ObservableObject {
     }
 
     // Method for creating a user in the Auth database
-    static func createUserInAuth(email: String, password: String, user: User) {
+    static func createUserInAuth(email: String, password: String, user: User, completion: @escaping (Error?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
                 print(error!.localizedDescription)
             }
             
-            FirebaseHelper.createUserInDatabase(user: user)
+            FirebaseHelper.createUserInDatabase(user: user, completion: { error in
+                completion(error)
+            })
             
         }
     }
     
     /// Method for creating the user document in the Users collection and populating it with the passed in User object
     /// - Parameter user: a User object representing a User in the Firebase database
-    static func createUserInDatabase(user: User) {
+    static func createUserInDatabase(user: User, completion: @escaping (Error?) -> Void) {
         
         guard let authUser = Auth.auth().currentUser else {
             print("Cannot get current user from Auth when trying to create user in database.")
@@ -75,12 +77,33 @@ class FirebaseHelper: ObservableObject {
         ]) { error in
             if let error = error {
                 print(error.localizedDescription)
+                completion(error)
             }
             else {
                 print("User successfully created and stored to database")
                 
                 // Save logged in user to Local Storage
                 LocalStorageHelper.saveUser(userId: authUser.uid)
+                completion(nil)
+            }
+        }
+    }
+    
+    static func checkIfEmailExists(email: String, completion: @escaping (Bool) -> Void) {
+        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+            if let error = error {
+                print("Error checking email existence: \(error.localizedDescription)")
+                completion(false) // Assume email doesn't exist in case of an error
+                return
+            }
+            
+            if let signInMethods = signInMethods {
+                // If signInMethods contains any methods, it means the email is already in use
+                let emailExists = !signInMethods.isEmpty
+                completion(emailExists)
+            } else {
+                // No signInMethods returned, assume email doesn't exist
+                completion(false)
             }
         }
     }
@@ -544,7 +567,9 @@ class FirebaseHelper: ObservableObject {
                         dispatchGroup.enter()
                         fetchStory(id: storyId) { story in
                             if let story = story {
-                                storiesToReturn.append(story)
+                                if story.published {
+                                    storiesToReturn.append(story)
+                                }
                             } else {
                                 print("An error occured. Story object came back nil.")
                             }

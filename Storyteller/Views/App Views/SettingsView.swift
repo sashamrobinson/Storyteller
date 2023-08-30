@@ -12,6 +12,7 @@ struct SettingsView: View {
     
     @State private var showLogOutAlert = false
     @State private var logoutUser = false
+    @ObservedObject var speechRecognizer: SpeechRecognizer
     
     // User details
     @State private var fullName: String = "Full Name"
@@ -117,6 +118,10 @@ struct SettingsView: View {
                     NavigationView {
                         RootView()
                             .navigationBarBackButtonHidden(true)
+                            .onAppear() {
+                                speechRecognizer.stopTranscribing()
+
+                            }
                     }
                     .navigationViewStyle(.stack)
                 }
@@ -127,6 +132,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(speechRecognizer: SpeechRecognizer())
     }
 }

@@ -14,8 +14,8 @@ struct SignUpView: View {
     @State private var loginUser = false
     
     // Animation
-    @State private var isMoonVisible = false
-    @State private var fadeOut = false
+    @State private var fadeOut: Bool = false
+    @State private var showLoading: Bool = false
     
     // User information
     @State private var firstName: String = ""
@@ -31,22 +31,15 @@ struct SignUpView: View {
     var body: some View {
         ZStack {
             Color("#171717").ignoresSafeArea()
+            if showLoading {
+                VStack {
+                    HStack {
+                        LoadingCircleAnimation()
+                    }
+                }
+            }
             VStack(spacing: 10) {
                 ZStack {
-                    if isMoonVisible {
-                        HStack {
-                            Spacer()
-                            Image("Storyteller Background Icon")
-                                .frame(width: 116, height: 116)
-                                .opacity(0.3)
-                        }
-                        .edgesIgnoringSafeArea(.all)
-                        .ignoresSafeArea(.all)
-                        .transition(.move(edge: .trailing))
-                    }
-                    
-                    
-
                     VStack {
                         Text("Storyteller")
                             .font(.system(size: Constants.TITLE_FONT_SIZE, weight: .semibold))
@@ -54,16 +47,10 @@ struct SignUpView: View {
                         
                         Text("Tell us your story")
                             .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .light))
-                            .foregroundColor(Color("#3A3A3A"))
+                            .foregroundColor(.gray)
                     }
                     .offset(x: 0, y: 30)
                 }
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 2.5)) {
-                        isMoonVisible = true
-                    }
-                }
-                
                 
                 // Depending on the current increment, display a different field for users to fill out information
                 // Not using switch case to avoid View handling error
@@ -96,6 +83,13 @@ struct SignUpView: View {
                             if (firstName.count <= 0 || lastName.count <= 0) {
                                 errorMessage = "Invalid name"
                             }
+                            
+                            if errorMessage.count == 0 {
+                                withAnimation {
+                                    authViewToShowIndex += 1
+                                    return
+                                }
+                            }
                         }
                         
                         else if authViewToShowIndex == 2 {
@@ -103,18 +97,30 @@ struct SignUpView: View {
                             if (password.count <= 0) {
                                 errorMessage = "Invalid password"
                             }
-                            
+                            FirebaseHelper.checkIfEmailExists(email: email) { emailExists in
+                                if emailExists {
+                                    errorMessage = "Email already in use"
+                                }
+                                
+                                if errorMessage.count == 0 {
+                                    withAnimation {
+                                        authViewToShowIndex += 1
+                                        return
+                                    }
+                                }
+                            }
                         }
                         
                         else if authViewToShowIndex == 3 {
                             if (month.count <= 0 || day.count <= 0 || year.count <= 0 || gender.count <= 0 || day.contains(".") || year.contains(".")) {
                                 errorMessage = "Invalid date of birth or gender"
                             }
-                        }
-                        
-                        if errorMessage.count == 0 {
-                            withAnimation {
-                                authViewToShowIndex += 1
+                            
+                            if errorMessage.count == 0 {
+                                withAnimation {
+                                    authViewToShowIndex += 1
+                                    return
+                                }
                             }
                         }
                     }
@@ -154,40 +160,50 @@ struct SignUpView: View {
                                 fadeOut = true
                             }
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+                                Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+                                    if !loginUser {
+                                        showLoading = true
+                                    }
+                                }
                                 // Package date
-                                let birthDate = "\(month)-\(day)-\(year)"
+                                let birthDate = "\(month.prefix(3)) \(day), \(year)"
                                 
                                 // Package user
                                 let user = User(id: "NULL", firstName: firstName,
-                                                lastName: lastName,
-                                                email: email,
-                                                birthDate: birthDate,
-                                                gender: gender,
-                                                username: username,
-                                                stories: [],
-                                                likedStories: [],
-                                                genresLiked: [:]
-                                                )
+                                    lastName: lastName,
+                                    email: email,
+                                    birthDate: birthDate,
+                                    gender: gender,
+                                    username: username,
+                                    stories: [],
+                                    likedStories: [],
+                                    genresLiked: [:]
+                                )
                                 
                                 // Create auth object and firebase object
-                                FirebaseHelper.createUserInAuth(email: email, password: password, user: user)
-
-                                // TODO: - Transition to next page
-                                UINavigationBar.setAnimationsEnabled(false)
-                                loginUser = true
+                                FirebaseHelper.createUserInAuth(email: email, password: password, user: user, completion: { error in
+                                    if let error = error {
+                                        // TODO: Show error to user
+                                        print(error.localizedDescription)
+                                        return
+                                    }
+                                            
+                                    UINavigationBar.setAnimationsEnabled(false)
+                                    loginUser = true
+                                })
                             }
                         }
                     }
                     .padding()
-                    .frame(width: UIScreen.screenWidth / 1.5)
-                    .font(.system(size: 35, weight: .regular))
+                    .frame(width: UIScreen.screenWidth / 2)
+                    .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
                     .foregroundColor(.white)
-                    .background(.black)
+                    .background(Color("#292929"))
                     .cornerRadius(12.5)
                     .padding()
                     .navigationDestination(isPresented: $loginUser) {
-                        BeginView().navigationBarBackButtonHidden(true)
+                        TutorialView().navigationBarBackButtonHidden(true)
                     }
                 }
                 

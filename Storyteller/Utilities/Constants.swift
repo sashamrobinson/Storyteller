@@ -20,7 +20,7 @@ class Constants {
     static let userKey = "storedUserObject"
     
     // Specific Queries
-    static let BEGIN_SPEAKING_STORYTELLER = ["hey storyteller", "hi storyteller", "hello storyteller", "storyteller", "story teller", "story tell her"]
+    static let BEGIN_SPEAKING_STORYTELLER = ["hey storyteller", "hi storyteller", "hello storyteller", "storyteller", "story teller", "story tell her", "sorry taylor", "three dollar", "storytelling"]
     static let BEGIN_STORY_STRINGS = ["can i tell you a story", "let me tell you a story", "tell you a story", "can i tell you the story", "can you tell your story", "test"]
     static let END_STORY_STRINGS = ["end story", "end of story", "the end", "that is the end", "that's the end", "that is the end of my story", "and of story", "and story"]
     static let AFFIRMATIVE_STRINGS = ["yes", "yeah", "sure", "absolutely", "definitely", "certainly", "indeed", "OK", "okay", "right", "of course", "affirmative", "positive", "agreed", "true", "correct", "affirm", "confirm", "confirmative", "yep", "yup", "aye", "exactly", "totally", "affirmation"]
@@ -41,8 +41,12 @@ class Constants {
     static let INTRODUCTION_STRING = "Whenever you're ready, I'd love to hear your story."
     static let END_STORY_CONFIRMATION = "Are you sure you're finished?"
     static let APOLOGIZE_CONTINUE_STORY = "Oh, I'm sorry. Please continue your story."
+    static let APOLOGIZE_DIDNT_HEAR = "I'm sorry, I didn't get that. Can you please repeat?"
     static let PUBLICIZE_CONFIRMATION = "Great. Would you also like to publicize your story so others can see it?"
     static let FINISHED_STORY = "Thanks for telling me your story. Whenever you want to talk again I'm always here. Bye"
+    static let WELCOME_PROMPT = "Welcome to Storyteller. It's great to get to meet you. In order for me to be able to hear your stories, I need to explain some commands to you."
+    static let WELCOME_PROMPT_2 = "To get my attention, you can say, Hey Storyteller. To begin telling me your story, you can say, Let me tell you a story. And once you are done your story, to let me know, you can say, The end."
+    static let WELCOME_PROMPT_3 = "Now that you know how everything works, to get to know each other better, I'd like you to tell me a story. Are you ready to create your first story?"
     
     // Speech
     // TODO: Different timing for conversation delay and calling AI

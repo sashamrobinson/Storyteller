@@ -50,7 +50,7 @@ struct BiographyView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("You have no stories yet. Please check your available connection if you believe this is an error")
+                            Text("You have no stories yet. To create your first story, talk to Storyteller.")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
@@ -108,7 +108,6 @@ struct BiographyView: View {
             .padding()
             
             listener
-                .opacity(listenerOpacity)
         }
         .onAppear {
             secondsTillDisplayEmpty = 3
@@ -128,7 +127,7 @@ struct BiographyView: View {
             }
         }
         .sheet(isPresented: $displaySettings) {
-            SettingsView()
+            SettingsView(speechRecognizer: speechRecognizer)
         }
     }
 }

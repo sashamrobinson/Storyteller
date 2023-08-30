@@ -43,7 +43,7 @@ struct StoryView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("There are no available stories. Please check your connection if this problem persists")
+                            Text("There are no available stories for you. Go to the explore page and like some stories so we know what to show you.")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
@@ -101,7 +101,6 @@ struct StoryView: View {
             .padding()
             
             listener
-                .opacity(listenerOpacity)
 
         }
         .onAppear {

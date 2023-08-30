@@ -127,7 +127,8 @@ struct CreateView: View {
                     
                     // YES / NO
                     if parseTextForCommand(transcript, Constants.AFFIRMATIVE_STRINGS) {
-                        // Finished telling story
+                        
+                        // User finished telling story
                         speechUtterance.toggleSpeaking()
                         speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
                             
@@ -139,8 +140,9 @@ struct CreateView: View {
                     }
                     
                     else if parseTextForCommand(transcript, Constants.NEGATING_STRINGS) {
-                        speechUtterance.toggleSpeaking()
+                        
                         // User is not finished telling story, loop back
+                        speechUtterance.toggleSpeaking()
                         speechUtterance.speak(text: Constants.APOLOGIZE_CONTINUE_STORY) {
                             startConversation()
                         }

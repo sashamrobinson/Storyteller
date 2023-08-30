@@ -7,12 +7,18 @@
 
 import SwiftUI
 
+class StorytellerState: ObservableObject {
+    @Published var progress: Double = 0.0
+    // Add other necessary state properties here
+}
+
 struct StorytellerListenerHelper: View {
     
     // Speech Logic Variables
     @ObservedObject var speechUtterance = SpeechUtterance()
     @ObservedObject var speechRecognizer: SpeechRecognizer
     @Binding var listenerOpacity: Double
+    @ObservedObject var storytellerState = StorytellerState()
     @State private var listeningForCall = true
     @State private var isProcessingAudio = false
     @State private var shouldListenForCommands = true
@@ -31,15 +37,15 @@ struct StorytellerListenerHelper: View {
     
     var body: some View {
         ZStack() {
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
-            
             if listenerOpacity == 1.0 {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
                 VStack {
                     HStack {
                         Image("Storyteller Moon Icon", bundle: .main)
                             .resizable()
                             .scaledToFit()
+                            .opacity(opacity)
                             .frame(width: initialSize, height: initialSize)
                             .rotationEffect(.degrees(rotationAngle))
                     }
@@ -53,6 +59,15 @@ struct StorytellerListenerHelper: View {
                         rotationAngle -= 30
                     }
                 }
+            }
+            
+            if storytellerState.progress > 0.0 {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
+                CircularProgressView(progress: storytellerState.progress)
+                    .onAppear() {
+                         
+                    }
             }
             
         }
@@ -70,8 +85,9 @@ struct StorytellerListenerHelper: View {
             isProcessingAudio = false
             shouldListenForCommands = true
         }
-        .opacity(listenerOpacity)
-        .fullScreenCover(isPresented: $displayCreateView) {
+        .fullScreenCover(isPresented: $displayCreateView, onDismiss: {
+            storytellerState.progress = 0.01
+        }) {
             CreateView().navigationBarBackButtonHidden(true)
         }
     }
@@ -142,6 +158,6 @@ struct StorytellerListenerHelper: View {
 
 struct StorytellerListenerHelper_Previews: PreviewProvider {
     static var previews: some View {
-        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer(), listenerOpacity: .constant(1.0))
+        StorytellerListenerHelper(speechRecognizer: SpeechRecognizer(), listenerOpacity: .constant(0.0))
     }
 }

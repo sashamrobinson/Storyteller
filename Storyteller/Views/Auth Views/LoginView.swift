@@ -21,17 +21,17 @@ struct LoginView: View {
             Color("#171717").ignoresSafeArea()
             VStack(spacing: 10) {
                 ZStack {
-                    if isMoonVisible {
-                        HStack {
-                            Spacer()
-                            Image("Storyteller Background Icon")
-                                .frame(width: 116, height: 116)
-                                .opacity(0.3)
-                        }
-                        .edgesIgnoringSafeArea(.all)
-                        .ignoresSafeArea(.all)
-                        .transition(.move(edge: .trailing))
-                    }
+//                    if isMoonVisible {
+//                        HStack {
+//                            Spacer()
+//                            Image("Storyteller Background Icon")
+//                                .frame(width: 116, height: 116)
+//                                .opacity(0.3)
+//                        }
+//                        .edgesIgnoringSafeArea(.all)
+//                        .ignoresSafeArea(.all)
+//                        .transition(.move(edge: .trailing))
+//                    }
                     
                     VStack {
                         Text("Storyteller")
@@ -115,8 +115,8 @@ struct LoginView: View {
                     }
                 }
                 .padding()
-                .frame(width: UIScreen.screenWidth / 1.5)
-                .font(.system(size: 35, weight: .regular))
+                .frame(width: UIScreen.screenWidth / 2)
+                .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
                 .foregroundColor(.white)
                 .background(Color("#292929"))
                 .cornerRadius(12.5)

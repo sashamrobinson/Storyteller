@@ -63,19 +63,6 @@ struct SearchView: View {
                     .background(Color("#292929"))
                     .cornerRadius(12.5)
                     
-//                    if !stories.isEmpty {
-//                        // Show stories
-//                    } else if stories.isEmpty {
-//                        if !isTyping {
-//                            // Show genres
-//                        } else if isTyping {
-//                            if displayEmpty {
-//                                // Show error
-//                            } else {
-//                                // Show loading
-//                            }
-//                        }
-//                    }
                     switch currentDisplay {
                     case .displayGenres:
                         // Show genres
@@ -159,76 +146,8 @@ struct SearchView: View {
                             Spacer()
                         }
                     }
-                    
-                    
-//                    if !isTyping || searchText.isEmpty {
-//                        Text("Genres")
-//                            .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
-//                            .foregroundColor(.gray)
-//                            .padding(.top)
-//
-//                        ScrollView(showsIndicators: false) {
-//                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2)) {
-//                                ForEach(allGenres) { genre in
-//                                    NavigationLink(destination: GenreStoriesView(genre: genre, hideTab: $hideTab, bottomEdge: bottomEdge, topEdge: topEdge).navigationBarBackButtonHidden(true)) {
-//                                        SearchGenreTableViewCell(genre: genre)
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        .ignoresSafeArea()
-//                    } else if isTyping && stories.isEmpty {
-//                        LoadingCircleAnimation()
-//                    } else if isTyping && !stories.isEmpty {
-//                        ScrollView(.vertical, showsIndicators: false) {
-//                            VStack(alignment: .leading, spacing: 10) {
-//                                ForEach(stories) { story in
-//                                    StoryTableViewCell(allowedToEdit: false, story: story)
-//                                }
-//                            }
-//                            .overlay(
-//                                GeometryReader { proxy -> Color in
-//
-//                                    let minY = proxy.frame(in: .named("SCROLL")).minY
-//
-//                                    let durationOffset: CGFloat = 35
-//
-//                                    DispatchQueue.main.async {
-//                                        if minY < offset {
-//                                            if offset < 0 && -minY > (lastOffset + durationOffset) {
-//                                                withAnimation(.easeOut.speed(1.5)) {
-//                                                    hideTab = true
-//                                                }
-//                                                lastOffset = -offset
-//                                            }
-//                                        }
-//                                        if minY > offset {
-//                                            if offset < 0 && -minY > (lastOffset - durationOffset) {
-//                                                withAnimation(.easeOut.speed(1.5)) {
-//                                                    hideTab = false
-//                                                }
-//                                                lastOffset = -offset
-//                                            }
-//                                        }
-//
-//                                        self.offset = minY
-//                                    }
-//
-//                                    return Color.clear
-//                                }
-//                            )
-//                            .padding(.bottom, 50 + bottomEdge)
-//                        }
-//                        .coordinateSpace(name: "SCROLL")
-//                    }
                 }
                 .padding()
-//                .background(
-//                    RoundedRectangle(cornerRadius: 12)
-//                        .foregroundColor(Color("#171717"))
-//                        .shadow(color: .black, radius: 5, x: 0, y: 2)
-//                )
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
             }
