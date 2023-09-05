@@ -50,7 +50,7 @@ struct BiographyView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("You have no stories yet. To create your first story, talk to Storyteller.")
+                            Text("You have no stories yet. Create your first story to see it here")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)

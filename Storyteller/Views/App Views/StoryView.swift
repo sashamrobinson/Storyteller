@@ -43,7 +43,7 @@ struct StoryView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("There are no available stories for you. Go to the explore page and like some stories so we know what to show you.")
+                            Text("There are no available stories for you. Like a story to begin creating your feed")
                                 .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .semibold))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)

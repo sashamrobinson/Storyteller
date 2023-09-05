@@ -256,7 +256,7 @@ class FirebaseHelper: ObservableObject {
     
     /// Method for saving a story the user has created to its own document and the ID to the users document
     /// - Parameter chatMessages: an array of ChatMessage objects from OpenAI representing the messages and roles in the conversation
-    static func saveStoryToDocumentAndUser(chatMessages: [ChatMessage]) {
+    static func saveStoryToDocumentAndUser(chatMessages: [ChatMessage], completion: @escaping () -> Void) {
         let id = LocalStorageHelper.retrieveUser()
         guard id != nil else {
             print("An error occured, cannot retrieve current local storage id.")
@@ -342,6 +342,7 @@ class FirebaseHelper: ObservableObject {
                                             print("Error updating document")
                                         } else {
                                             print("Document successfully updated")
+                                            completion()
                                         }
                                     }
                                 case .failure:

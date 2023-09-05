@@ -27,6 +27,7 @@ struct StoryDetailView: View {
     @State private var storySummary = "Summary"
     @State private var shouldPublish: Bool = false
     @State private var canSubmitUpdatedStory: Bool = false
+    @State private var noAvailableImage: Bool = false
     @State var allowedToEdit: Bool
     
     // Likes
@@ -63,6 +64,18 @@ struct StoryDetailView: View {
                                     .font(.system(size: 20))
                             }
                             Spacer()
+                            if noAvailableImage {
+                                if isEditing {
+                                    Button(action: {
+                                        shouldShowImagePicker.toggle()
+
+                                    }) {
+                                        Image(systemName: "plus.app")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 20))
+                                    }
+                                }
+                            }
                             if allowedToEdit {
                                 Button(action: {
                                     // Enable editing
@@ -112,11 +125,6 @@ struct StoryDetailView: View {
                                         }
                                     }
                                     .frame(width: 250, height: 250)
-
-                                } else {
-                                    Color.blue.frame(width: 250, height: 250)
-                                        .cornerRadius(12.5)
-
                                 }
                             }
                             .onTapGesture {
@@ -125,33 +133,7 @@ struct StoryDetailView: View {
                             .opacity(isEditing ? 0.8 : 1.0)
                             .disabled(!isEditing)
                             
-                            if !allowedToEdit {
-                                ZStack {
-                                    Circle()
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(Color("#171717"))
-                                    Image(systemName: likedStory ? "heart.fill" : "heart")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundColor(.white)
-                                }
-                                .onTapGesture {
-                                    likedStoryPending = true
-                                    withAnimation {
-                                        likedStory.toggle()
-                                    }
-                                    
-                                    guard userId != nil else {
-                                        print("Cannot add or clear like. UserID is nil")
-                                        return
-                                    }
-                                    FirebaseHelper.addOrClearLike(likedStory: likedStory, userId: userId!, storyId: story.storyId, genres: story.genres) {
-                                        likedStoryPending = false
-                                    }
-                                }
-                                .offset(x: 10, y: -10)
-                                .disabled(likedStoryPending)
-                            }
+                            
                         }
                         HStack() {
                             VStack(alignment: .leading, spacing: 0) {
@@ -181,26 +163,54 @@ struct StoryDetailView: View {
                                   .frame(height: 80)
                             }
                             .padding(.top)
-                            Button(action: {
-                                isSpeaking.toggle()
-                                speechUtterance.toggleSpeaking()
-                                if speechUtterance.speaker.isPaused {
-                                    speechUtterance.resumeSpeaking()
-                                } else if isSpeaking {
-                                    speechUtterance.speak(text: storySummary) {
-                                        isSpeaking.toggle()
-                                        speechUtterance.toggleSpeaking()
-                                    }
-                                } else {
-                                    speechUtterance.pause()
+                            
+                            VStack {
+                                if !allowedToEdit {
+                                    Image(systemName: likedStory ? "heart.fill" : "heart")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.white)
+                                        .padding(.bottom)
+                                        .onTapGesture {
+                                            likedStoryPending = true
+                                            withAnimation {
+                                                likedStory.toggle()
+                                            }
+                                            
+                                            guard userId != nil else {
+                                                print("Cannot add or clear like. UserID is nil")
+                                                return
+                                            }
+                                            FirebaseHelper.addOrClearLike(likedStory: likedStory, userId: userId!, storyId: story.storyId, genres: story.genres) {
+                                                likedStoryPending = false
+                                            }
+                                        }
+                                        .disabled(likedStoryPending)
+
                                 }
-                            }) {
-                                Image(systemName: isSpeaking ? "pause.circle.fill" : "play.circle.fill")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 30))
+                                
+                                Button(action: {
+                                    isSpeaking.toggle()
+                                    speechUtterance.toggleSpeaking()
+                                    if speechUtterance.speaker.isPaused {
+                                        speechUtterance.resumeSpeaking()
+                                    } else if isSpeaking {
+                                        speechUtterance.speak(text: storySummary) {
+                                            isSpeaking.toggle()
+                                            speechUtterance.toggleSpeaking()
+                                        }
+                                    } else {
+                                        speechUtterance.pause()
+                                    }
+                                }) {
+                                    Image(systemName: isSpeaking ? "pause.circle.fill" : "play.circle.fill")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 30))
+                                }
+                                .padding(.bottom)
                             }
-                            .padding()
-                            .padding(.bottom)
+                            .padding(.trailing)
+
                         }
                     }
                     
@@ -234,6 +244,10 @@ struct StoryDetailView: View {
                             guard user != nil else {
                                 print("User is undefined cannot check for likes")
                                 return
+                            }
+                            
+                            if self.image == nil && imageUrl.count < 1 {
+                                noAvailableImage = true
                             }
                                                         
                             if user!.likedStories.contains(story.storyId) {
@@ -362,25 +376,6 @@ struct StoryDetailView: View {
         .fullScreenCover(isPresented: $shouldShowImagePicker) {
             ImagePicker(image: $image)
         }
-//        .alert(isPresented: $showAlert) {
-//            Alert(title: Text("Save your changes?"), primaryButton: .default(Text("Yes")) {
-//
-//                // Update database
-//                FirebaseHelper.updateStory(storyId: story.storyId, newTitle: storyTitle, newSummary: storySummary, newImage: image) { error in
-//
-//                    // Handle success animation
-//
-//                    // Dismiss view to refresh
-//                    dismiss()
-//                }
-//            }, secondaryButton: .cancel(Text("No")) {
-//
-//                // Reset text
-//                storyTitle = story.title
-//                storySummary = story.summary
-//
-//            })
-//        }
     }
     
     @State private var prevDragTranslation = CGSize.zero
@@ -415,6 +410,6 @@ struct StoryDetailView: View {
 
 struct StoryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StoryDetailView(story: Story(storyId: "StoryID", author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: [.adventure, .funny, .love, .wow], numberOfLikes: 5, imageUrl: ""), allowedToEdit: true)
+        StoryDetailView(story: Story(storyId: "StoryID", author: "Sasha", authorUid: "UID", dateCreated: "Aug 11, 2023", title: "A Walk Through The Park", published: true, conversation: [], summary: "In our previous conversation, they recounted an incident during which they were walking to the store and encountered a charming brown cat crossing the street", genres: [.adventure, .funny, .love, .wow], numberOfLikes: 5, imageUrl: ""), allowedToEdit: false)
     }
 }

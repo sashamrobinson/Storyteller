@@ -17,6 +17,7 @@ struct TutorialView: View {
     @State private var displayMainView: Bool = false
     let textToUtter: [String] = [Constants.WELCOME_PROMPT, Constants.WELCOME_PROMPT_2, Constants.WELCOME_PROMPT_3]
     @State var counter = 0
+    @State var storyFinishedUploading: Bool = false
 
     @State private var errorType: ErrorHelper.AppErrorType?
 
@@ -123,7 +124,7 @@ struct TutorialView: View {
                 displayMainView = true
             }
         }) {
-            CreateView().navigationBarBackButtonHidden(true)
+            CreateView(storyFinishedUploading: $storyFinishedUploading).navigationBarBackButtonHidden(true)
         }
         .fullScreenCover(isPresented: $displayMainView) {
             RootView().navigationBarBackButtonHidden(true)

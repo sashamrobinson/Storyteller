@@ -15,8 +15,8 @@ struct CreateView: View {
 
     // Animation
     @State private var speakingStatus: SpeakingStatus = .willSpeak
-    
     @State private var errorType: ErrorHelper.AppErrorType?
+    @Binding var storyFinishedUploading: Bool
     
     // TTS / STT
     @ObservedObject var speechUtterance = SpeechUtterance()
@@ -133,7 +133,10 @@ struct CreateView: View {
                         speechUtterance.speak(text: Constants.FINISHED_STORY + " \(user!.firstName).") {
                             
                             // Add conversation to database
-                            FirebaseHelper.saveStoryToDocumentAndUser(chatMessages: currentChatMessages)
+                            FirebaseHelper.saveStoryToDocumentAndUser(chatMessages: currentChatMessages, completion: {
+                                // If reached completion, user successfully updated
+                                storyFinishedUploading = true
+                            })
                             
                             dismiss()
                         }
@@ -160,7 +163,6 @@ struct CreateView: View {
             switch result {
             case .success(let output):
                 DispatchQueue.main.async {
-                    // Add message to ChatMessage array
                     currentChatMessages.append(ChatMessage(role: .assistant, content: output))
                     speechUtterance.toggleSpeaking()
                     speakingStatus = .currentlySpeaking
@@ -177,6 +179,6 @@ struct CreateView: View {
 
 struct CreateView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateView()
+        CreateView(storyFinishedUploading: .constant(false))
     }
 }
