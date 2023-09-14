@@ -50,8 +50,7 @@ struct CreateView: View {
             // Fetch user data
             uid = LocalStorageHelper.retrieveUser()
             guard uid != nil else {
-                // TODO: -- Add reauth
-                print("User not logged in. Please reauthenticate.")
+                errorType = .reauth
                 return
             }
             FirebaseHelper.fetchUserById(id: uid!) { user in
@@ -149,6 +148,24 @@ struct CreateView: View {
                         speechUtterance.speak(text: Constants.APOLOGIZE_CONTINUE_STORY) {
                             startConversation()
                         }
+                    }
+                    
+                    else {
+                        
+                        // Didn't catch what user said
+                        speechUtterance.toggleSpeaking()
+                        speechUtterance.speak(text: Constants.APOLOGIZE_DIDNT_HEAR) {
+                            startConversation()
+                        }
+                    }
+                }
+                
+                else {
+                    
+                    // Didn't catch what user said
+                    speechUtterance.toggleSpeaking()
+                    speechUtterance.speak(text: Constants.APOLOGIZE_DIDNT_HEAR) {
+                        startConversation()
                     }
                 }
             }

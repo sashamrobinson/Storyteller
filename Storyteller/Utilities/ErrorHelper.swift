@@ -34,7 +34,7 @@ struct ErrorHelper {
         case .reauth:
             return Alert(
                 title: Text("Reauthentication Required"),
-                message: Text("An error occured. Please log back in to continue using the app."),
+                message: Text("An error occured. Please log out and ."),
                 dismissButton: .default(Text("Okay"), action: {
                     // Handle reauthentication
                 })
@@ -42,35 +42,3 @@ struct ErrorHelper {
         }
     }
 }
-//    let errorType: AppErrorType
-//    @State private var showAlert = false
-//    @State private var navigateToHomeView = false
-//
-//    var body: some View {
-//        VStack {
-//            Text("")
-//            .onAppear {
-//                showAlert = true
-//            }
-//            .alert(isPresented: $showAlert) {
-//                switch errorType {
-//
-//                case .generic:
-//                    return Alert(title: Text("An error occured"), message: Text("Please restart the app and try logging back in to continue use."), dismissButton: .default(Text("Okay")))
-//
-//                case .reauth:
-//                    return Alert(title: Text("An error occured"), message: Text("Please log back in to continue using the app."), dismissButton: .default(Text("Okay"), action: {
-//                            navigateToHomeView = true
-//                    }))
-//
-//                case .network:
-//                    return Alert(title: Text("An error occured"), message: Text("Network conditions seem to be unstable. Please connect to a more stable network before continued use."), dismissButton: .default(Text("Okay")))
-//                }
-//            }
-//            .navigationDestination(isPresented: $navigateToHomeView) {
-//                HomeView().navigationBarBackButtonHidden(true)
-//            }
-//        }
-//    }
-
-

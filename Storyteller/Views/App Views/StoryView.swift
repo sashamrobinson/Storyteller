@@ -17,7 +17,8 @@ struct StoryView: View {
     @State private var secondsTillDisplayEmpty: Int = 3
     @State private var displayEmpty: Bool = false
     @State private var presentingTableViewCell: Bool = false
-    
+    @State private var errorType: ErrorHelper.AppErrorType?
+
     // Scroll animations
     @Binding var hideTab: Bool
     @State var offset: CGFloat = 0
