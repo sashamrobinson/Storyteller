@@ -21,18 +21,6 @@ struct LoginView: View {
             Color("#171717").ignoresSafeArea()
             VStack(spacing: 10) {
                 ZStack {
-//                    if isMoonVisible {
-//                        HStack {
-//                            Spacer()
-//                            Image("Storyteller Background Icon")
-//                                .frame(width: 116, height: 116)
-//                                .opacity(0.3)
-//                        }
-//                        .edgesIgnoringSafeArea(.all)
-//                        .ignoresSafeArea(.all)
-//                        .transition(.move(edge: .trailing))
-//                    }
-                    
                     VStack {
                         Text("Storyteller")
                             .font(.system(size: Constants.TITLE_FONT_SIZE, weight: .semibold))
@@ -92,6 +80,7 @@ struct LoginView: View {
                 
                 Text(errorMessage)
                     .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
                 
                 Spacer()
                 Spacer()
