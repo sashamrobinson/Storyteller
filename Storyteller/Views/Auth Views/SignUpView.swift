@@ -22,10 +22,6 @@ struct SignUpView: View {
     @State private var lastName: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var month: String = ""
-    @State private var day: String = ""
-    @State private var year: String = ""
-    @State private var gender: String = ""
     @State private var username: String = ""
     
     var body: some View {
@@ -61,9 +57,6 @@ struct SignUpView: View {
                     EmailPasswordView(email: $email, password: $password)
                 }
                 else if authViewToShowIndex == 3 {
-                    BirthDateGenderView(month: $month, day: $day, year: $year, gender: $gender)
-                }
-                else if authViewToShowIndex == 4 {
                     UsernameView(username: $username)
                 }
                 else {
@@ -76,7 +69,7 @@ struct SignUpView: View {
                 Spacer()
                 
                 // Display next button or sign up button and process logic for verifying text fields are correct
-                if authViewToShowIndex < 4 {
+                if authViewToShowIndex < 3 {
                     Button("Next") {
                         errorMessage = ""
                         if authViewToShowIndex == 1 {
@@ -110,19 +103,6 @@ struct SignUpView: View {
                                 }
                             }
                         }
-                        
-                        else if authViewToShowIndex == 3 {
-                            if (month.count <= 0 || day.count <= 0 || year.count <= 0 || gender.count <= 0 || day.contains(".") || year.contains(".")) {
-                                errorMessage = "Invalid date of birth or gender"
-                            }
-                            
-                            if errorMessage.count == 0 {
-                                withAnimation {
-                                    authViewToShowIndex += 1
-                                    return
-                                }
-                            }
-                        }
                     }
                     .padding()
                     .frame(width: UIScreen.screenWidth / 2)
@@ -151,7 +131,7 @@ struct SignUpView: View {
                         if errorMessage.count == 0 {
                             
                             // Make sure there is valid data for every field
-                            if firstName.count > 0 && lastName.count > 0 && password.count > 0 && email.count > 0 && month.count > 0 && day.count > 0 && year.count > 0 && username.count > 0 {
+                            if firstName.count > 0 && lastName.count > 0 && password.count > 0 && email.count > 0 && username.count > 0 {
                                 
                             }
                             
@@ -166,15 +146,11 @@ struct SignUpView: View {
                                         showLoading = true
                                     }
                                 }
-                                // Package date
-                                let birthDate = "\(month.prefix(3)) \(day), \(year)"
                                 
                                 // Package user
                                 let user = User(id: "NULL", firstName: firstName,
                                     lastName: lastName,
                                     email: email,
-                                    birthDate: birthDate,
-                                    gender: gender,
                                     username: username,
                                     stories: [],
                                     likedStories: [],

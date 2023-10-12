@@ -11,6 +11,7 @@ import Firebase
 struct SettingsView: View {
     
     @State private var showLogOutAlert = false
+    @State private var showDeleteAccountAlert = false
     @State private var logoutUser = false
     @ObservedObject var speechRecognizer: SpeechRecognizer
     
@@ -18,7 +19,6 @@ struct SettingsView: View {
     @State private var fullName: String = "Full Name"
     @State private var username: String = "Username"
     @State private var email: String = "Email@email.com"
-    @State private var birthDate: String = "Jan 01, 1970"
     
     var body: some View {
         ZStack {
@@ -54,15 +54,6 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
                         .padding(.bottom)
-
-                    
-                    Text("Birth Date")
-                        .foregroundColor(.gray)
-                        .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
-                    TextField(birthDate, text: $birthDate)
-                        .foregroundColor(.white)
-                        .font(.system(size: Constants.REGULAR_FONT_SIZE, weight: .regular))
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding()
@@ -84,15 +75,39 @@ struct SettingsView: View {
                             print("Logging out")
                             
                             // Logout user from Auth and Local Storage
-                            FirebaseHelper.logoutUser()
-                            
-                            // Move to other view
-                            logoutUser.toggle()
+                            FirebaseHelper.logoutUser(completion: {
+                                
+                                // Move to other view
+                                logoutUser.toggle()
+                            })
                         },
                         secondaryButton: .cancel(Text("No"))
                     )
                 }
-
+                Button("Permanently delete account?") {
+                    showDeleteAccountAlert.toggle()
+                }
+                .padding()
+                .font(.system(size: Constants.SUBTEXT_FONT_SIZE, weight: .regular))
+                .foregroundColor(.red)
+                .alert(isPresented: $showDeleteAccountAlert) {
+                    Alert(
+                        title: Text("Are you sure you want to permanently delete your account?"),
+                        message: Text("All of your data will be permanently lost and will be not recoverable"),
+                        primaryButton: .default(Text("Yes")) {
+                            
+                            print("Deleting account")
+                            
+                            // Delete account
+                            FirebaseHelper.deleteUser(completion: {
+                                
+                                // Move to other view
+                                logoutUser.toggle()
+                            })  
+                        },
+                        secondaryButton: .cancel(Text("No"))
+                    )
+                }
                 Spacer()
             }
 
@@ -108,7 +123,6 @@ struct SettingsView: View {
                     self.fullName = user!.firstName + " " + user!.lastName
                     self.username = user!.username
                     self.email = user!.email
-                    self.birthDate = user!.birthDate
                 }
             }
         }

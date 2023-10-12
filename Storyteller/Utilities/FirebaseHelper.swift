@@ -69,8 +69,6 @@ class FirebaseHelper: ObservableObject {
             "firstName": user.firstName,
             "lastName": user.lastName,
             "email": user.email,
-            "birthDate": user.birthDate,
-            "gender": user.gender,
             "username": user.username,
             "stories": [] as [Story],
             "likedStories": [] as [String],
@@ -110,7 +108,7 @@ class FirebaseHelper: ObservableObject {
     }
     
     /// Method for logging user out of Firebase Auth and Local Storage
-    static func logoutUser() {
+    static func logoutUser(completion: @escaping () -> Void) {
         do {
             
             // Log user out of Auth
@@ -118,11 +116,65 @@ class FirebaseHelper: ObservableObject {
             
             // Log user out of Local Storage
             LocalStorageHelper.clearUser()
+            completion()
             
         }
         catch {
             // TODO: - Error alert
             print("Error signing out")
+        }
+    }
+    
+    /// Method for permanently deleting a user account from all data. Deletes user from both authentication and Firebase document
+    static func deleteUser(completion: @escaping () -> Void) {
+        
+        if let user = Auth.auth().currentUser {
+            let userRef = db.collection("Users").document(user.uid)
+            userRef.getDocument { document, error in
+                if let document = document, document.exists {
+                    if let storyIds = document.data()?["stories"] as? [String] {
+                        for id in storyIds {
+                            let storyRef = db.collection("Stories").document(id)
+                            
+                            storyRef.delete { error in
+                                if let error = error {
+                                    print("Error deleting story document: \(id), \(error.localizedDescription)")
+                                } else {
+                                    print("Successfully deleted story document: \(id)")
+                                }
+                            }
+                        }
+                    }
+                    
+                } else {
+                    print("Couldn't retrieve user document to delete stories")
+                }
+            }
+            
+            user.delete { error in
+                if let error = error {
+                    print("Error deleting user account from Auth")
+                } else {
+                    print("User account successfully deleted from Auth")
+                    
+                    let userRef = db.collection("Users").document(user.uid)
+                    
+                    userRef.delete { error in
+                        if let error = error {
+                            print("Error deleting user account from documents")
+                        } else {
+                            print("User account successfully deleted from Firebase")
+                            
+                            // Log user out of Local Storage
+                            LocalStorageHelper.clearUser()
+                            completion()
+                        }
+                    }
+                }
+            }
+            
+        } else {
+            print("Error deleting user account")
         }
     }
     
@@ -148,8 +200,6 @@ class FirebaseHelper: ObservableObject {
             let firstName = data["firstName"] as? String,
             let lastName = data["lastName"] as? String,
             let email = data["email"] as? String,
-            let birthDate = data["birthDate"] as? String,
-            let gender = data["gender"] as? String,
             let username = data["username"] as? String,
             let likedStories = data["likedStories"] as? [String],
             let genresLikedData = data["genresLiked"] as? [String: Int],
@@ -173,8 +223,6 @@ class FirebaseHelper: ObservableObject {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                birthDate: birthDate,
-                gender: gender,
                 username: username,
                 stories: stories,
                 likedStories: likedStories,
